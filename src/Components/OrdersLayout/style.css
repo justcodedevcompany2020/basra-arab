@@ -1,0 +1,56 @@
+.outlet {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.ordersTitle {
+  width: 100%;
+  text-align: center;
+}
+
+.ordersTitle > h1 {
+  color: #1f2024;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.ordersTabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 50px 0;
+}
+
+.eachTab {
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #1f2024;
+  padding: 15px 60px;
+  width: 100%;
+  color: #1f2024;
+  cursor: pointer;
+}
+
+.eachSelectedTab {
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #e0c18f;
+  padding: 15px 60px;
+  width: 100%;
+  color: #fff;
+  background: #e0c18f;
+  cursor: pointer;
+}
+
+.eachTab > span,
+.eachSelectedTab > span {
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

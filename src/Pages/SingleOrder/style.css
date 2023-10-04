@@ -1,0 +1,138 @@
+.singleOrder {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.singleOrderTop {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.singleOrderTop > h1 {
+  color: #1f2024;
+  font-family: Inter;
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 110%;
+}
+
+.goBack {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+}
+
+.eachOrderProduct {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid #1f2024;
+  padding: 40px 0;
+}
+
+.eachOrderProduct:last-child {
+  border-bottom: none;
+}
+
+.orderPrice {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.orderPrice > p {
+  color: #1f2024;
+  font-variant-numeric: lining-nums proportional-nums;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.orderDiscount {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.orderDiscount > span {
+  color: #e0c18f;
+  font-variant-numeric: lining-nums proportional-nums;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.orderDiscount > p {
+  color: #1f2024;
+  font-variant-numeric: lining-nums proportional-nums;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.ordersBorder {
+  border-radius: 10px;
+  border: 1px solid #1f2024;
+  padding: 10px 50px;
+}
+
+.eachOrderProduct > p {
+  color: #1f2024;
+  font-variant-numeric: lining-nums proportional-nums;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.orderDetails {
+  display: flex;
+  align-items: center;
+  gap: 75px;
+}
+
+.orderDetails > img {
+  width: 55px;
+  height: 127px;
+}
+
+.orderDetailsText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.orderDetailsText > span {
+  color: #1f2024;
+  text-align: right;
+  font-variant-numeric: lining-nums proportional-nums;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  opacity: 0.5;
+}
+
+.orderDetailsText > p {
+  color: #1f2024;
+  text-align: right;
+  font-variant-numeric: lining-nums proportional-nums;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}

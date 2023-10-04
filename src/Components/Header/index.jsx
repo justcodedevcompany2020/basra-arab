@@ -4,7 +4,9 @@ import { BasraHeader } from '../Svg'
 export const Header = () => {
     return (
         <div className='header'>
-            <BasraHeader />
+            <div className='headerLogo' onClick={() => window.location = '/'}>
+                <BasraHeader />
+            </div>
         </div>
     )
 }
