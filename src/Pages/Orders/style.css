@@ -1,0 +1,38 @@
+.orders {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.ordersTitle {
+  width: 100%;
+  text-align: center;
+}
+
+.ordersTabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.eachTab {
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #1f2024;
+  padding: 15px 60px;
+  width: 100%;
+  color: #1f2024;
+  cursor: pointer;
+}
+
+.eachSelectedTab {
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #e0c18f;
+  padding: 15px 60px;
+  width: 100%;
+  color: #fff;
+  background: #e0c18f;
+  cursor: pointer;
+}
