@@ -5,6 +5,8 @@ import { SingleOrder } from "./Pages/SingleOrder"
 import { SingleCustomer } from "./Pages/SingleCustomer"
 import { OrdersLayout } from "./Components/OrdersLayout"
 import { Products } from "./Pages/Products"
+import { Chat } from "./Pages/Chat"
+import { Profile } from "./Pages/Profile"
 
 export const Router = () => {
     return (
@@ -16,6 +18,8 @@ export const Router = () => {
                     <Route path="/customers" element={<Customers />} />
                     <Route path="/customer/:id" element={<SingleCustomer />} />
                     <Route path="/products" element={<Products />} />
+                    <Route path="/chat" element={<Chat />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Route>
             </Routes>
         </BrowserRouter>

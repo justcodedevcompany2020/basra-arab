@@ -1,0 +1,126 @@
+.chatLeft {
+  width: 30%;
+  max-width: 360px;
+  min-width: 255px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #D9D9D9;
+  overflow: auto;
+}
+
+.eachChatMember {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.eachChatMember:hover {
+  background: #d9d9d9;
+}
+
+.eachMemberLeft {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.eachMemberLeft > img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.eachMemberRight {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+}
+
+.eachMemberRight > span {
+  color: var(--Navy-Grey, #707991);
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.messageCount {
+  color: #fff;
+  text-align: center;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  border-radius: 100px;
+  background: #878787;
+  display: flex;
+  width: 20px;
+  height: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.memberName {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.memberName > p {
+  color: #151515;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.lastMessage {
+  color: var(--Navy-Grey, #707991);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.memberName > h6 {
+  color: #151515;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.memberName > h6 > img {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.noImageChat {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  border-radius: 100px;
+  background: var(--Light-Green, #78e378);
+}

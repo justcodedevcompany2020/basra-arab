@@ -10,13 +10,13 @@ export const OrdersLayout = () => {
             id: 1,
             title: 'محادثة',
             selected: false,
-            path: '#',
+            path: '/chat',
         },
         {
             id: 2,
             title: 'الموقع والتطبيق',
             selected: false,
-            path: '#',
+            path: '/profile',
         },
         {
             id: 3,
