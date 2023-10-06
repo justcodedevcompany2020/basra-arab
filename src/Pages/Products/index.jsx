@@ -1,9 +1,9 @@
 import './style.css'
 import { useState } from 'react'
+import { AddProduct } from '../AddProduct'
 import { DropdownDown } from '../../Components/Svg'
 
 export const Products = () => {
-
     const [tableData, setTableData] = useState([
         {
             amount: '12',
@@ -86,9 +86,9 @@ export const Products = () => {
             image: 'image_white.png',
         },
     ])
-
     const [pageCount, setPageCount] = useState(4)
     const [currentPage, setCurrentPage] = useState(1)
+    const [addProduct, setAddProduct] = useState(false)
 
     function handlePageChange(page) {
         setCurrentPage(page)
@@ -96,9 +96,15 @@ export const Products = () => {
 
     return (
         <div className='products'>
+            {addProduct &&
+                <AddProduct
+                    open={addProduct}
+                    setOpen={setAddProduct}
+                />
+            }
             <section className='productsTop'>
                 <div className='productsTopLeft'>
-                    <button>اضافة عنصر</button>
+                    <button onClick={() => setAddProduct(true)}>اضافة عنصر</button>
                     <input placeholder='بحث منتوج' />
                 </div>
                 <div className='productsTopRight'>
