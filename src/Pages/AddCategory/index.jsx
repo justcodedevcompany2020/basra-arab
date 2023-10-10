@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
-import { CloseIcon } from '../../Components/Svg'
 
 export const AddCategory = ({ open, setOpen }) => {
     const [categories, setCategories] = useState([
@@ -18,6 +17,11 @@ export const AddCategory = ({ open, setOpen }) => {
             image: 'img.png',
         },
     ])
+    const [newCategory, setNewCategory] = useState({
+        id: 3,
+        name: '',
+        image: '',
+    })
 
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
@@ -31,25 +35,36 @@ export const AddCategory = ({ open, setOpen }) => {
         width: 1,
     })
 
-
-    function handleFileChange(event) {
-        let ImagesArray = Object.entries(event.target.files).map(e => URL.createObjectURL(e[1]))
-        setCategories(prev => [...prev, { name: '', image: ImagesArray[0] }])
-        // setPhotos([...photos, ...ImagesArray])
-        // const filesArray = Object.values(event.target.files)
-        // setFiles([...files, ...filesArray])
-    }
-
-    function deleteFile(event) {
-        // setPhotos(photos.filter((item, index) => index !== event))
-        // setFiles(files.filter((item, index) => index !== event))
-    }
-
     function handleCategoryChange(category, event) {
         const newCategories = [...categories]
         const change = newCategories.find(e => e.id === category.id)
         change.name = event
         setCategories(newCategories)
+    }
+
+    function handleNewImage(event) {
+        let ImagesArray = Object.entries(event.target.files).map(e => URL.createObjectURL(e[1]))
+        setNewCategory({ ...newCategory, image: ImagesArray[0] })
+    }
+
+    function handleNewCategory() {
+        if (newCategory?.image?.length && newCategory?.name?.length) {
+            setCategories(prev => [...prev, { id: newCategory?.id, name: newCategory?.name, image: newCategory?.image }])
+            setNewCategory({
+                id: newCategory?.id + 1,
+                name: '',
+                image: '',
+            })
+        }
+    }
+
+    function close() {
+        setOpen(false)
+        setNewCategory({
+            id: newCategory?.id + 1,
+            name: '',
+            image: '',
+        })
     }
 
     return (
@@ -62,31 +77,46 @@ export const AddCategory = ({ open, setOpen }) => {
                     {categories?.length > 0 && categories?.map((e, i) => (
                         <div className='eachPopupDetail' key={i}>
                             <TextField label="Название" variant="filled" value={e?.name} onChange={(event) => handleCategoryChange(e, event.target.value)} />
-                            <div className='eachCategoryPhoto'>
-                                <img alt='' src={e.image.startsWith('blob:') ? e.image : require(`../../assets/images/${e?.image}`)} />
-                                <div className='deletePhoto'>
-                                    <CloseIcon />
+                            <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
+                                <b>Изображение</b>Нажмите, чтобы загрузить
+                                <VisuallyHiddenInput type="file" onChange={handleNewImage} />
+                            </Button>
+                            <div className='eachCategoryCard'>
+
+                                <div className='eachCategoryPhoto'>
+                                    <img alt='' src={e.image.startsWith('blob:') ? e.image : require(`../../assets/images/${e?.image}`)} />
                                 </div>
                             </div>
                             <div className='eachPopupDetailButtons'>
-                                <Button variant="contained" color='grey' sx={{ width: '48%' }}>Сохранить</Button>
-                                <Button variant="contained" color='error' sx={{ width: '48%' }}>Удалить</Button>
+                                <Button variant="contained" color='grey'>Сохранить</Button>
+                                <Button variant="contained" color='error'>Удалить</Button>
                             </div>
+                            <div className='borderBtm' />
                         </div>
                     ))}
 
                     <div className='eachPopupDetail'>
-                        <TextField label="Название" variant="filled" value={''} />
-                        <div className='eachCategoryPhoto'>
-                            <Button component="label" variant="contained" className='createButon'>
-                                Изображение
-                                <VisuallyHiddenInput type="file" onChange={handleFileChange} />
+                        <TextField label="Название" variant="filled" value={newCategory?.name} onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })} />
+                        {newCategory?.image
+                            ? <>
+                                <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
+                                    <b>Изображение</b>Нажмите, чтобы загрузить
+                                    <VisuallyHiddenInput type="file" onChange={handleNewImage} />
+                                </Button>
+                                <div className='eachCategoryPhoto'>
+                                    <img alt='' src={newCategory.image} />
+                                </div>
+                            </>
+                            : <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
+                                <b>Изображение</b>Нажмите, чтобы загрузить
+                                <VisuallyHiddenInput type="file" onChange={handleNewImage} />
                             </Button>
-                            <div className='deletePhoto'>
-                                <CloseIcon />
-                            </div>
-                        </div>
+                        }
+                        {newCategory?.image?.length > 0 && newCategory?.name?.length > 0 && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>Добавить</Button>}
                     </div>
+                </div>
+                <div className='closePop'>
+                    <Button component="label" variant="contained" color='grey' onClick={close}>Закрыть</Button>
                 </div>
             </div>
         </div>
