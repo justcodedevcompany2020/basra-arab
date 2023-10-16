@@ -80,13 +80,16 @@ export const AddCategory = ({ open, setOpen }) => {
                             <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
                                 <b>Изображение</b>Нажмите, чтобы загрузить
                                 <VisuallyHiddenInput type="file" onChange={handleNewImage} />
+                                <div className='eachCategoryPhoto'>
+                                    <img alt='' src={e.image.startsWith('blob:') ? e.image : require(`../../assets/images/${e?.image}`)} />
+                                </div>
                             </Button>
-                            <div className='eachCategoryCard'>
+                            {/* <div className='eachCategoryCard'>
 
                                 <div className='eachCategoryPhoto'>
                                     <img alt='' src={e.image.startsWith('blob:') ? e.image : require(`../../assets/images/${e?.image}`)} />
                                 </div>
-                            </div>
+                            </div> */}
                             <div className='eachPopupDetailButtons'>
                                 <Button variant="contained" color='grey'>Сохранить</Button>
                                 <Button variant="contained" color='error'>Удалить</Button>
@@ -102,10 +105,10 @@ export const AddCategory = ({ open, setOpen }) => {
                                 <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
                                     <b>Изображение</b>Нажмите, чтобы загрузить
                                     <VisuallyHiddenInput type="file" onChange={handleNewImage} />
+                                    <div className='eachCategoryPhoto'>
+                                        <img alt='' src={newCategory.image} />
+                                    </div>
                                 </Button>
-                                <div className='eachCategoryPhoto'>
-                                    <img alt='' src={newCategory.image} />
-                                </div>
                             </>
                             : <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
                                 <b>Изображение</b>Нажмите, чтобы загрузить

@@ -2,6 +2,9 @@ import './style.css'
 import { useState } from 'react'
 import { AddProduct } from '../AddProduct'
 import { DropdownDown } from '../../Components/Svg'
+import { Button } from '@mui/material'
+import { AddCategory } from '../AddCategory'
+import { EditProduct } from '../EditProduct'
 
 export const Products = () => {
     const [tableData, setTableData] = useState([
@@ -89,6 +92,7 @@ export const Products = () => {
     const [pageCount, setPageCount] = useState(4)
     const [currentPage, setCurrentPage] = useState(1)
     const [addProduct, setAddProduct] = useState(false)
+    const [editProduct, setEditProduct] = useState(false)
 
     function handlePageChange(page) {
         setCurrentPage(page)
@@ -100,6 +104,12 @@ export const Products = () => {
                 <AddProduct
                     open={addProduct}
                     setOpen={setAddProduct}
+                />
+            }
+            {editProduct &&
+                <EditProduct
+                    open={editProduct}
+                    setOpen={setEditProduct}
                 />
             }
             <section className='productsTop'>
@@ -125,6 +135,10 @@ export const Products = () => {
                     {tableData?.length > 0
                         ? tableData?.map((e, i) => (
                             <tr className='eachTR' key={i}>
+                                {(!addProduct && !editProduct) && <div style={{ display: 'flex', height: 30, gap: 10 }}>
+                                    <Button onClick={() => setEditProduct(true)} variant='contained' className='createButon'>يحرر</Button>
+                                    <Button variant="contained" color='error'>يمسح</Button>
+                                </div>}
                                 <td className='ordersTD' style={{ width: '5%' }}>
                                     <div className='eachData'>
                                         <span className='eachDataTitle'>كمية</span>
