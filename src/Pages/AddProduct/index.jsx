@@ -10,7 +10,8 @@ import { Button, Checkbox, ListItemText, OutlinedInput, TextField } from '@mui/m
 import { AddCategory } from '../AddCategory'
 import { AddBrends } from '../AddBrends'
 import { useDispatch } from 'react-redux'
-import { GetBrandAction, GetCategory } from '../../Services/action/action'
+import { GetBrandAction, GetCategory, GetCollectionAction } from '../../Services/action/action'
+import { AddCollections } from '../AddCollections'
 
 export const AddProduct = ({ open, setOpen }) => {
     const [details, setDetails] = useState({
@@ -43,6 +44,8 @@ export const AddProduct = ({ open, setOpen }) => {
     const [openCreateBrend, setOpenBrend] = useState(false)
     const dispatch = useDispatch()
     const [brendsPage, setBrendsPage] = useState(1)
+    const [collectionsPage, setCollectionsPage] = useState(1)
+    const [openCollection, setOpenCollection] = useState(false)
 
     useEffect(() => {
         dispatch(GetCategory())
@@ -51,6 +54,11 @@ export const AddProduct = ({ open, setOpen }) => {
     useEffect(() => {
         dispatch(GetBrandAction(brendsPage))
     }, [brendsPage])
+
+    useEffect(() => {
+        dispatch(GetCollectionAction(collectionsPage))
+
+    }, [collectionsPage])
 
 
     useEffect(() => {
@@ -111,6 +119,13 @@ export const AddProduct = ({ open, setOpen }) => {
                     open={openCreateBrend}
                     setOpen={setOpenBrend}
                     setBrendsPage={(e) => setBrendsPage(e)}
+                />
+            }
+            {openCollection &&
+                <AddCollections
+                    open={openCollection}
+                    setOpen={setOpenCollection}
+                    setBrendsPage={(e) => setCollectionsPage(e)}
                 />
             }
             <div className='pop'>
@@ -219,7 +234,7 @@ export const AddProduct = ({ open, setOpen }) => {
                                 ))}
                             </Select>
                         </FormControl>
-                        <Button variant="contained" color='grey'>Подборки</Button>
+                        <Button onClick={() => setOpenCollection(true)} variant="contained" color='grey'>Подборки</Button>
                     </div>
                     <div style={{ width: '62%' }} />
 

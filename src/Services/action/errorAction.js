@@ -28,3 +28,9 @@ export const ErrorGetBreand = () => {
         type: 'ErrorGetBreand'
     }
 }
+
+export const ErrorGetCollections = () => {
+    return {
+        type: "ErrorGetCollections"
+    }
+}

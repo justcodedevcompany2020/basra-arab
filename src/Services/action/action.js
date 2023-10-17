@@ -1,6 +1,6 @@
-import { StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartLogin } from "./StartAction";
-import { SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessLogin } from "./SuccessAction"
-import { ErrorCreatCategory, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorLogin } from "./errorAction";
+import { StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartGetCollections, StartLogin } from "./StartAction";
+import { SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetCollections, SuccessLogin } from "./SuccessAction"
+import { ErrorCreatCategory, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorLogin } from "./errorAction";
 
 let api = 'https://basrabackend.justcode.am/api/admin'
 let token = localStorage.getItem('token')
@@ -196,6 +196,87 @@ export const DelectBrandAction = (data) => {
                 }
             })
             .catch((error) => {
+            });
+    }
+}
+
+export const GetCollectionAction = (page) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+    };
+    return (dispatch) => {
+        dispatch(StartGetCollections())
+        fetch(`${api}/all_podborki?page=${page}`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                console.log(r, '2222')
+                if (r.status) {
+                    dispatch(SuccessGetCollections(r))
+                }
+                else {
+                    dispatch(ErrorGetCollections())
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+                dispatch(ErrorGetCollections())
+            });
+    }
+}
+
+export const DeletCollectionAction = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+    };
+    return (dispatch) => {
+        dispatch(StartDeletCategory())
+        fetch(`${api}/delete_podborka`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                console.log(r)
+                if (r.status) {
+                    dispatch(GetCollectionAction())
+                }
+            })
+            .catch((error) => {
+            });
+    }
+
+}
+
+export const UpdateCollectionAction = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    var formdata = new FormData();
+    formdata.append("name", data.name);
+    formdata.append("podborka_id", data.id);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+    };
+    return (dispatch) => {
+        fetch(`${api}/update_podborki`, requestOptions)
+            .then(response => response.json())
+            .then(r => {
+                console.log(r, 'error')
+                if (r.status) {
+                    dispatch(GetCollectionAction())
+                }
+            })
+            .catch(error => {
+                console.log(error, 'error')
             });
     }
 }

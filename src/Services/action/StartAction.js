@@ -27,3 +27,9 @@ export const StartGetBreands = () => {
         type: 'StartGetBreands'
     }
 }
+
+export const StartGetCollections = () => {
+    return {
+        type: 'StartGetCollections'
+    }
+}

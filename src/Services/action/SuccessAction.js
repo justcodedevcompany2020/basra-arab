@@ -32,3 +32,10 @@ export const SuccessGetBreand = (data) => {
         data
     }
 }
+
+export const SuccessGetCollections = (data) => {
+    return {
+        type: 'SuccessGetCollections',
+        data
+    }
+}
