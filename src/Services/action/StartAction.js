@@ -21,3 +21,9 @@ export const StartCreateCategory = () => {
         type: "StartCreateCategory"
     }
 }
+
+export const StartGetBreands = () => {
+    return {
+        type: 'StartGetBreands'
+    }
+}

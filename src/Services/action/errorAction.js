@@ -22,3 +22,9 @@ export const ErrorCreatCategory = () => {
         type: 'ErrorCreatCategory'
     }
 }
+
+export const ErrorGetBreand = () => {
+    return {
+        type: 'ErrorGetBreand'
+    }
+}

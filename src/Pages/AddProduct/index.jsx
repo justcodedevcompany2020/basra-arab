@@ -8,7 +8,9 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import { Button, Checkbox, ListItemText, OutlinedInput, TextField } from '@mui/material'
 import { AddCategory } from '../AddCategory'
-import { useSelector } from 'react-redux'
+import { AddBrends } from '../AddBrends'
+import { useDispatch } from 'react-redux'
+import { GetBrandAction, GetCategory } from '../../Services/action/action'
 
 export const AddProduct = ({ open, setOpen }) => {
     const [details, setDetails] = useState({
@@ -38,11 +40,17 @@ export const AddProduct = ({ open, setOpen }) => {
     const [files, setFiles] = useState([])
     const [photos, setPhotos] = useState([])
     const [openCreateCategory, setOpenCategory] = useState(false)
-    const { getCategory } = useSelector((st) => st)
+    const [openCreateBrend, setOpenBrend] = useState(false)
+    const dispatch = useDispatch()
+    const [brendsPage, setBrendsPage] = useState(1)
 
-    const HandelClick = () => {
+    useEffect(() => {
+        dispatch(GetCategory())
+    }, [])
 
-    }
+    useEffect(() => {
+        dispatch(GetBrandAction(brendsPage))
+    }, [brendsPage])
 
 
     useEffect(() => {
@@ -96,6 +104,13 @@ export const AddProduct = ({ open, setOpen }) => {
                 <AddCategory
                     open={openCreateCategory}
                     setOpen={setOpenCategory}
+                />
+            }
+            {openCreateBrend &&
+                <AddBrends
+                    open={openCreateBrend}
+                    setOpen={setOpenBrend}
+                    setBrendsPage={(e) => setBrendsPage(e)}
                 />
             }
             <div className='pop'>
@@ -172,7 +187,7 @@ export const AddProduct = ({ open, setOpen }) => {
                                 <MenuItem value={'sss'}>sss</MenuItem>
                             </Select>
                         </FormControl>
-                        <Button variant="contained" color='grey'>Бренд</Button>
+                        <Button onClick={() => setOpenBrend(true)} variant="contained" color='grey'>Бренд</Button>
                     </div>
 
                     <div className='catsAndSubcats'>
@@ -222,7 +237,7 @@ export const AddProduct = ({ open, setOpen }) => {
                     </Button>
                     {/* <div style={{ width: '80%' }} /> */}
 
-                    <Button onClick={() => HandelClick()} variant='contained' className='createButon'>Создать</Button>
+                    <Button variant='contained' className='createButon'>Создать</Button>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
-import { StartCreateCategory, StartDeletCategory, StartGetCategory, StartLogin } from "./StartAction";
-import { SuccessDelectCategory, SuccessGetCategory, SuccessLogin } from "./SuccessAction"
-import { ErrorCreatCategory, ErrorDeletCategory, ErrorGetCategory, ErrorLogin } from "./errorAction";
+import { StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartLogin } from "./StartAction";
+import { SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessLogin } from "./SuccessAction"
+import { ErrorCreatCategory, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorLogin } from "./errorAction";
 
 let api = 'https://basrabackend.justcode.am/api/admin'
 let token = localStorage.getItem('token')
@@ -108,14 +108,94 @@ export const UpdateCategoryAction = (data) => {
             .then(r => {
                 if (r.status) {
                     dispatch(GetCategory())
-                    // dispatch(SuccessDelectCategory(r))
-                }
-                else {
-                    // dispatch(ErrorCreatCategory())
                 }
             })
             .catch(error => {
-                // dispatch(ErrorCreatCategory())
+            });
+    }
+}
+
+export const GetBrandAction = (page) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+    };
+    return (dispatch) => {
+        dispatch(StartGetBreands())
+        fetch(`${api}/get_brands?page=${page}`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                console.log(r, '2222')
+                if (r.status) {
+                    dispatch(SuccessGetBreand(r))
+                }
+                else {
+                    dispatch(ErrorGetBreand())
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+                dispatch(ErrorGetBreand())
+            });
+    }
+}
+
+export const UpdateBrendCategory = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    var formdata = new FormData();
+    console.log(data)
+    formdata.append("name", data.name);
+    if (data.image) {
+        formdata.append("photo", data.photo, "file");
+    }
+    formdata.append("brand_id", data.id);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+    };
+    return (dispatch) => {
+        fetch(`${api}/update_brand`, requestOptions)
+            .then(response => response.json())
+            .then(r => {
+                console.log(r, 'error')
+                if (r.status) {
+                    dispatch(GetBrandAction())
+                }
+            })
+            .catch(error => {
+                console.log(error, 'error')
+            });
+    }
+
+}
+
+export const DelectBrandAction = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+    };
+    return (dispatch) => {
+        dispatch(StartDeletCategory())
+        fetch(`${api}/delete_brand`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                console.log(r)
+                if (r.status) {
+                    dispatch(GetBrandAction())
+                }
+            })
+            .catch((error) => {
             });
     }
 }

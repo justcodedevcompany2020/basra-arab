@@ -3,11 +3,10 @@ import { useState } from 'react'
 import { AddProduct } from '../AddProduct'
 import { DropdownDown } from '../../Components/Svg'
 import { Button } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
-import { AddCategory } from '../AddCategory'
+import { useDispatch } from 'react-redux'
 import { EditProduct } from '../EditProduct'
 import { useEffect } from 'react'
-import { GetCategory } from '../../Services/action/action'
+import { GetBrandAction, GetCategory } from '../../Services/action/action'
 
 export const Products = () => {
 
@@ -106,9 +105,7 @@ export const Products = () => {
 
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(GetCategory())
-    }, [])
+
 
 
     return (

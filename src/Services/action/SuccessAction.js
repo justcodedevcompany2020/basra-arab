@@ -25,3 +25,10 @@ export const SuccessCreateCategory = (data) => {
         data
     }
 }
+
+export const SuccessGetBreand = (data) => {
+    return {
+        type: 'SuccessGetBreand',
+        data
+    }
+}
