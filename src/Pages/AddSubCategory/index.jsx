@@ -1,6 +1,6 @@
 import './style.css'
 import { useEffect, useState } from 'react'
-import { Pagination, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,15 +9,19 @@ import { SuccessDelectCategory } from '../../Services/action/SuccessAction'
 import { ErrorCreatCategory } from '../../Services/action/errorAction'
 import { Loading } from '../../Components/Loading'
 
-export const AddCategory = ({ open, setOpen, setBrendsPage }) => {
+export const AddSubCategory = ({ open, setOpen, setBrendsPage, selected }) => {
     const [categories, setCategories] = useState([])
     const { getCategory } = useSelector((st) => st)
-
+    const [id, setID] = useState()
     useEffect(() => {
-        setCategories(getCategory?.data?.data)
+        if (getCategory?.data?.data?.length) {
+            let sub = getCategory?.data?.data?.find((elm) => elm.id == selected.id)
+            setID(sub?.id)
+            setCategories(sub.category)
+        }
         if (getCategory.status) {
             setNewCategory({
-                id: 1,
+                id: id,
                 name: '',
                 image: '',
             })
@@ -25,7 +29,7 @@ export const AddCategory = ({ open, setOpen, setBrendsPage }) => {
     }, [getCategory])
 
     const [newCategory, setNewCategory] = useState({
-        id: 1,
+        id: id,
         name: '',
         image: '',
     })
@@ -75,6 +79,7 @@ export const AddCategory = ({ open, setOpen, setBrendsPage }) => {
         var formdata = new FormData();
         formdata.append("name", newCategory.name);
         formdata.append("photo", img, "file");
+        formdata.append("parent_id", id);
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,

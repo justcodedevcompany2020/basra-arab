@@ -4,7 +4,7 @@ import { Pagination, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { DelectBrandAction, DeletCollectionAction, GetCollectionAction, UpdateBrendCategory, UpdateCollectionAction } from '../../Services/action/action'
+import { DeletCollectionAction, GetCollectionAction, UpdateCollectionAction } from '../../Services/action/action'
 import { Loading } from '../../Components/Loading'
 
 export const AddCollections = ({ open, setOpen, setBrendsPage, }) => {

@@ -9,9 +9,10 @@ import FormControl from '@mui/material/FormControl'
 import { Button, Checkbox, ListItemText, OutlinedInput, TextField } from '@mui/material'
 import { AddCategory } from '../AddCategory'
 import { AddBrends } from '../AddBrends'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { GetBrandAction, GetCategory, GetCollectionAction } from '../../Services/action/action'
 import { AddCollections } from '../AddCollections'
+import { AddSubCategory } from '../AddSubCategory'
 
 export const AddProduct = ({ open, setOpen }) => {
     const [details, setDetails] = useState({
@@ -28,8 +29,8 @@ export const AddProduct = ({ open, setOpen }) => {
         description: '',
         characteristics: '',
         composition: '',
-        category: 'makeup',
-        subcategory: 'test',
+        category: '',
+        subcategory: '',
         brand: 'sss',
     })
     const selection = [
@@ -46,10 +47,24 @@ export const AddProduct = ({ open, setOpen }) => {
     const [brendsPage, setBrendsPage] = useState(1)
     const [collectionsPage, setCollectionsPage] = useState(1)
     const [openCollection, setOpenCollection] = useState(false)
+    const [openSubCategory, setOpenSubCategory] = useState(false)
+    const [categoryPage, setCategpryPage] = useState(1)
+    const { getCategory } = useSelector((st) => st)
+    const [subCategory, setSubCategory] = useState([])
+
+
+    const SelectCategoy = (e) => {
+        setDetails({ ...details, category: e.target.value })
+    }
+
+
+    console.log(getCategory.data.data, 'getCategory')
 
     useEffect(() => {
-        dispatch(GetCategory())
-    }, [])
+        dispatch(GetCategory(categoryPage))
+    }, [categoryPage])
+
+
 
     useEffect(() => {
         dispatch(GetBrandAction(brendsPage))
@@ -57,7 +72,6 @@ export const AddProduct = ({ open, setOpen }) => {
 
     useEffect(() => {
         dispatch(GetCollectionAction(collectionsPage))
-
     }, [collectionsPage])
 
 
@@ -105,6 +119,7 @@ export const AddProduct = ({ open, setOpen }) => {
         document.querySelector('.outlet').style.position = 'relative'
         setOpen(false)
     }
+    console.log(details?.category.category, 'details?.category.name')
 
     return (
         <div className={open ? 'activePopup' : 'inactive'}>
@@ -112,6 +127,8 @@ export const AddProduct = ({ open, setOpen }) => {
                 <AddCategory
                     open={openCreateCategory}
                     setOpen={setOpenCategory}
+                    setBrendsPage={(e) => setCategpryPage(e)}
+
                 />
             }
             {openCreateBrend &&
@@ -125,6 +142,14 @@ export const AddProduct = ({ open, setOpen }) => {
                 <AddCollections
                     open={openCollection}
                     setOpen={setOpenCollection}
+                    setBrendsPage={(e) => setCollectionsPage(e)}
+                />
+            }
+            {openSubCategory &&
+                <AddSubCategory
+                    open={openSubCategory}
+                    setOpen={setOpenSubCategory}
+                    selected={details?.category}
                     setBrendsPage={(e) => setCollectionsPage(e)}
                 />
             }
@@ -177,24 +202,27 @@ export const AddProduct = ({ open, setOpen }) => {
                     <TextField label="Состав" multiline rows={5} variant="filled" sx={{ width: '31%' }} value={details?.composition} onChange={(e) => setDetails({ ...details, composition: e.target.value })} />
 
                     <div className='catsAndSubcats'>
-                        <FormControl variant="filled" sx={{ width: '71%' }}    >
+                        <FormControl variant="filled" sx={{ width: '71%' }}>
                             <InputLabel>Категория</InputLabel>
-                            <Select label="Категория" value={details?.category} onChange={(e) => setDetails({ ...details, category: e.target.value })}  >
-                                <MenuItem value={'makeup'}>ميك أب</MenuItem>
-                                <MenuItem value={'facialCare'}>العناية بالوجه</MenuItem>
+                            <Select label="Категория" value={details.category} onChange={(e) => SelectCategoy(e)}  >
+                                {getCategory?.data?.data?.map((elm, i) => {
+                                    return <MenuItem value={elm}>{elm.name}</MenuItem>
+                                })}
                             </Select>
                         </FormControl>
                         <Button variant="contained" color='grey' onClick={() => setOpenCategory(true)}>Категории</Button>
                     </div>
-                    <div className='catsAndSubcats'>
+                    {details.category && <div className='catsAndSubcats'>
                         <FormControl variant="filled" sx={{ width: '71%' }}  >
                             <InputLabel>Подкатегория</InputLabel>
                             <Select label="Подкатегория" value={details?.subcategory} onChange={(e) => setDetails({ ...details, subcategory: e.target.value })}   >
-                                <MenuItem value={'test'}>Тестовая подкатегория</MenuItem>
+                                {details?.category?.category?.map((elm, i) => {
+                                    return <MenuItem value={elm.id}>{elm.name}</MenuItem>
+                                })}
                             </Select>
                         </FormControl>
-                        <Button variant="contained" color='grey'>Подкатегории</Button>
-                    </div>
+                        <Button onClick={() => setOpenSubCategory(true)} variant="contained" color='grey'>Подкатегории</Button>
+                    </div>}
                     <div className='catsAndSubcats'>
                         <FormControl variant="filled" sx={{ width: '81%' }} >
                             <InputLabel>Бренд</InputLabel>

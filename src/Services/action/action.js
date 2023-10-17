@@ -90,7 +90,6 @@ export const UpdateCategoryAction = (data) => {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
     var formdata = new FormData();
-    console.log(data)
     formdata.append("name", data.name);
     if (data.image) {
         formdata.append("photo", data.photo, "file");
@@ -129,7 +128,6 @@ export const GetBrandAction = (page) => {
         fetch(`${api}/get_brands?page=${page}`, requestOptions)
             .then((r) => r.json())
             .then(r => {
-                console.log(r, '2222')
                 if (r.status) {
                     dispatch(SuccessGetBreand(r))
                 }
@@ -138,7 +136,6 @@ export const GetBrandAction = (page) => {
                 }
             })
             .catch((error) => {
-                console.log(error)
                 dispatch(ErrorGetBreand())
             });
     }
@@ -148,7 +145,6 @@ export const UpdateBrendCategory = (data) => {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
     var formdata = new FormData();
-    console.log(data)
     formdata.append("name", data.name);
     if (data.image) {
         formdata.append("photo", data.photo, "file");
@@ -164,13 +160,11 @@ export const UpdateBrendCategory = (data) => {
         fetch(`${api}/update_brand`, requestOptions)
             .then(response => response.json())
             .then(r => {
-                console.log(r, 'error')
                 if (r.status) {
                     dispatch(GetBrandAction())
                 }
             })
             .catch(error => {
-                console.log(error, 'error')
             });
     }
 
@@ -190,7 +184,6 @@ export const DelectBrandAction = (data) => {
         fetch(`${api}/delete_brand`, requestOptions)
             .then((r) => r.json())
             .then(r => {
-                console.log(r)
                 if (r.status) {
                     dispatch(GetBrandAction())
                 }
@@ -214,7 +207,6 @@ export const GetCollectionAction = (page) => {
         fetch(`${api}/all_podborki?page=${page}`, requestOptions)
             .then((r) => r.json())
             .then(r => {
-                console.log(r, '2222')
                 if (r.status) {
                     dispatch(SuccessGetCollections(r))
                 }
@@ -223,7 +215,6 @@ export const GetCollectionAction = (page) => {
                 }
             })
             .catch((error) => {
-                console.log(error)
                 dispatch(ErrorGetCollections())
             });
     }
@@ -243,7 +234,6 @@ export const DeletCollectionAction = (data) => {
         fetch(`${api}/delete_podborka`, requestOptions)
             .then((r) => r.json())
             .then(r => {
-                console.log(r)
                 if (r.status) {
                     dispatch(GetCollectionAction())
                 }
@@ -270,13 +260,11 @@ export const UpdateCollectionAction = (data) => {
         fetch(`${api}/update_podborki`, requestOptions)
             .then(response => response.json())
             .then(r => {
-                console.log(r, 'error')
                 if (r.status) {
                     dispatch(GetCollectionAction())
                 }
             })
             .catch(error => {
-                console.log(error, 'error')
             });
     }
 }
