@@ -4,7 +4,7 @@ import { TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { DeletCategoryAction, GetCategory } from '../../Services/action/action'
+import { DeletCategoryAction, GetCategory, UpdateCategoryAction } from '../../Services/action/action'
 import { SuccessDelectCategory } from '../../Services/action/SuccessAction'
 import { ErrorCreatCategory } from '../../Services/action/errorAction'
 import { Loading } from '../../Components/Loading'
@@ -57,6 +57,17 @@ export const AddCategory = ({ open, setOpen, }) => {
         let ImagesArray = Object.entries(event.target.files).map(e => URL.createObjectURL(e[1]))
         setNewCategory({ ...newCategory, image: ImagesArray[0] })
     }
+    function handleNewImageChange(category, event) {
+        const newCategories = [...categories]
+        const change = newCategories.find(e => e.id === category.id)
+        console.log(change, '22')
+        let ImagesArray = Object.entries(event.target.files).map(e => URL.createObjectURL(e[1]))
+        change.photo = event.target.files[0]
+
+        change.image = ImagesArray[0]
+        setCategories(newCategories)
+
+    }
 
     function handleNewCategory() {
         let token = localStorage.getItem('token')
@@ -97,6 +108,11 @@ export const AddCategory = ({ open, setOpen, }) => {
         })
     }
 
+    const Update = (data, i) => {
+        console.log(data)
+        dispatch(UpdateCategoryAction(data))
+    }
+
     const DeletCategory = (id) => {
         dispatch(DeletCategoryAction({ category_id: id }))
     }
@@ -113,16 +129,16 @@ export const AddCategory = ({ open, setOpen, }) => {
                             <TextField label="Название" variant="filled" value={e?.name} onChange={(event) => handleCategoryChange(e, event.target.value)} />
                             <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
                                 <b>Изображение</b>Нажмите, чтобы загрузить
-                                <VisuallyHiddenInput type="file" onChange={handleNewImage} />
+                                <VisuallyHiddenInput type="file" onChange={(event) => handleNewImageChange(e, event)} />
                                 <div className='eachCategoryPhoto'>
-                                    {e.photo ?
+                                    {e.photo && !e.image ?
                                         <img alt='' src={`https://basrabackend.justcode.am/uploads/${e.photo}`} /> :
                                         <img alt='' src={e.image} />
                                     }
                                 </div>
                             </Button>
                             <div className='eachPopupDetailButtons'>
-                                <Button variant="contained" color='grey'>Сохранить</Button>
+                                <Button onClick={() => Update(e, i)} variant="contained" color='grey'>Сохранить</Button>
                                 <Button variant="contained" color='error' onClick={() => DeletCategory(e.id)}>Удалить</Button>
                             </div>
                             <div className='borderBtm' />

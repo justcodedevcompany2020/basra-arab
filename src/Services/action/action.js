@@ -85,3 +85,37 @@ export const DeletCategoryAction = (data) => {
             });
     }
 }
+
+export const UpdateCategoryAction = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    var formdata = new FormData();
+    console.log(data)
+    formdata.append("name", data.name);
+    if (data.image) {
+        formdata.append("photo", data.photo, "file");
+    }
+    formdata.append("category_id", data.id);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+    };
+    return (dispatch) => {
+        fetch(`${api}/update_category`, requestOptions)
+            .then(response => response.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(GetCategory())
+                    // dispatch(SuccessDelectCategory(r))
+                }
+                else {
+                    // dispatch(ErrorCreatCategory())
+                }
+            })
+            .catch(error => {
+                // dispatch(ErrorCreatCategory())
+            });
+    }
+}
