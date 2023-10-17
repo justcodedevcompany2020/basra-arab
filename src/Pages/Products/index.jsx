@@ -3,10 +3,14 @@ import { useState } from 'react'
 import { AddProduct } from '../AddProduct'
 import { DropdownDown } from '../../Components/Svg'
 import { Button } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
 import { AddCategory } from '../AddCategory'
 import { EditProduct } from '../EditProduct'
+import { useEffect } from 'react'
+import { GetCategory } from '../../Services/action/action'
 
 export const Products = () => {
+
     const [tableData, setTableData] = useState([
         {
             amount: '12',
@@ -94,9 +98,18 @@ export const Products = () => {
     const [addProduct, setAddProduct] = useState(false)
     const [editProduct, setEditProduct] = useState(false)
 
+
+
     function handlePageChange(page) {
         setCurrentPage(page)
     }
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(GetCategory())
+    }, [])
+
 
     return (
         <div className='products'>

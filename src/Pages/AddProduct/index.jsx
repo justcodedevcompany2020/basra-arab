@@ -8,6 +8,7 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import { Button, Checkbox, ListItemText, OutlinedInput, TextField } from '@mui/material'
 import { AddCategory } from '../AddCategory'
+import { useSelector } from 'react-redux'
 
 export const AddProduct = ({ open, setOpen }) => {
     const [details, setDetails] = useState({
@@ -37,6 +38,12 @@ export const AddProduct = ({ open, setOpen }) => {
     const [files, setFiles] = useState([])
     const [photos, setPhotos] = useState([])
     const [openCreateCategory, setOpenCategory] = useState(false)
+    const { getCategory } = useSelector((st) => st)
+
+    const HandelClick = () => {
+
+    }
+
 
     useEffect(() => {
         document.querySelector('.outlet').style.position = 'fixed'
@@ -215,7 +222,7 @@ export const AddProduct = ({ open, setOpen }) => {
                     </Button>
                     {/* <div style={{ width: '80%' }} /> */}
 
-                    <Button variant='contained' className='createButon'>Создать</Button>
+                    <Button onClick={() => HandelClick()} variant='contained' className='createButon'>Создать</Button>
                 </div>
             </div>
         </div>

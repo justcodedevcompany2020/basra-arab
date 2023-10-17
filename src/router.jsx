@@ -7,6 +7,7 @@ import { OrdersLayout } from "./Components/OrdersLayout"
 import { Products } from "./Pages/Products"
 import { Chat } from "./Pages/Chat"
 import { Profile } from "./Pages/Profile"
+import { Register } from "./Pages/Auth/Login"
 
 export const Router = () => {
     return (
@@ -20,8 +21,10 @@ export const Router = () => {
                     <Route path="/products" element={<Products />} />
                     <Route path="/chat" element={<Chat />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/register" element={<Register />} />
                 </Route>
             </Routes>
         </BrowserRouter>
     )
 }
+// Register

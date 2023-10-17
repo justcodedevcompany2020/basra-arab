@@ -1,20 +1,26 @@
 const token = localStorage.getItem('token')
 
-export const FetchPost = (api, data, success, error) => {
+export const FetchPost = (api, data, success, error, loading) => {
     return (dispatch) => {
         const myHeaders = new Headers()
         myHeaders.append('Content-Type', 'application/json')
         myHeaders.append('Authorization', `Bearer ${token}`)
+        dispatch({
+            type: loading,
+        })
+
         fetch(`${process.env.REACT_APP_HOSTNAME}${api}`, {
             method: 'POST',
             headers: myHeaders,
             body: JSON.stringify(data)
         })
             .then(response => response.json())
-            .then(res => dispatch({
-                type: success,
-                payload: res
-            }))
+            .then((res) => {
+                dispatch({
+                    type: success,
+                    payload: res
+                })
+            })
             .catch(err => {
                 dispatch({
                     type: error,
