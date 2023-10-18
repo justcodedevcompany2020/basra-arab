@@ -33,3 +33,21 @@ export const StartGetCollections = () => {
         type: 'StartGetCollections'
     }
 }
+
+export const StartGetGenders = () => {
+    return {
+        type: 'StartGetGenders'
+    }
+}
+
+export const StartGetForAge = () => {
+    return {
+        type: 'StartGetForAge'
+    }
+}
+
+export const StartGetPlatofrms = () => {
+    return {
+        type: 'StartGetPlatofrms'
+    }
+}

@@ -39,3 +39,23 @@ export const SuccessGetCollections = (data) => {
         data
     }
 }
+
+export const SuccessGetGenders = (data) => {
+    return {
+        type: 'SuccessGetGenders',
+        data
+    }
+}
+
+export const SuccessGetForAge = (data) => {
+    return {
+        type: 'SuccessGetForAge',
+        data
+    }
+}
+export const SuccessGetPlatforms = (data) => {
+    return {
+        type: 'SuccessGetPlatforms',
+        data
+    }
+}

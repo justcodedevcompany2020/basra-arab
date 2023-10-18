@@ -34,3 +34,21 @@ export const ErrorGetCollections = () => {
         type: "ErrorGetCollections"
     }
 }
+
+export const ErrorGetGenders = () => {
+    return {
+        type: 'ErrorGetGenders'
+    }
+}
+
+export const ErrorGetForAge = () => {
+    return {
+        type: 'ErrorGetForAge'
+    }
+}
+
+export const ErrorGetPlatforms = () => {
+    return {
+        type: 'ErrorGetPlatforms'
+    }
+}

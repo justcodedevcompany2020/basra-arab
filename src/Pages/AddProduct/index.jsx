@@ -10,7 +10,7 @@ import { Button, Checkbox, ListItemText, OutlinedInput, TextField } from '@mui/m
 import { AddCategory } from '../AddCategory'
 import { AddBrends } from '../AddBrends'
 import { useDispatch, useSelector } from 'react-redux'
-import { GetBrandAction, GetCategory, GetCollectionAction } from '../../Services/action/action'
+import { GetBrandAction, GetCategory, GetCollectionAction, GetForAge, GetGendersAction, GetPlatforms } from '../../Services/action/action'
 import { AddCollections } from '../AddCollections'
 import { AddSubCategory } from '../AddSubCategory'
 
@@ -23,7 +23,7 @@ export const AddProduct = ({ open, setOpen }) => {
         volume: '',
         code: 0,
         skinType: '',
-        gender: 'male',
+        gender: '',
         forWho: 'adults',
         platform: 'website',
         description: '',
@@ -31,13 +31,8 @@ export const AddProduct = ({ open, setOpen }) => {
         composition: '',
         category: '',
         subcategory: '',
-        brand: 'sss',
+        brand: '',
     })
-    const selection = [
-        'Подборка один',
-        'Подборка два',
-        'Подборка три',
-    ]
     const [selectedSelection, setSelectedSelection] = useState([])
     const [files, setFiles] = useState([])
     const [photos, setPhotos] = useState([])
@@ -50,15 +45,15 @@ export const AddProduct = ({ open, setOpen }) => {
     const [openSubCategory, setOpenSubCategory] = useState(false)
     const [categoryPage, setCategpryPage] = useState(1)
     const { getCategory } = useSelector((st) => st)
-    const [subCategory, setSubCategory] = useState([])
-
-
+    const { getBrand } = useSelector((st) => st)
+    const { getCollections } = useSelector((st) => st)
+    const { getGender } = useSelector((st) => st)
+    const { getForAge } = useSelector((st) => st)
+    const { getPlatfors } = useSelector((st) => st)
+    console.log(getPlatfors, 'getPlatfors')
     const SelectCategoy = (e) => {
         setDetails({ ...details, category: e.target.value })
     }
-
-
-    console.log(getCategory.data.data, 'getCategory')
 
     useEffect(() => {
         dispatch(GetCategory(categoryPage))
@@ -76,6 +71,9 @@ export const AddProduct = ({ open, setOpen }) => {
 
 
     useEffect(() => {
+        dispatch(GetGendersAction())
+        dispatch(GetForAge())
+        dispatch(GetPlatforms())
         document.querySelector('.outlet').style.position = 'fixed'
     }, [])
 
@@ -119,7 +117,6 @@ export const AddProduct = ({ open, setOpen }) => {
         document.querySelector('.outlet').style.position = 'relative'
         setOpen(false)
     }
-    console.log(details?.category.category, 'details?.category.name')
 
     return (
         <div className={open ? 'activePopup' : 'inactive'}>
@@ -173,26 +170,29 @@ export const AddProduct = ({ open, setOpen }) => {
                     <FormControl variant="filled" sx={{ width: '31%' }}>
                         <InputLabel>Пол</InputLabel>
                         <Select label="Пол" value={details?.gender} onChange={(e) => setDetails({ ...details, gender: e.target.value })}  >
-                            <MenuItem value={'male'}>ذكر</MenuItem>
-                            <MenuItem value={'female'}>أنثى</MenuItem>
-                            <MenuItem value={'other'}>للجنسين</MenuItem>
+                            {getGender?.data?.data?.map((elm, i) => {
+                                return <MenuItem key={i} value={elm.id}>{elm.name}</MenuItem>
+                            })}
                         </Select>
                     </FormControl>
                     <FormControl variant="filled" sx={{ width: '31%' }}>
                         <InputLabel>Для кого</InputLabel>
                         <Select label="Для кого" value={details?.forWho} onChange={(e) => setDetails({ ...details, forWho: e.target.value })}   >
-                            <MenuItem value={'adults'}>الكبار</MenuItem>
-                            <MenuItem value={'children'}>الأطفال</MenuItem>
-                            <MenuItem value={'everyone'}>الكل</MenuItem>
+                            {getForAge?.data?.data?.map((elm, i) => {
+                                return <MenuItem value={elm.id}>{elm.name}</MenuItem>
+                            })
+
+                            }
                         </Select>
                     </FormControl>
 
                     <FormControl variant="filled" sx={{ width: '31%' }}>
                         <InputLabel>Платформа</InputLabel>
                         <Select label="Платформа" value={details?.platform} onChange={(e) => setDetails({ ...details, platform: e.target.value })}>
-                            <MenuItem value={'website'}>الموقع الإلكتروني</MenuItem>
-                            <MenuItem value={'app'}>التطبيق</MenuItem>
-                            <MenuItem value={'everyone'}>الكل</MenuItem>
+                            {getPlatfors?.data?.data?.map((elm, i) => {
+                                return <MenuItem value={elm.id}>{elm.name}</MenuItem>
+
+                            })}
                         </Select>
                     </FormControl>
                     <div style={{ width: '62%' }} />
@@ -206,7 +206,7 @@ export const AddProduct = ({ open, setOpen }) => {
                             <InputLabel>Категория</InputLabel>
                             <Select label="Категория" value={details.category} onChange={(e) => SelectCategoy(e)}  >
                                 {getCategory?.data?.data?.map((elm, i) => {
-                                    return <MenuItem value={elm}>{elm.name}</MenuItem>
+                                    return <MenuItem key={i} value={elm}>{elm.name}</MenuItem>
                                 })}
                             </Select>
                         </FormControl>
@@ -217,7 +217,7 @@ export const AddProduct = ({ open, setOpen }) => {
                             <InputLabel>Подкатегория</InputLabel>
                             <Select label="Подкатегория" value={details?.subcategory} onChange={(e) => setDetails({ ...details, subcategory: e.target.value })}   >
                                 {details?.category?.category?.map((elm, i) => {
-                                    return <MenuItem value={elm.id}>{elm.name}</MenuItem>
+                                    return <MenuItem key={i} value={elm.id}>{elm.name}</MenuItem>
                                 })}
                             </Select>
                         </FormControl>
@@ -227,7 +227,10 @@ export const AddProduct = ({ open, setOpen }) => {
                         <FormControl variant="filled" sx={{ width: '81%' }} >
                             <InputLabel>Бренд</InputLabel>
                             <Select label="Бренд" value={details?.brand} onChange={(e) => setDetails({ ...details, brand: e.target.value })}  >
-                                <MenuItem value={'sss'}>sss</MenuItem>
+                                {getBrand?.data?.data?.data.map((elm, i) => {
+                                    return <MenuItem key={i} value={elm}>{elm?.name}</MenuItem>
+                                })
+                                }
                             </Select>
                         </FormControl>
                         <Button onClick={() => setOpenBrend(true)} variant="contained" color='grey'>Бренд</Button>
@@ -254,10 +257,10 @@ export const AddProduct = ({ open, setOpen }) => {
                                 }
                                 }
                             >
-                                {selection?.map((name) => (
-                                    <MenuItem key={name} value={name}>
-                                        <Checkbox checked={selectedSelection.indexOf(name) > -1} />
-                                        <ListItemText primary={name} />
+                                {getCollections.data.data?.map((name) => (
+                                    <MenuItem key={name} value={name.name}>
+                                        <Checkbox checked={selectedSelection.indexOf(name.name) > -1} />
+                                        <ListItemText primary={name.name} />
                                     </MenuItem>
                                 ))}
                             </Select>

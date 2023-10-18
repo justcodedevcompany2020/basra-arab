@@ -1,8 +1,9 @@
-import { StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartGetCollections, StartLogin } from "./StartAction";
-import { SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetCollections, SuccessLogin } from "./SuccessAction"
-import { ErrorCreatCategory, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorLogin } from "./errorAction";
+import { StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartGetCollections, StartGetForAge, StartGetGenders, StartGetPlatofrms, StartLogin } from "./StartAction";
+import { SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetPlatforms, SuccessLogin } from "./SuccessAction"
+import { ErrorCreatCategory, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetPlatforms, ErrorLogin } from "./errorAction";
 
 let api = 'https://basrabackend.justcode.am/api/admin'
+let api2 = 'https://basrabackend.justcode.am/api'
 let token = localStorage.getItem('token')
 export const LoginAction = (data) => {
     var myHeaders = new Headers();
@@ -265,6 +266,114 @@ export const UpdateCollectionAction = (data) => {
                 }
             })
             .catch(error => {
+            });
+    }
+}
+
+export const GetGendersAction = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+    };
+    return (dispatch) => {
+        dispatch(StartGetGenders())
+        fetch(`${api2}/get_genders`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessGetGenders(r))
+                }
+                else {
+                    dispatch(ErrorGetGenders())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetGenders())
+            });
+    }
+}
+export const GetForAge = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+    };
+    return (dispatch) => {
+        dispatch(StartGetForAge())
+        fetch(`${api2}/get_for_age`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessGetForAge(r))
+                }
+                else {
+                    dispatch(ErrorGetForAge())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetForAge())
+            });
+    }
+}
+
+export const GetPlatforms = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+    };
+    return (dispatch) => {
+        dispatch(StartGetPlatofrms())
+        fetch(`${api2}/get_platforms`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessGetPlatforms(r))
+                }
+                else {
+                    dispatch(ErrorGetPlatforms())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetPlatforms())
+            });
+    }
+}
+
+export const CreatProductAction = (data) => {
+    let token = localStorage.getItem('token')
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    var formdata = new FormData();
+    formdata.append("name",);
+    // formdata.append("photo", img, "file");
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+    };
+    return (dispatch) => {
+        fetch(`${api}/create_product`, requestOptions)
+            .then(response => response.json())
+            .then(r => {
+                if (r.status) {
+                    // dispatch(GetCategory())
+                    // dispatch(SuccessDelectCategory(r))
+                }
+                else {
+                    // dispatch(ErrorCreatCategory())
+                }
+            })
+            .catch(error => {
+                // dispatch(ErrorCreatCategory())
             });
     }
 }

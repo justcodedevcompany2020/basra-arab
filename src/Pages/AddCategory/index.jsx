@@ -62,7 +62,6 @@ export const AddCategory = ({ open, setOpen, setBrendsPage }) => {
         const change = newCategories.find(e => e.id === category.id)
         let ImagesArray = Object.entries(event.target.files).map(e => URL.createObjectURL(e[1]))
         change.photo = event.target.files[0]
-
         change.image = ImagesArray[0]
         setCategories(newCategories)
 
