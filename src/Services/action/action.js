@@ -1,6 +1,6 @@
-import { StartCreatPorduct, StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartGetCollections, StartGetForAge, StartGetGenders, StartGetPlatofrms, StartGetProducts, StartGetSinglProfil, StartLogin, StartUpdateProduct } from "./StartAction";
-import { SuccessCreatProduct, SuccessCreateCategory, SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetPlatforms, SuccessGetProducts, SuccessGetSinglProfil, SuccessLogin, SuccessUpdateCategory, SuccessUpdateProduct } from "./SuccessAction"
-import { ErrorCreatCategory, ErrorCreatProduct, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetPlatforms, ErrorGetPorducts, ErrorGetSinglProfil, ErrorLogin, ErrorUpdateCategory, ErrorUpdateProduct } from "./errorAction";
+import { StartCreatPorduct, StartCreataStoryTeam, StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartGetCollections, StartGetForAge, StartGetGenders, StartGetPlatofrms, StartGetProducts, StartGetSinglProfil, StartLogin, StartUpdateProduct } from "./StartAction";
+import { SuccessCreatProduct, SuccessCreateCategory, SuccessCreateStoryTeam, SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetPlatforms, SuccessGetProducts, SuccessGetSinglProfil, SuccessLogin, SuccessUpdateCategory, SuccessUpdateProduct } from "./SuccessAction"
+import { ErrorCreatCategory, ErrorCreatProduct, ErrorCreatStoryTeam, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetPlatforms, ErrorGetPorducts, ErrorGetSinglProfil, ErrorLogin, ErrorUpdateCategory, ErrorUpdateProduct } from "./errorAction";
 
 let api = 'https://basrabackend.justcode.am/api/admin'
 let api2 = 'https://basrabackend.justcode.am/api'
@@ -402,7 +402,6 @@ export const CreatProductAction = (data) => {
 }
 
 export const GetAllProducts = (data) => {
-    console.log(data)
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append('Authorization', `Bearer ${token}`);
@@ -482,7 +481,6 @@ export const GetSinglProductAction = (data) => {
 }
 
 export const UpdateProduct = (data) => {
-    console.log(data)
     let token = localStorage.getItem('token')
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
@@ -517,7 +515,6 @@ export const UpdateProduct = (data) => {
 
     }
     for (const dimg of data.deleted_photo) {
-        console.log(data.deleted_photo, 'deleted_photo')
         formdata.append("deleted_photo[]", dimg);
     }
     // deleted_podborki
@@ -533,7 +530,6 @@ export const UpdateProduct = (data) => {
         fetch(`${api}/update_product`, requestOptions)
             .then(response => response.json())
             .then(r => {
-                console.log(r)
                 if (r.status) {
                     dispatch(SuccessUpdateProduct(r))
                 }
@@ -543,6 +539,37 @@ export const UpdateProduct = (data) => {
             })
             .catch(error => {
                 dispatch(ErrorUpdateProduct())
+            });
+    }
+}
+
+export const CreateStoryTeamAction = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var formdata = new FormData();
+    formdata.append("name", "22");
+    formdata.append("photo", data.img);
+    formdata.append("order", "2");
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+    };
+    return (dispatch) => {
+        dispatch(StartCreataStoryTeam())
+        fetch(`${api}/create_story_theme`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessCreateStoryTeam(r.data))
+                }
+                else {
+                    dispatch(ErrorCreatStoryTeam())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorCreatStoryTeam())
             });
     }
 }

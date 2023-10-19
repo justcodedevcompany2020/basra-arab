@@ -75,3 +75,9 @@ export const StartUpdateProduct = () => {
         type: 'StartUpdateProduct'
     }
 }
+
+export const StartCreataStoryTeam = () => {
+    return {
+        type: 'StartCreataStoryTeam'
+    }
+}

@@ -85,7 +85,6 @@ export const AddProduct = ({ open, setOpen }) => {
             })
         })
         let send = true
-        console.log(details.category.id, '22')
         let temp = { ...error }
         if (details.name == '') {
             temp.name = 'anuny partadir e '
@@ -155,7 +154,6 @@ export const AddProduct = ({ open, setOpen }) => {
             temp.category = ''
             send = true
         }
-        console.log(details.category, '11')
         if (details.subcategory === '') {
             temp.subcategory = 'giny partadir e '
             send = false
@@ -340,7 +338,6 @@ export const AddProduct = ({ open, setOpen }) => {
         setOpen(false)
     }
     useEffect(() => {
-        console.log(error, 'Код поставщика уже занят')
         if (error.photos != '') {
             Swal.fire(
                 'фотография обязательна!',

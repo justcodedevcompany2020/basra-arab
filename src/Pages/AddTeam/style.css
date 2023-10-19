@@ -1,0 +1,16 @@
+.TeamPop {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    width: 50%;
+    height: 100%;
+    overflow: auto;
+}
+
+.eachPopupDetailTeam {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    gap: 20px;
+}

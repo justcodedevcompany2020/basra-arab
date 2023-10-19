@@ -76,3 +76,9 @@ export const ErrorUpdateProduct = () => {
         type: 'ErrorUpdateProduct'
     }
 }
+
+export const ErrorCreatStoryTeam = () => {
+    return {
+        type: "ErrorCreatStoryTeam"
+    }
+}

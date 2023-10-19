@@ -10,6 +10,7 @@ import { CreateProductReducet } from './CreateProductReducet'
 import { GetAllProductsReducer } from './GetProductsReducer'
 import { GetSinglProductReducer } from './GetSinglProductReducer'
 import { UpdateProductReducer } from './UpdateProductReducer'
+import { CreateStoryTeamReducer } from './CreateStoryTeamReducer'
 
 
 export default combineReducers({
@@ -24,4 +25,5 @@ export default combineReducers({
     getProducts: GetAllProductsReducer,
     getSinglProduct: GetSinglProductReducer,
     updateProduct: UpdateProductReducer,
+    createStoryTeam: CreateStoryTeamReducer
 })

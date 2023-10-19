@@ -87,3 +87,10 @@ export const SuccessUpdateProduct = (data) => {
         data
     }
 }
+
+export const SuccessCreateStoryTeam = (data) => {
+    return {
+        type: 'SuccessCreateStoryTeam',
+        data
+    }
+}

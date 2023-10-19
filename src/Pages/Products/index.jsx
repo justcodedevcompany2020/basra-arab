@@ -18,7 +18,6 @@ export const Products = () => {
     const [editProduct, setEditProduct] = useState(false)
     const { getProducts } = useSelector(st => st)
     const [editId, setEditId] = useState(null)
-    console.log(getProducts.data.total, 'getProducts.')
 
 
     const dispatch = useDispatch()

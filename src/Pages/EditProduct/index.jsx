@@ -76,7 +76,6 @@ export const EditProduct = ({ open, setOpen, id }) => {
     const [deletedPhotos, setDeletedPhotos] = useState([])
     const { updateProduct } = useSelector((st) => st)
 
-    console.log(getSinglProduct, 'getSinglProduct')
 
     const CreateProduct = () => {
         let item = []

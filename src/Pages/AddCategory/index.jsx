@@ -9,8 +9,7 @@ import { SuccessDelectCategory } from '../../Services/action/SuccessAction'
 import { ErrorCreatCategory } from '../../Services/action/errorAction'
 import { Loading } from '../../Components/Loading'
 
-export const AddCategory = ({ open, setOpen, setBrendsPage }) => {
-    console.log(open, 'open')
+export const AddCategory = ({ open, setOpen }) => {
     const [categories, setCategories] = useState([])
     const { getCategory } = useSelector((st) => st)
 
