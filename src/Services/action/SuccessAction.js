@@ -59,3 +59,10 @@ export const SuccessGetPlatforms = (data) => {
         data
     }
 }
+
+export const SuccessCreatProduct = (data) => {
+    return {
+        type: 'SuccessCreatProduct',
+        data
+    }
+}

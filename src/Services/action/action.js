@@ -1,6 +1,6 @@
-import { StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartGetCollections, StartGetForAge, StartGetGenders, StartGetPlatofrms, StartLogin } from "./StartAction";
-import { SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetPlatforms, SuccessLogin } from "./SuccessAction"
-import { ErrorCreatCategory, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetPlatforms, ErrorLogin } from "./errorAction";
+import { StartCreatPorduct, StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartGetCollections, StartGetForAge, StartGetGenders, StartGetPlatofrms, StartLogin } from "./StartAction";
+import { SuccessCreatProduct, SuccessCreateCategory, SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetPlatforms, SuccessLogin } from "./SuccessAction"
+import { ErrorCreatCategory, ErrorCreatProduct, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetPlatforms, ErrorLogin } from "./errorAction";
 
 let api = 'https://basrabackend.justcode.am/api/admin'
 let api2 = 'https://basrabackend.justcode.am/api'
@@ -57,7 +57,6 @@ export const GetCategory = () => {
             });
     }
 }
-
 
 export const DeletCategoryAction = (data) => {
     var myHeaders = new Headers();
@@ -347,13 +346,37 @@ export const GetPlatforms = () => {
     }
 }
 
+
 export const CreatProductAction = (data) => {
     let token = localStorage.getItem('token')
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
+
     var formdata = new FormData();
-    formdata.append("name",);
-    // formdata.append("photo", img, "file");
+    formdata.append("name", data.name)
+    formdata.append("price", data.price);
+    formdata.append("discount", data.discount);
+    formdata.append("product_count", data.product_count);
+    formdata.append("volume", data.volume);
+    formdata.append("vendor_code", data.vendor_code);
+    formdata.append("skin_type", data.skin_type);
+    formdata.append("parent_category_id", data.parent_category_id);
+    formdata.append("category_id", data.category_id);
+    formdata.append("brands_id", data.brands_id);
+    formdata.append("gender_id", data.gender_id);
+    formdata.append("for_age_id", data.for_age_id);
+    formdata.append("platform_id", data.platform_id);
+    formdata.append("description", data.description);
+    formdata.append("characteristics", data.characteristics);
+    formdata.append("compound", data.compound);
+
+    for (const image of data.photos) {
+        formdata.append("photos[]", image);
+    }
+    for (const podborki of data.podborki) {
+        formdata.append("podborki[]", podborki);
+    }
+
     var requestOptions = {
         method: 'POST',
         headers: myHeaders,
@@ -361,19 +384,19 @@ export const CreatProductAction = (data) => {
         redirect: 'follow'
     };
     return (dispatch) => {
+        dispatch(StartCreatPorduct())
         fetch(`${api}/create_product`, requestOptions)
             .then(response => response.json())
             .then(r => {
                 if (r.status) {
-                    // dispatch(GetCategory())
-                    // dispatch(SuccessDelectCategory(r))
+                    dispatch(SuccessCreatProduct(r))
                 }
                 else {
-                    // dispatch(ErrorCreatCategory())
+                    dispatch(ErrorCreatProduct())
                 }
             })
             .catch(error => {
-                // dispatch(ErrorCreatCategory())
+                dispatch(ErrorCreatProduct())
             });
     }
 }

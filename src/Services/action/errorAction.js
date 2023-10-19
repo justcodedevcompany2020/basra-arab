@@ -52,3 +52,9 @@ export const ErrorGetPlatforms = () => {
         type: 'ErrorGetPlatforms'
     }
 }
+
+export const ErrorCreatProduct = () => {
+    return {
+        type: 'ErrorCreatProduct',
+    }
+}

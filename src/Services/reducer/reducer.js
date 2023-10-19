@@ -6,6 +6,7 @@ import { GetCollectionsReducer } from './GetCollectionsReducer'
 import { GetGendersReducer } from './GetGendersReducer'
 import { GetForAgeReducer } from './GetForAgeReducer'
 import { GetPlatformsReducer } from './GetPlatformsReducer'
+import { CreateProductReducet } from './CreateProductReducet'
 
 export default combineReducers({
     Auth_reducer,
@@ -15,4 +16,5 @@ export default combineReducers({
     getGender: GetGendersReducer,
     getForAge: GetForAgeReducer,
     getPlatfors: GetPlatformsReducer,
+    createProduct: CreateProductReducet,
 })

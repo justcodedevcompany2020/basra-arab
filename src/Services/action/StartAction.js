@@ -51,3 +51,9 @@ export const StartGetPlatofrms = () => {
         type: 'StartGetPlatofrms'
     }
 }
+
+export const StartCreatPorduct = () => {
+    return {
+        type: 'StartCreatPorduct'
+    }
+}
