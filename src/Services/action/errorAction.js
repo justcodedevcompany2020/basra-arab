@@ -64,3 +64,15 @@ export const ErrorGetPorducts = () => {
         type: "ErrorGetPorducts"
     }
 }
+
+export const ErrorGetSinglProfil = () => {
+    return {
+        type: 'ErrorGetSinglProfil'
+    }
+}
+
+export const ErrorUpdateProduct = () => {
+    return {
+        type: 'ErrorUpdateProduct'
+    }
+}

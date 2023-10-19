@@ -6,22 +6,20 @@ import { Button, Pagination } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditProduct } from '../EditProduct'
 import { useEffect } from 'react'
-import { GetAllProducts } from '../../Services/action/action'
+import { DelectPorducetsAction, GetAllProducts } from '../../Services/action/action'
 import { Loading } from '../../Components/Loading'
 
 
 export const Products = () => {
 
     const [tableData, setTableData] = useState([])
-    const [pageCount, setPageCount] = useState(4)
     const [currentPage, setCurrentPage] = useState(1)
     const [addProduct, setAddProduct] = useState(false)
     const [editProduct, setEditProduct] = useState(false)
     const { getProducts } = useSelector(st => st)
+    const [editId, setEditId] = useState(null)
+    console.log(getProducts.data.total, 'getProducts.')
 
-    function handlePageChange(page) {
-        setCurrentPage(page)
-    }
 
     const dispatch = useDispatch()
 
@@ -35,8 +33,19 @@ export const Products = () => {
         setTableData(getProducts?.data?.data)
     }, [getProducts])
 
+
+    const DeletProducts = (id) => {
+        let page = currentPage
+        if (getProducts?.data?.data?.length === 1) {
+            setCurrentPage(currentPage - 1)
+            page = page - 1
+        }
+        dispatch(DelectPorducetsAction({ product_id: id }, page))
+    }
+
+
     if (getProducts?.loading) {
-        return <div style={{ width: '100%', height: '100%', border: '1px solid', }}>
+        return <div style={{ width: '100%', height: '100%' }}>
             <Loading />
         </div>
     }
@@ -52,6 +61,7 @@ export const Products = () => {
                 <EditProduct
                     open={editProduct}
                     setOpen={setEditProduct}
+                    id={editId}
                 />
             }
             <section className='productsTop'>
@@ -68,7 +78,8 @@ export const Products = () => {
                         <DropdownDown />
                         فئة
                     </div>
-                    <h1>المنتجات: 56</h1>
+                    <h1 >{getProducts.data.total} المنتجات:
+                    </h1>
                 </div>
             </section>
 
@@ -78,8 +89,11 @@ export const Products = () => {
                         ? tableData?.map((e, i) => (
                             <tr className='eachTR' key={i}>
                                 {(!addProduct && !editProduct) && <div style={{ display: 'flex', height: 30, gap: 10 }}>
-                                    <Button onClick={() => setEditProduct(true)} variant='contained' className='createButon'>يحرر</Button>
-                                    <Button variant="contained" color='error'>يمسح</Button>
+                                    <Button onClick={() => {
+                                        setEditProduct(true)
+                                        setEditId(e.id)
+                                    }} variant='contained' className='createButon'>يحرر</Button>
+                                    <Button onClick={() => DeletProducts(e.id)} variant="contained" color='error'>يمسح</Button>
                                 </div>}
                                 <td className='ordersTD' style={{ width: '5%' }}>
                                     <div className='eachData'>

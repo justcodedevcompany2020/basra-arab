@@ -1,6 +1,6 @@
-import { StartCreatPorduct, StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartGetCollections, StartGetForAge, StartGetGenders, StartGetPlatofrms, StartGetProducts, StartLogin } from "./StartAction";
-import { SuccessCreatProduct, SuccessCreateCategory, SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetPlatforms, SuccessGetProducts, SuccessLogin } from "./SuccessAction"
-import { ErrorCreatCategory, ErrorCreatProduct, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetPlatforms, ErrorGetPorducts, ErrorLogin } from "./errorAction";
+import { StartCreatPorduct, StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartGetCollections, StartGetForAge, StartGetGenders, StartGetPlatofrms, StartGetProducts, StartGetSinglProfil, StartLogin, StartUpdateProduct } from "./StartAction";
+import { SuccessCreatProduct, SuccessCreateCategory, SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetPlatforms, SuccessGetProducts, SuccessGetSinglProfil, SuccessLogin, SuccessUpdateCategory, SuccessUpdateProduct } from "./SuccessAction"
+import { ErrorCreatCategory, ErrorCreatProduct, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetPlatforms, ErrorGetPorducts, ErrorGetSinglProfil, ErrorLogin, ErrorUpdateCategory, ErrorUpdateProduct } from "./errorAction";
 
 let api = 'https://basrabackend.justcode.am/api/admin'
 let api2 = 'https://basrabackend.justcode.am/api'
@@ -427,6 +427,122 @@ export const GetAllProducts = (data) => {
             })
             .catch((error) => {
                 dispatch(ErrorGetPorducts())
+            });
+    }
+}
+
+export const DelectPorducetsAction = (data, page) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+    };
+    return (dispatch) => {
+        dispatch(StartDeletCategory())
+        fetch(`${api}/delete_product`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(GetAllProducts({ page: page }))
+                }
+            })
+            .catch((error) => {
+            });
+    }
+}
+
+export const GetSinglProductAction = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data)
+    };
+    return (dispatch) => {
+        dispatch(StartGetSinglProfil())
+        fetch(`${api}/single_page_product`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessGetSinglProfil(r.data))
+                }
+                else {
+                    dispatch(ErrorGetSinglProfil())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetSinglProfil())
+            });
+    }
+}
+
+export const UpdateProduct = (data) => {
+    console.log(data)
+    let token = localStorage.getItem('token')
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    var formdata = new FormData();
+    formdata.append("name", data.name)
+    formdata.append("price", data.price);
+    formdata.append("discount", data.discount);
+    formdata.append("product_count", data.product_count);
+    formdata.append("volume", data.volume);
+    formdata.append("vendor_code", data.vendor_code);
+    formdata.append("skin_type", data.skin_type);
+    formdata.append("parent_category_id", data.parent_category_id);
+    formdata.append("category_id", data.category_id);
+    formdata.append("brands_id", data.brands_id);
+    formdata.append("gender_id", data.gender_id);
+    formdata.append("for_age_id", data.for_age_id);
+    formdata.append("platform_id", data.platform_id);
+    formdata.append("description", data.description);
+    formdata.append("characteristics", data.characteristics);
+    formdata.append("compound", data.compound);
+    formdata.append("product_id", data.product_id)
+
+    for (const image of data.photos) {
+        formdata.append("photos[]", image);
+    }
+    for (const podborki of data.podborki) {
+        formdata.append("podborki[]", podborki);
+    }
+    for (const dpodborki of data.deleted_podborki) {
+        formdata.append("deleted_podborki[]", JSON.stringify(dpodborki));
+
+    }
+    for (const dimg of data.deleted_photo) {
+        console.log(data.deleted_photo, 'deleted_photo')
+        formdata.append("deleted_photo[]", dimg);
+    }
+    // deleted_podborki
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+    };
+    return (dispatch) => {
+        dispatch(StartUpdateProduct())
+        fetch(`${api}/update_product`, requestOptions)
+            .then(response => response.json())
+            .then(r => {
+                console.log(r)
+                if (r.status) {
+                    dispatch(SuccessUpdateProduct(r))
+                }
+                else {
+                    dispatch(ErrorUpdateProduct())
+                }
+            })
+            .catch(error => {
+                dispatch(ErrorUpdateProduct())
             });
     }
 }

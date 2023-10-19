@@ -63,3 +63,15 @@ export const StartGetProducts = () => {
         type: 'StartGetProducts',
     }
 }
+
+export const StartGetSinglProfil = () => {
+    return {
+        type: 'StartGetSinglProfil'
+    }
+}
+
+export const StartUpdateProduct = () => {
+    return {
+        type: 'StartUpdateProduct'
+    }
+}

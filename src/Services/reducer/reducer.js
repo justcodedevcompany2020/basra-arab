@@ -8,6 +8,8 @@ import { GetForAgeReducer } from './GetForAgeReducer'
 import { GetPlatformsReducer } from './GetPlatformsReducer'
 import { CreateProductReducet } from './CreateProductReducet'
 import { GetAllProductsReducer } from './GetProductsReducer'
+import { GetSinglProductReducer } from './GetSinglProductReducer'
+import { UpdateProductReducer } from './UpdateProductReducer'
 
 
 export default combineReducers({
@@ -20,4 +22,6 @@ export default combineReducers({
     getPlatfors: GetPlatformsReducer,
     createProduct: CreateProductReducet,
     getProducts: GetAllProductsReducer,
+    getSinglProduct: GetSinglProductReducer,
+    updateProduct: UpdateProductReducer,
 })

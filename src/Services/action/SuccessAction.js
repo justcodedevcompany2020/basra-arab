@@ -73,3 +73,17 @@ export const SuccessGetProducts = (data) => {
         data
     }
 }
+
+export const SuccessGetSinglProfil = (data) => {
+    return {
+        type: 'SuccessGetSinglProfil',
+        data
+    }
+}
+
+export const SuccessUpdateProduct = (data) => {
+    return {
+        type: 'SuccessUpdateProduct',
+        data
+    }
+}
