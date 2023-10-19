@@ -94,7 +94,6 @@ export const EditProduct = ({ open, setOpen, id }) => {
             deletetP.push(elm.id)
         })
 
-        console.log(deletedPhotos, 'deletedPhotos')
 
         if (details.name == '') {
             temp.name = 'anuny partadir e '
@@ -431,7 +430,7 @@ export const EditProduct = ({ open, setOpen, id }) => {
                 <AddSubCategory
                     open={openSubCategory}
                     setOpen={setOpenSubCategory}
-                    selected={details?.category}
+                    selected={details?.sub}
                     setBrendsPage={(e) => setCollectionsPage(e)}
                 />
             }

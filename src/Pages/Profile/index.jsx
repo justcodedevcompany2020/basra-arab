@@ -1,3 +1,4 @@
+import { AddTeam } from '../AddTeam'
 import './style.css'
 import { useState } from 'react'
 
@@ -149,8 +150,14 @@ export const Profile = () => {
         },
     ])
 
+    const [openTeam, setOpenTeam] = useState(false)
+
     return (
         <div className='profile'>
+            <AddTeam
+                open={openTeam}
+                setOpen={setOpenTeam}
+            />
             <section className='storiesBlock'>
                 <h1>قصص</h1>
                 <div className='stories'>
@@ -163,7 +170,7 @@ export const Profile = () => {
                         </div>
                     ))}
                     <div className='eachStory'>
-                        <img alt='' src={require('../../assets/images/add.png')} />
+                        <img onClick={() => setOpenTeam(true)} alt='' src={require('../../assets/images/add.png')} />
                     </div>
                 </div>
             </section>

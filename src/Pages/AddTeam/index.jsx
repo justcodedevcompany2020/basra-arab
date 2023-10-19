@@ -1,29 +1,26 @@
-import './style.css'
 import { useEffect, useState } from 'react'
-import { TextField } from '@mui/material'
+import { Pagination, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { DeletCategoryAction, GetCategory, UpdateCategoryAction } from '../../Services/action/action'
+import { DelectBrandAction, DeletCategoryAction, GetBrandAction, UpdateBrendCategory, UpdateCategoryAction } from '../../Services/action/action'
 import { SuccessDelectCategory } from '../../Services/action/SuccessAction'
 import { ErrorCreatCategory } from '../../Services/action/errorAction'
 import { Loading } from '../../Components/Loading'
 
-export const AddCategory = ({ open, setOpen, setBrendsPage }) => {
-    console.log(open, 'open')
+export const AddTeam = ({ open, setOpen, setBrendsPage, }) => {
     const [categories, setCategories] = useState([])
-    const { getCategory } = useSelector((st) => st)
-
+    const { getBrand } = useSelector((st) => st)
     useEffect(() => {
-        setCategories(getCategory?.data?.data)
-        if (getCategory.status) {
+        setCategories(getBrand?.data?.data?.data)
+        if (getBrand.status) {
             setNewCategory({
                 id: 1,
                 name: '',
                 image: '',
             })
         }
-    }, [getCategory])
+    }, [getBrand])
 
     const [newCategory, setNewCategory] = useState({
         id: 1,
@@ -81,12 +78,12 @@ export const AddCategory = ({ open, setOpen, setBrendsPage }) => {
             body: formdata,
             redirect: 'follow'
         };
-        fetch("https://basrabackend.justcode.am/api/admin/create_category?name=eee&photo", requestOptions)
+        fetch("https://basrabackend.justcode.am/api/admin/create_brand", requestOptions)
             .then(response => response.json())
             .then(r => {
 
                 if (r.status) {
-                    dispatch(GetCategory())
+                    dispatch(GetBrandAction())
                     dispatch(SuccessDelectCategory(r))
                 }
                 else {
@@ -108,20 +105,20 @@ export const AddCategory = ({ open, setOpen, setBrendsPage }) => {
     }
 
     const Update = (data, i) => {
-        dispatch(UpdateCategoryAction(data))
+        dispatch(UpdateBrendCategory(data))
     }
 
     const DeletCategory = (id) => {
-        dispatch(DeletCategoryAction({ category_id: id }))
+        dispatch(DelectBrandAction({ brand_id: id }))
     }
 
     return (
         <div className={open ? 'activePopup activeSecondaryPopup' : 'inactive'}>
             <div className='pop secondaryPop'>
                 <div className='popTitle'>
-                    <h1>Категории</h1>
+                    <h1>Бренд</h1>
                 </div>
-                {!getCategory.loading ? <div className='popupContent'>
+                {!getBrand.loading ? <div className='popupContent'>
                     {categories?.length > 0 && categories?.map((e, i) => {
                         return <div className='eachPopupDetail' key={i}>
                             <TextField label="Название" variant="filled" value={e?.name} onChange={(event) => handleCategoryChange(e, event.target.value)} />
@@ -165,19 +162,10 @@ export const AddCategory = ({ open, setOpen, setBrendsPage }) => {
                 </div> :
                     <Loading />
                 }
-
-                {/* {!getCategory.loading && <div className='Pagination'>
-                    <Pagination
-                        color="secondary"
-                        onChange={(e, value) => setBrendsPage(value)}
-                        count={getCategory?.data?.total}
-                    />
-                </div>} */}
-
                 <div className='closePop'>
                     <Button component="label" variant="contained" color='grey' onClick={close}>Закрыть</Button>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
