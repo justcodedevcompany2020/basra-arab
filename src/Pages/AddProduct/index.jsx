@@ -73,7 +73,6 @@ export const AddProduct = ({ open, setOpen }) => {
     const { getForAge } = useSelector((st) => st)
     const { getPlatfors } = useSelector((st) => st)
     const { createProduct } = useSelector((st) => st)
-    console.log(createProduct, '22')
 
     const CreateProduct = () => {
         let item = []

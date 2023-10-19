@@ -58,3 +58,9 @@ export const ErrorCreatProduct = () => {
         type: 'ErrorCreatProduct',
     }
 }
+
+export const ErrorGetPorducts = () => {
+    return {
+        type: "ErrorGetPorducts"
+    }
+}

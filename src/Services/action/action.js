@@ -1,6 +1,6 @@
-import { StartCreatPorduct, StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartGetCollections, StartGetForAge, StartGetGenders, StartGetPlatofrms, StartLogin } from "./StartAction";
-import { SuccessCreatProduct, SuccessCreateCategory, SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetPlatforms, SuccessLogin } from "./SuccessAction"
-import { ErrorCreatCategory, ErrorCreatProduct, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetPlatforms, ErrorLogin } from "./errorAction";
+import { StartCreatPorduct, StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartGetCollections, StartGetForAge, StartGetGenders, StartGetPlatofrms, StartGetProducts, StartLogin } from "./StartAction";
+import { SuccessCreatProduct, SuccessCreateCategory, SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetPlatforms, SuccessGetProducts, SuccessLogin } from "./SuccessAction"
+import { ErrorCreatCategory, ErrorCreatProduct, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetPlatforms, ErrorGetPorducts, ErrorLogin } from "./errorAction";
 
 let api = 'https://basrabackend.justcode.am/api/admin'
 let api2 = 'https://basrabackend.justcode.am/api'
@@ -397,6 +397,36 @@ export const CreatProductAction = (data) => {
             })
             .catch(error => {
                 dispatch(ErrorCreatProduct())
+            });
+    }
+}
+
+export const GetAllProducts = (data) => {
+    console.log(data)
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+        redirect: 'follow'
+    };
+    return (dispatch) => {
+        dispatch(StartGetProducts())
+        fetch(`${api}/get_products`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessGetProducts(r.data))
+                }
+                else {
+                    dispatch(ErrorGetPorducts())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetPorducts())
             });
     }
 }

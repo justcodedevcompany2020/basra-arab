@@ -66,3 +66,10 @@ export const SuccessCreatProduct = (data) => {
         data
     }
 }
+
+export const SuccessGetProducts = (data) => {
+    return {
+        type: "SuccessGetProducts",
+        data
+    }
+}
