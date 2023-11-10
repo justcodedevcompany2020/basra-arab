@@ -91,12 +91,12 @@ export const AddCollections = ({ open, setOpen, setBrendsPage, }) => {
         <div className={open ? 'activePopup activeSecondaryPopup' : 'inactive'}>
             <div className='pop secondaryPop'>
                 <div className='popTitle'>
-                    <h1>Подборки</h1>
+                    <h1>المجموعات</h1>
                 </div>
                 {!getCollections.loading ? <div className='popupContent'>
                     {categories?.length > 0 && categories?.map((e, i) => {
                         return <div className='eachPopupDetail' key={i}>
-                            <TextField label="Название" variant="filled" value={e?.name} onChange={(event) => handleCategoryChange(e, event.target.value)} />
+                            <TextField label="الاسم" variant="filled" value={e?.name} onChange={(event) => handleCategoryChange(e, event.target.value)} />
                             <div className='eachPopupDetailButtons'>
                                 <Button onClick={() => Update(e, i)} variant="contained" color='grey'>Сохранить</Button>
                                 <Button variant="contained" color='error' onClick={() => DeletCategory(e.id)}>Удалить</Button>
@@ -106,8 +106,8 @@ export const AddCollections = ({ open, setOpen, setBrendsPage, }) => {
                     })}
 
                     <div className='eachPopupDetail'>
-                        <TextField label="Название" variant="filled" value={newCategory?.name} onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })} />
-                        {newCategory?.name?.length > 0 && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>Добавить</Button>}
+                        <TextField label="الاسم" variant="filled" value={newCategory?.name} onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })} />
+                        {newCategory?.name?.length > 0 && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>يضيف</Button>}
                     </div>
                 </div> :
                     <Loading />
@@ -116,11 +116,11 @@ export const AddCollections = ({ open, setOpen, setBrendsPage, }) => {
                     <Pagination
                         color="secondary"
                         onChange={(e, value) => setBrendsPage(value)}
-                        count={getCollections?.data?.data?.total}
+                        count={Math.ceil(getCollections?.data?.data?.total / 10)}
                     />
                 </div>}
                 <div className='closePop'>
-                    <Button component="label" variant="contained" color='grey' onClick={close}>Закрыть</Button>
+                    <Button component="label" variant="contained" color='grey' onClick={close}>يغلق</Button>
                 </div>
             </div>
         </div >

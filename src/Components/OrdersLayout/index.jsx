@@ -5,6 +5,8 @@ import { Outlet } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 export const OrdersLayout = () => {
+    let token = localStorage.getItem('token')
+
     const [tabs, setTabs] = useState([
         {
             id: 1,
@@ -65,7 +67,7 @@ export const OrdersLayout = () => {
             <Header />
             <div className='outlet'>
                 <div className='ordersTitle'><h1>لوحة تحكم الموقع والتطبيق</h1></div>
-                <section className='ordersTabs'>
+                {token && <section className='ordersTabs'>
                     {tabs?.map((e, i) => (
                         <div
                             key={i}
@@ -75,7 +77,7 @@ export const OrdersLayout = () => {
                             <span>{e?.title}</span>
                         </div>
                     ))}
-                </section>
+                </section>}
                 <Outlet />
             </div>
             <Footer />

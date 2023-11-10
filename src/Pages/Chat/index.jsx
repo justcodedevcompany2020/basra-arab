@@ -5,7 +5,6 @@ import { ChatRight } from '../../Components/ChatRight'
 
 export const Chat = () => {
     const [currentMember, setCurrentMember] = useState({})
-
     return (
         <div className='chat'>
             <ChatLeft currentMember={currentMember} setCurrentMember={setCurrentMember} />

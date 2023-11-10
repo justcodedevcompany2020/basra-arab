@@ -124,14 +124,14 @@ export const AddSubCategory = ({ open, setOpen, setBrendsPage, selected }) => {
         <div className={open ? 'activePopup activeSecondaryPopup' : 'inactive'}>
             <div className='pop secondaryPop'>
                 <div className='popTitle'>
-                    <h1>Категории</h1>
+                    <h1>الفئات الفرعية</h1>
                 </div>
                 {!getCategory.loading ? <div className='popupContent'>
                     {categories?.length > 0 && categories?.map((e, i) => {
                         return <div className='eachPopupDetail' key={i}>
-                            <TextField label="Название" variant="filled" value={e?.name} onChange={(event) => handleCategoryChange(e, event.target.value)} />
+                            <TextField label="الاسم" variant="filled" value={e?.name} onChange={(event) => handleCategoryChange(e, event.target.value)} />
                             <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
-                                <b>Изображение</b>Нажмите, чтобы загрузить
+                                <b>صورة</b>اضغط للتحميل
                                 <VisuallyHiddenInput type="file" onChange={(event) => handleNewImageChange(e, event)} />
                                 <div className='eachCategoryPhoto'>
                                     {e.photo && !e.image ?
@@ -149,11 +149,11 @@ export const AddSubCategory = ({ open, setOpen, setBrendsPage, selected }) => {
                     })}
 
                     <div className='eachPopupDetail'>
-                        <TextField label="Название" variant="filled" value={newCategory?.name} onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })} />
+                        <TextField label="الاسم" variant="filled" value={newCategory?.name} onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })} />
                         {newCategory?.image
                             ? <>
                                 <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
-                                    <b>Изображение</b>Нажмите, чтобы загрузить
+                                    <b>صورة</b>اضغط للتحميل
                                     <VisuallyHiddenInput type="file" onChange={handleNewImage} />
                                     <div className='eachCategoryPhoto'>
                                         <img alt='' src={newCategory.image} />
@@ -161,26 +161,17 @@ export const AddSubCategory = ({ open, setOpen, setBrendsPage, selected }) => {
                                 </Button>
                             </>
                             : <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
-                                <b>Изображение</b>Нажмите, чтобы загрузить
+                                <b>صورة</b>اضغط للتحميل
                                 <VisuallyHiddenInput type="file" onChange={handleNewImage} />
                             </Button>
                         }
-                        {newCategory?.image?.length > 0 && newCategory?.name?.length > 0 && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>Добавить</Button>}
+                        {newCategory?.image?.length > 0 && newCategory?.name?.length > 0 && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>يضيف</Button>}
                     </div>
                 </div> :
                     <Loading />
                 }
-
-                {/* {!getCategory.loading && <div className='Pagination'>
-                    <Pagination
-                        color="secondary"
-                        onChange={(e, value) => setBrendsPage(value)}
-                        count={getCategory?.data?.total}
-                    />
-                </div>} */}
-
                 <div className='closePop'>
-                    <Button component="label" variant="contained" color='grey' onClick={close}>Закрыть</Button>
+                    <Button component="label" variant="contained" color='grey' onClick={close}>يغلق</Button>
                 </div>
             </div>
         </div>

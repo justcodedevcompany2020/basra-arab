@@ -94,3 +94,51 @@ export const SuccessCreateStoryTeam = (data) => {
         data
     }
 }
+
+export const SuccessGetStoryTeam = (data) => {
+    return {
+        type: 'SuccessGetStoryTeam',
+        data
+    }
+}
+export const SuccessGetSinglStory = (data) => {
+    return {
+        type: 'SuccessGetSinglStory',
+        data
+    }
+}
+
+export const SuccessEditOrder = (data) => {
+    return {
+        type: 'SuccessEditOrder',
+        data
+    }
+}
+
+export const SuccessGetSlider = (data) => {
+    return {
+        type: "SuccessGetSlider",
+        data
+    }
+}
+
+export const SuccessLastSlider = (data) => {
+    return {
+        type: 'SuccessLastSlider',
+        data
+    }
+}
+
+export const SuccessGetChatRedcuer = (data) => {
+    return {
+        type: 'SuccessGetChatRedcuer',
+        data
+    }
+}
+
+export const SuccessSinglPageChat = (data) => {
+    return {
+        type: 'SuccessSinglPageChat',
+        data
+    }
+}

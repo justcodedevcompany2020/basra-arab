@@ -17,7 +17,12 @@
   gap: 15px;
 }
 
-.productsTopLeft > button {
+.tableDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.productsTopLeft>button {
   border-radius: 10px;
   background: #1f2024;
   width: 228px;
@@ -30,7 +35,8 @@
   border: 1px solid #1f2024;
   cursor: pointer;
 }
-.productsTopLeft > input {
+
+.productsTopLeft>input {
   border-radius: 10px;
   border: 1px solid #878787;
   padding: 15px;
@@ -40,7 +46,7 @@
   outline: none;
 }
 
-.productsTopLeft > input::placeholder {
+.productsTopLeft>input::placeholder {
   color: #878787;
   font-size: 16px;
   font-style: normal;
@@ -48,7 +54,7 @@
   line-height: normal;
 }
 
-.ordersTD > img {
+.ordersTD>img {
   width: 60px;
   height: 60px;
 }
@@ -59,7 +65,7 @@
   gap: 40px;
 }
 
-.productsTopRight > h1 {
+.productsTopRight>h1 {
   color: #151515;
   font-size: 34px;
   font-style: normal;

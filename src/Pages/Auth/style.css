@@ -5,3 +5,8 @@
     align-items: center;
     gap: 20px;
 }
+
+.errorLogin {
+    font-size: 13px;
+    color: red;
+}

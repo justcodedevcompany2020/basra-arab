@@ -57,14 +57,14 @@ export const AddTeam = ({ open, setOpen }) => {
         <div className={open ? 'activePopup activeSecondaryPopup' : 'inactive'}>
             <div className='TeamPop secondaryPop'>
                 <div className='popTitle'>
-                    <h1>Team</h1>
+                    <h1>فريق</h1>
                 </div>
                 {!createStoryTeam?.loading ? <div className='popupContent'>
                     <div className='eachPopupDetailTeam'>
-                        <TextField label="Название" variant="filled" value={team?.name} onChange={(e) => setTeam({ ...team, name: e.target.value })} />
+                        <TextField label="الاسم" variant="filled" value={team?.name} onChange={(e) => setTeam({ ...team, name: e.target.value })} />
                         <FormControl variant="filled" >
-                            <InputLabel>Бренд</InputLabel>
-                            <Select label="Бренд" value={order} onChange={(e) => setOrder(e.target.value)}  >
+                            <InputLabel>ماركة</InputLabel>
+                            <Select label="ماركة" value={order} onChange={(e) => setOrder(e.target.value)}  >
                                 {orderItem.map((elm, i) => {
                                     return <MenuItem key={i} value={elm}>{elm}</MenuItem>
                                 })
@@ -74,7 +74,7 @@ export const AddTeam = ({ open, setOpen }) => {
                         {team?.image
                             ? <>
                                 <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
-                                    <b>Изображение</b>Нажмите, чтобы загрузить
+                                    <b>صورة</b>اضغط للتحميل
                                     <VisuallyHiddenInput type="file" onChange={handleNewImage} />
                                     <div className='eachCategoryPhoto'>
                                         <img alt='' src={team.image} />
@@ -82,17 +82,17 @@ export const AddTeam = ({ open, setOpen }) => {
                                 </Button>
                             </>
                             : <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
-                                <b>Изображение</b>Нажмите, чтобы загрузить
+                                <b>صورة</b>اضغط للتحميل
                                 <VisuallyHiddenInput type="file" onChange={handleNewImage} />
                             </Button>
                         }
-                        {team?.image?.length > 0 && team?.name?.length > 0 && order && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>Добавить</Button>}
+                        {team?.image?.length > 0 && team?.name?.length > 0 && order && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>يضيف</Button>}
                     </div>
                 </div> :
                     <Loading />
                 }
                 <div className='closePop'>
-                    <Button component="label" variant="contained" color='grey' onClick={close}>Закрыть</Button>
+                    <Button component="label" variant="contained" color='grey' onClick={close}>يغلق</Button>
                 </div>
             </div>
         </div >

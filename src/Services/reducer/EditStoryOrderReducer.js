@@ -1,33 +1,35 @@
 const initialState = {
     data: [],
     status: false,
-    loading: true,
-    token: '',
-    error: ""
+    loading: false,
+    error: "",
 };
-export const Auth_reducer = (state = initialState, action) => {
+export const EditStoryOrderReducer = (state = initialState, action) => {
     let temp = { ...state }
     switch (action.type) {
-        case 'StartLogin':
+        case 'StartEditOrder':
             temp.data = []
             temp.status = false
             temp.loading = true
-            temp.token = ''
             temp.error = ''
             break;
-        case 'SuccessLogin':
-            temp.data = action.data.user
-            temp.token = action.data.token
+        case 'SuccessGetSinglStory':
+            temp.data = action.data
             temp.status = true
             temp.loading = false
             temp.error = ''
             break
-        case 'ErrorLogin':
+        case 'ErrorEditOrder':
             temp.data = ''
-            temp.token = ''
             temp.status = false
             temp.loading = false
             temp.error = 'error'
+            break
+        case 'ClearEditOrder':
+            temp.data = ''
+            temp.status = false
+            temp.loading = false
+            temp.error = ''
             break
         default:
             return temp;

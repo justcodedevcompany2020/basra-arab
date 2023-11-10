@@ -82,3 +82,40 @@ export const ErrorCreatStoryTeam = () => {
         type: "ErrorCreatStoryTeam"
     }
 }
+
+export const ErrorGetStoryTeam = () => {
+    return {
+        type: 'ErrorGetStoryTeam'
+    }
+}
+
+export const ErrorGetSinglStory = () => {
+    return {
+        type: 'ErrorGetSinglStory'
+    }
+}
+
+export const ErrorEditOrder = () => {
+    return {
+        type: 'ErrorEditOrder'
+    }
+}
+
+export const ErrorGetSlider = () => {
+    return {
+        type: 'ErrorGetSlider'
+    }
+}
+
+export const ErrorGetReducer = () => {
+    return {
+        type: 'ErrorGetReducer'
+    }
+}
+
+export const ErrorSinglPageAction = () => {
+    return {
+        type: 'ErrorSinglPageAction'
+    }
+}
+

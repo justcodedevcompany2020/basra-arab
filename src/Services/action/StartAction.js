@@ -81,3 +81,45 @@ export const StartCreataStoryTeam = () => {
         type: 'StartCreataStoryTeam'
     }
 }
+
+export const StartGetStoryTeam = () => {
+    return {
+        type: 'StartGetStoryTeam'
+    }
+}
+
+export const StartDeletStoryTeam = () => {
+    return {
+        type: 'StartDeletStoryTeam'
+    }
+}
+
+export const StartGetSinglStory = () => {
+    return {
+        type: 'StartGetSinglStory'
+    }
+}
+
+export const StartEditOrder = () => {
+    return {
+        type: 'StartEditOrder'
+    }
+}
+
+export const StartGetSlider = () => {
+    return {
+        type: "StartGetSlider"
+    }
+}
+
+export const StartGetChatReducer = () => {
+    return {
+        type: 'StartGetChatReducer'
+    }
+}
+
+export const StartGetSinglPageAction = () => {
+    return {
+        type: 'StartGetSinglPageAction'
+    }
+}

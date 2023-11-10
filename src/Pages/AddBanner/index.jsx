@@ -1,32 +1,30 @@
-import './style.css'
 import { useEffect, useState } from 'react'
-import { TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { DeletCategoryAction, GetCategory, UpdateCategoryAction } from '../../Services/action/action'
-import { SuccessDelectCategory } from '../../Services/action/SuccessAction'
-import { ErrorCreatCategory } from '../../Services/action/errorAction'
+import { CreatBannerAction, DeletSlideAction, GetCategory } from '../../Services/action/action'
 import { Loading } from '../../Components/Loading'
 
-export const AddCategory = ({ open, setOpen, platformId }) => {
+export const AddBanner = ({ open, setOpen, type, platformid }) => {
     const [categories, setCategories] = useState([])
-    const { getCategory } = useSelector((st) => st)
-
+    const { getSlider } = useSelector((st) => st)
+    const [fileType, setFileType] = useState('')
     useEffect(() => {
-        setCategories(getCategory?.data?.data)
-        if (getCategory.status) {
+        if (type == 'first') {
+            setCategories(getSlider?.data)
+        }
+        else {
+            setCategories(getSlider?.lastSlider)
+        }
+        if (getSlider.status) {
             setNewCategory({
-                id: 1,
                 name: '',
                 image: '',
             })
         }
-    }, [getCategory])
+    }, [getSlider])
 
     const [newCategory, setNewCategory] = useState({
-        id: 1,
-        name: '',
         image: '',
     })
 
@@ -45,14 +43,14 @@ export const AddCategory = ({ open, setOpen, platformId }) => {
     })
     const dispatch = useDispatch()
 
-    function handleCategoryChange(category, event) {
-        const newCategories = [...categories]
-        const change = newCategories.find(e => e.id === category.id)
-        change.name = event
-        setCategories(newCategories)
-    }
-
     function handleNewImage(event) {
+
+        const fileType = event.target.files[0].type;
+        if (fileType.startsWith('image/')) {
+            setFileType("image")
+        } else if (fileType.startsWith('video/')) {
+            setFileType("video")
+        }
         setImg(event.target.files[0])
         let ImagesArray = Object.entries(event.target.files).map(e => URL.createObjectURL(e[1]))
         setNewCategory({ ...newCategory, image: ImagesArray[0] })
@@ -68,75 +66,56 @@ export const AddCategory = ({ open, setOpen, platformId }) => {
     }
 
     function handleNewCategory() {
-        let token = localStorage.getItem('token')
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", `Bearer ${token}`);
-        var formdata = new FormData();
-        formdata.append("name", newCategory.name);
-        formdata.append("photo", img, "file");
-        formdata.append("platform_id", platformId);
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: formdata,
-            redirect: 'follow'
-        };
-        fetch("https://basrabackend.justcode.am/api/admin/create_category?name=eee&photo", requestOptions)
-            .then(response => response.json())
-            .then(r => {
-                if (r.status) {
-                    dispatch(GetCategory(platformId))
-                    dispatch(SuccessDelectCategory(r))
-                }
-                else {
-                    dispatch(ErrorCreatCategory())
-                }
-            })
-            .catch(error => {
-                dispatch(ErrorCreatCategory())
-            });
+        dispatch(CreatBannerAction({ type, img, platformid }))
     }
 
     function close() {
         setOpen(false)
         setNewCategory({
-            id: 1,
-            name: '',
             image: '',
         })
     }
 
-    const Update = (data, i) => {
-        dispatch(UpdateCategoryAction(data, platformId))
-    }
-
     const DeletCategory = (id) => {
-        dispatch(DeletCategoryAction({ category_id: id, platformId }))
+        dispatch(DeletSlideAction({ banner_id: id }, type))
     }
 
     return (
         <div className={open ? 'activePopup activeSecondaryPopup' : 'inactive'}>
             <div className='pop secondaryPop'>
                 <div className='popTitle'>
-                    <h1>فئات</h1>
+                    <h1>راية</h1>
                 </div>
-                {!getCategory.loading ? <div className='popupContent'>
+                {!getSlider.loading ? <div className='popupContent'>
                     {categories?.length > 0 && categories?.map((e, i) => {
+                        let file = 'image'
+                        if (e.type === 'mp4') {
+                            file = 'vidio'
+                        }
                         return <div className='eachPopupDetail' key={i}>
-                            <TextField label="الاسم" variant="filled" value={e?.name} onChange={(event) => handleCategoryChange(e, event.target.value)} />
                             <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
                                 <b>صورة</b>اضغط للتحميل
                                 <VisuallyHiddenInput type="file" onChange={(event) => handleNewImageChange(e, event)} />
-                                <div className='eachCategoryPhoto'>
-                                    {e.photo && !e.image ?
-                                        <img alt='' src={`https://basrabackend.justcode.am/uploads/${e.photo}`} /> :
+                                {file == 'image' ? <div className='eachCategoryPhoto'>
+                                    {e.file && !e.image ?
+                                        <img alt='' src={`https://basrabackend.justcode.am/uploads/${e.file}`} /> :
                                         <img alt='' src={e.image} />
                                     }
-                                </div>
+                                </div> :
+                                    <div className='eachCategoryPhoto'>
+                                        {e.file && !e.image ?
+                                            <video width="300" height="200" controls>
+                                                <source src={`https://basrabackend.justcode.am/uploads/${e.file}`} type="video/mp4" />
+                                            </video>
+                                            :
+                                            <video width="300" height="200" controls>
+                                                <source src={e.image} type="video/mp4" />
+                                            </video>
+                                        }
+                                    </div>
+                                }
                             </Button>
                             <div className='eachPopupDetailButtons'>
-                                <Button onClick={() => Update(e, i)} variant="contained" color='grey'>Сохранить</Button>
                                 <Button variant="contained" color='error' onClick={() => DeletCategory(e.id)}>Удалить</Button>
                             </div>
                             <div className='borderBtm' />
@@ -144,15 +123,18 @@ export const AddCategory = ({ open, setOpen, platformId }) => {
                     })}
 
                     <div className='eachPopupDetail'>
-                        <TextField label="الاسم" variant="filled" value={newCategory?.name} onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })} />
                         {newCategory?.image
                             ? <>
                                 <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
                                     <b>صورة</b>اضغط للتحميل
                                     <VisuallyHiddenInput type="file" onChange={handleNewImage} />
-                                    <div className='eachCategoryPhoto'>
+                                    {fileType == 'image' ? <div className='eachCategoryPhoto'>
                                         <img alt='' src={newCategory.image} />
-                                    </div>
+                                    </div> :
+                                        <video width="300" height="200" controls>
+                                            <source src={newCategory.image} type="video/mp4" />
+                                        </video>
+                                    }
                                 </Button>
                             </>
                             : <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
@@ -160,12 +142,11 @@ export const AddCategory = ({ open, setOpen, platformId }) => {
                                 <VisuallyHiddenInput type="file" onChange={handleNewImage} />
                             </Button>
                         }
-                        {newCategory?.image?.length > 0 && newCategory?.name?.length > 0 && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>يضيف</Button>}
+                        {newCategory?.image?.length > 0 && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>يضيف</Button>}
                     </div>
                 </div> :
                     <Loading />
                 }
-
                 <div className='closePop'>
                     <Button component="label" variant="contained" color='grey' onClick={close}>يغلق</Button>
                 </div>

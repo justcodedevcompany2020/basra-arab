@@ -11,6 +11,13 @@ import { GetAllProductsReducer } from './GetProductsReducer'
 import { GetSinglProductReducer } from './GetSinglProductReducer'
 import { UpdateProductReducer } from './UpdateProductReducer'
 import { CreateStoryTeamReducer } from './CreateStoryTeamReducer'
+import { GetStoryTeamReducer } from './GetStoryTeamReducer'
+import { GetSinglStoryReducer } from './GetSinglStoryReducer'
+import { EditStoryOrderReducer } from './EditStoryOrderReducer'
+import { GetSliderRderucer } from './GetSliderRderucer'
+import { ChatRoomReducer } from './ChatRoomReducer'
+import { GetSinglPageChatRoomReducer } from './GetSinglPageChatRoomReducer'
+import { AddMsgReducer } from './AddMsgReducer'
 
 
 export default combineReducers({
@@ -25,5 +32,12 @@ export default combineReducers({
     getProducts: GetAllProductsReducer,
     getSinglProduct: GetSinglProductReducer,
     updateProduct: UpdateProductReducer,
-    createStoryTeam: CreateStoryTeamReducer
+    createStoryTeam: CreateStoryTeamReducer,
+    getStoryTeam: GetStoryTeamReducer,
+    getSinglStory: GetSinglStoryReducer,
+    editStoryOrder: EditStoryOrderReducer,
+    getSlider: GetSliderRderucer,
+    chatRoom: ChatRoomReducer,
+    getSinglChat: GetSinglPageChatRoomReducer,
+    addMsg: AddMsgReducer,
 })

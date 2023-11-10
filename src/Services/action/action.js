@@ -1,6 +1,6 @@
-import { StartCreatPorduct, StartCreataStoryTeam, StartCreateCategory, StartDeletCategory, StartGetBreands, StartGetCategory, StartGetCollections, StartGetForAge, StartGetGenders, StartGetPlatofrms, StartGetProducts, StartGetSinglProfil, StartLogin, StartUpdateProduct } from "./StartAction";
-import { SuccessCreatProduct, SuccessCreateCategory, SuccessCreateStoryTeam, SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetPlatforms, SuccessGetProducts, SuccessGetSinglProfil, SuccessLogin, SuccessUpdateCategory, SuccessUpdateProduct } from "./SuccessAction"
-import { ErrorCreatCategory, ErrorCreatProduct, ErrorCreatStoryTeam, ErrorDeletCategory, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetPlatforms, ErrorGetPorducts, ErrorGetSinglProfil, ErrorLogin, ErrorUpdateCategory, ErrorUpdateProduct } from "./errorAction";
+import { StartCreatPorduct, StartCreataStoryTeam, StartDeletCategory, StartDeletStoryTeam, StartEditOrder, StartGetBreands, StartGetCategory, StartGetChatReducer, StartGetCollections, StartGetForAge, StartGetGenders, StartGetPlatofrms, StartGetProducts, StartGetSinglPageAction, StartGetSinglProfil, StartGetSinglStory, StartGetSlider, StartGetStoryTeam, StartLogin, StartUpdateProduct } from "./StartAction";
+import { SuccessCreatProduct, SuccessCreateStoryTeam, SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetChatRedcuer, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetPlatforms, SuccessGetProducts, SuccessGetSinglProfil, SuccessGetSinglStory, SuccessGetSlider, SuccessGetStoryTeam, SuccessLastSlider, SuccessLogin, SuccessSinglPageChat, SuccessUpdateCategory, SuccessUpdateProduct } from "./SuccessAction"
+import { ErrorCreatProduct, ErrorCreatStoryTeam, ErrorDeletCategory, ErrorEditOrder, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetPlatforms, ErrorGetPorducts, ErrorGetReducer, ErrorGetSinglProfil, ErrorGetSinglStory, ErrorGetSlider, ErrorGetStoryTeam, ErrorLogin, ErrorSinglPageAction, ErrorUpdateCategory, ErrorUpdateProduct } from "./errorAction";
 
 let api = 'https://basrabackend.justcode.am/api/admin'
 let api2 = 'https://basrabackend.justcode.am/api'
@@ -15,7 +15,7 @@ export const LoginAction = (data) => {
     };
     return (dispatch) => {
         dispatch(StartLogin())
-        fetch(`${api}/admin/login`, requestOptions)
+        fetch(`${api}/login`, requestOptions)
             .then(response => response.json())
             .then(r => {
                 if (r.status) {
@@ -31,7 +31,7 @@ export const LoginAction = (data) => {
     }
 }
 
-export const GetCategory = () => {
+export const GetCategory = (id) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append('Authorization', `Bearer ${token}`);
@@ -42,7 +42,7 @@ export const GetCategory = () => {
     };
     return (dispatch) => {
         dispatch(StartGetCategory())
-        fetch(`${api}/get_category`, requestOptions)
+        fetch(`${api}/get_category?platform_id=${id}`, requestOptions)
             .then((r) => r.json())
             .then(r => {
                 if (r.status) {
@@ -58,7 +58,7 @@ export const GetCategory = () => {
     }
 }
 
-export const DeletCategoryAction = (data) => {
+export const DeletCategoryAction = (data, id) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append('Authorization', `Bearer ${token}`);
@@ -73,7 +73,7 @@ export const DeletCategoryAction = (data) => {
             .then((r) => r.json())
             .then(r => {
                 if (r.status) {
-                    dispatch(GetCategory())
+                    dispatch(GetCategory(id))
                     dispatch(SuccessDelectCategory(r))
                 }
                 else {
@@ -86,7 +86,7 @@ export const DeletCategoryAction = (data) => {
     }
 }
 
-export const UpdateCategoryAction = (data) => {
+export const UpdateCategoryAction = (data, id) => {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
     var formdata = new FormData();
@@ -106,7 +106,7 @@ export const UpdateCategoryAction = (data) => {
             .then(response => response.json())
             .then(r => {
                 if (r.status) {
-                    dispatch(GetCategory())
+                    dispatch(GetCategory(id))
                 }
             })
             .catch(error => {
@@ -114,7 +114,7 @@ export const UpdateCategoryAction = (data) => {
     }
 }
 
-export const GetBrandAction = (page) => {
+export const GetBrandAction = (page, id) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append('Authorization', `Bearer ${token}`);
@@ -125,7 +125,7 @@ export const GetBrandAction = (page) => {
     };
     return (dispatch) => {
         dispatch(StartGetBreands())
-        fetch(`${api}/get_brands?page=${page}`, requestOptions)
+        fetch(`${api}/auth_user_info`, requestOptions)
             .then((r) => r.json())
             .then(r => {
                 if (r.status) {
@@ -141,7 +141,7 @@ export const GetBrandAction = (page) => {
     }
 }
 
-export const UpdateBrendCategory = (data) => {
+export const UpdateBrendCategory = (data, id) => {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${token}`);
     var formdata = new FormData();
@@ -150,6 +150,8 @@ export const UpdateBrendCategory = (data) => {
         formdata.append("photo", data.photo, "file");
     }
     formdata.append("brand_id", data.id);
+    formdata.append("platform_id", id);
+
     var requestOptions = {
         method: 'POST',
         headers: myHeaders,
@@ -161,7 +163,7 @@ export const UpdateBrendCategory = (data) => {
             .then(response => response.json())
             .then(r => {
                 if (r.status) {
-                    dispatch(GetBrandAction())
+                    dispatch(GetBrandAction(id))
                 }
             })
             .catch(error => {
@@ -185,7 +187,7 @@ export const DelectBrandAction = (data) => {
             .then((r) => r.json())
             .then(r => {
                 if (r.status) {
-                    dispatch(GetBrandAction())
+                    dispatch(GetBrandAction(data.page, data.platform_id))
                 }
             })
             .catch((error) => {
@@ -517,8 +519,6 @@ export const UpdateProduct = (data) => {
     for (const dimg of data.deleted_photo) {
         formdata.append("deleted_photo[]", dimg);
     }
-    // deleted_podborki
-
     var requestOptions = {
         method: 'POST',
         headers: myHeaders,
@@ -547,9 +547,9 @@ export const CreateStoryTeamAction = (data) => {
     var myHeaders = new Headers();
     myHeaders.append('Authorization', `Bearer ${token}`);
     var formdata = new FormData();
-    formdata.append("name", "22");
+    formdata.append("name", data.name);
     formdata.append("photo", data.img);
-    formdata.append("order", "2");
+    formdata.append("order", data.order);
     var requestOptions = {
         method: 'POST',
         headers: myHeaders,
@@ -570,6 +570,376 @@ export const CreateStoryTeamAction = (data) => {
             })
             .catch((error) => {
                 dispatch(ErrorCreatStoryTeam())
+            });
+    }
+}
+
+export const GetStoryTeamAction = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+    };
+    return (dispatch) => {
+        dispatch(StartGetStoryTeam())
+        fetch(`${api}/get_all_story_theme`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessGetStoryTeam(r.data))
+                }
+                else {
+                    dispatch(ErrorGetStoryTeam())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetStoryTeam())
+            });
+    }
+}
+
+export const DeleteStoryTeamAction = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+    };
+    return (dispatch) => {
+        dispatch(StartDeletStoryTeam())
+        fetch(`${api}/delete_story_theme`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(GetStoryTeamAction())
+                }
+                else {
+                    dispatch(ErrorGetStoryTeam())
+
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetStoryTeam())
+            });
+    }
+}
+
+export const SinglStoryAction = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+    };
+    return (dispatch) => {
+        dispatch(StartGetSinglStory())
+        fetch(`${api}/single_page_story`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessGetSinglStory(r.data))
+                }
+                else {
+                    dispatch(ErrorGetSinglStory())
+
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetSinglStory())
+            });
+    }
+}
+
+export const EditStoryOrder = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+    };
+    return (dispatch) => {
+        dispatch(StartEditOrder())
+        fetch(`${api}/change_order_for_story`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(GetStoryTeamAction())
+                    dispatch(SuccessGetSinglStory(r.data))
+                }
+                else {
+                    dispatch(ErrorEditOrder())
+
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorEditOrder())
+            });
+    }
+}
+
+export const ClearEditOrder = () => {
+    return {
+        type: "ClearEditOrder"
+    }
+}
+
+export const CreatBannerAction = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var formdata = new FormData();
+    formdata.append("slider", data.type);
+    formdata.append("file[]", data.img);
+    formdata.append("platform_id", data.platformid);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+    };
+    return (dispatch) => {
+        dispatch(StartCreataStoryTeam())
+        fetch(`${api}/create_baner`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(GetSliderAction(data.type, data.platformid))
+                }
+                else {
+                }
+            })
+            .catch((error) => {
+            });
+    }
+}
+
+export const GetSliderAction = (data, id) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+    };
+    return (dispatch) => {
+        dispatch(StartGetSlider())
+        fetch(`${api}/get_slider?slider=${data}&platform_id=${id}`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    if (data === 'first') {
+                        dispatch(SuccessGetSlider(r.data))
+                    }
+                    else {
+                        dispatch(SuccessLastSlider(r.data))
+                    }
+
+                }
+                else {
+                    dispatch(ErrorGetSlider())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetSlider())
+            });
+    }
+}
+
+export const DeletSlideAction = (data, type) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+    };
+    return (dispatch) => {
+        // dispatch(StartDeletStoryTeam())
+        fetch(`${api}/delete_baner`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(GetSliderAction(type))
+                }
+                else {
+                }
+            })
+            .catch((error) => {
+            });
+    }
+}
+export const AddPhotoOrVidioStroyMedia = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var formdata = new FormData();
+    formdata.append("story_id", data.type);
+    formdata.append("file[]", data.img);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+    };
+    return (dispatch) => {
+        // dispatch(StartCreataStoryTeam())
+        fetch(`${api}/add_photo_or_video_in_story`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SinglStoryAction({ story_id: data.type }))
+                }
+                else {
+                }
+            })
+            .catch((error) => {
+            });
+    }
+}
+
+export const DeletStroyMedia = (data, type) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+    };
+    return (dispatch) => {
+        // dispatch(StartDeletStoryTeam())
+        fetch(`${api}/delete_photo_or_video_in_story`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SinglStoryAction({ story_id: type }))
+                    // dispatch(GetSliderAction(type))
+                }
+                else {
+                }
+            })
+            .catch((error) => {
+            });
+    }
+}
+
+
+export const GetMyChatRoom = (data, page) => {
+    var myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: data,
+        redirect: 'follow'
+    };
+    return (dispatch) => {
+        dispatch(StartGetChatReducer())
+        fetch(`${api}/get_my_chat_rooms?page=${page}`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessGetChatRedcuer(r.data.data))
+                }
+                else {
+                    dispatch(ErrorGetReducer())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetReducer())
+            });
+    }
+}
+
+
+export const GetSinglPageChatRoom = (data, page) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+        redirect: 'follow'
+    };
+    return (dispatch) => {
+        dispatch(StartGetSinglPageAction())
+        fetch(`${api}/single_page_chat?page=${page}`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessSinglPageChat(r.data))
+                }
+                else {
+                    dispatch(ErrorSinglPageAction())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorSinglPageAction())
+            });
+    }
+}
+
+export const NewMsgAction = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+        redirect: 'follow'
+    };
+    return (dispatch) => {
+        fetch(`${api}/new_message`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+            })
+            .catch((error) => {
+            });
+    }
+}
+
+export const AddMsgAction = (data) => {
+    return {
+        type: "AddMsgAction",
+        data
+    }
+}
+
+export const LogOutAction = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+    };
+    return (dispatch) => {
+        dispatch(StartLogin())
+        console.log('ewsfdhbj')
+        fetch(`${api}/logout`, requestOptions)
+            .then(response => response.json())
+            .then(r => {
+                if (r.status) {
+                    localStorage.removeItem('token')
+                    dispatch(SuccessLogin(r))
+                }
+                else {
+                    dispatch(ErrorLogin())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorLogin())
             });
     }
 }

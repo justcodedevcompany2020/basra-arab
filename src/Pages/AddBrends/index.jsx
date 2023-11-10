@@ -3,12 +3,12 @@ import { Pagination, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { DelectBrandAction, DeletCategoryAction, GetBrandAction, UpdateBrendCategory, UpdateCategoryAction } from '../../Services/action/action'
+import { DelectBrandAction, GetBrandAction, UpdateBrendCategory, UpdateCategoryAction } from '../../Services/action/action'
 import { SuccessDelectCategory } from '../../Services/action/SuccessAction'
 import { ErrorCreatCategory } from '../../Services/action/errorAction'
 import { Loading } from '../../Components/Loading'
 
-export const AddBrends = ({ open, setOpen, setBrendsPage, }) => {
+export const AddBrends = ({ open, setOpen, setBrendsPage, platformId, page }) => {
     const [categories, setCategories] = useState([])
     const { getBrand } = useSelector((st) => st)
     useEffect(() => {
@@ -72,6 +72,7 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, }) => {
         var formdata = new FormData();
         formdata.append("name", newCategory.name);
         formdata.append("photo", img, "file");
+        formdata.append('platform_id', platformId)
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
@@ -83,7 +84,7 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, }) => {
             .then(r => {
 
                 if (r.status) {
-                    dispatch(GetBrandAction())
+                    dispatch(GetBrandAction(1, platformId))
                     dispatch(SuccessDelectCategory(r))
                 }
                 else {
@@ -105,25 +106,25 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, }) => {
     }
 
     const Update = (data, i) => {
-        dispatch(UpdateBrendCategory(data))
+        dispatch(UpdateBrendCategory(data, platformId))
     }
 
     const DeletCategory = (id) => {
-        dispatch(DelectBrandAction({ brand_id: id }))
+        dispatch(DelectBrandAction({ brand_id: id, platform_id: platformId, page: page ? page : 1 }))
     }
 
     return (
         <div className={open ? 'activePopup activeSecondaryPopup' : 'inactive'}>
             <div className='pop secondaryPop'>
                 <div className='popTitle'>
-                    <h1>Бренд</h1>
+                    <h1>ماركة</h1>
                 </div>
                 {!getBrand.loading ? <div className='popupContent'>
                     {categories?.length > 0 && categories?.map((e, i) => {
                         return <div className='eachPopupDetail' key={i}>
-                            <TextField label="Название" variant="filled" value={e?.name} onChange={(event) => handleCategoryChange(e, event.target.value)} />
+                            <TextField label="الاسم" variant="filled" value={e?.name} onChange={(event) => handleCategoryChange(e, event.target.value)} />
                             <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
-                                <b>Изображение</b>Нажмите, чтобы загрузить
+                                <b>صورة</b>اضغط للتحميل
                                 <VisuallyHiddenInput type="file" onChange={(event) => handleNewImageChange(e, event)} />
                                 <div className='eachCategoryPhoto'>
                                     {e.photo && !e.image ?
@@ -141,11 +142,11 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, }) => {
                     })}
 
                     <div className='eachPopupDetail'>
-                        <TextField label="Название" variant="filled" value={newCategory?.name} onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })} />
+                        <TextField label="الاسم" variant="filled" value={newCategory?.name} onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })} />
                         {newCategory?.image
                             ? <>
                                 <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
-                                    <b>Изображение</b>Нажмите, чтобы загрузить
+                                    <b>صورة</b>اضغط للتحميل
                                     <VisuallyHiddenInput type="file" onChange={handleNewImage} />
                                     <div className='eachCategoryPhoto'>
                                         <img alt='' src={newCategory.image} />
@@ -153,11 +154,11 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, }) => {
                                 </Button>
                             </>
                             : <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
-                                <b>Изображение</b>Нажмите, чтобы загрузить
+                                <b>صورة</b>اضغط للتحميل
                                 <VisuallyHiddenInput type="file" onChange={handleNewImage} />
                             </Button>
                         }
-                        {newCategory?.image?.length > 0 && newCategory?.name?.length > 0 && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>Добавить</Button>}
+                        {newCategory?.image?.length > 0 && newCategory?.name?.length > 0 && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>يضيف</Button>}
                     </div>
                 </div> :
                     <Loading />
@@ -166,11 +167,11 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, }) => {
                     <Pagination
                         color="secondary"
                         onChange={(e, value) => setBrendsPage(value)}
-                        count={getBrand?.data?.data?.total}
+                        count={Math.ceil(getBrand?.data?.data?.total / 10)}
                     />
                 </div>}
                 <div className='closePop'>
-                    <Button component="label" variant="contained" color='grey' onClick={close}>Закрыть</Button>
+                    <Button component="label" variant="contained" color='grey' onClick={close}>يغلق</Button>
                 </div>
             </div>
         </div >

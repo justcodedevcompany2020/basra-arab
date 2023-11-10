@@ -270,12 +270,12 @@ export const EditProduct = ({ open, setOpen, id }) => {
     }
 
     useEffect(() => {
-        dispatch(GetCategory(categoryPage))
+        dispatch(GetCategory(categoryPage, details.platform))
     }, [categoryPage])
 
 
     useEffect(() => {
-        dispatch(GetBrandAction(brendsPage))
+        dispatch(GetBrandAction(brendsPage, details.platform))
     }, [brendsPage])
 
     useEffect(() => {
@@ -408,7 +408,7 @@ export const EditProduct = ({ open, setOpen, id }) => {
                     open={openCreateCategory}
                     setOpen={setOpenCategory}
                     setBrendsPage={(e) => setCategpryPage(e)}
-
+                    platformId={details.platform}
                 />
             }
             {openCreateBrend &&
@@ -416,6 +416,8 @@ export const EditProduct = ({ open, setOpen, id }) => {
                     open={openCreateBrend}
                     setOpen={setOpenBrend}
                     setBrendsPage={(e) => setBrendsPage(e)}
+                    platformId={details.platform}
+
                 />
             }
             {openCollection &&
@@ -438,29 +440,29 @@ export const EditProduct = ({ open, setOpen, id }) => {
                     <div className='closeIcon' onClick={close}>
                         <CloseIcon />
                     </div>
-                    <h1>Добавить / редактировать товар</h1>
+                    <h1>يضيف / تحرير المنتج</h1>
                 </div>
                 {updateProduct.loading || getSinglProduct.loading ?
                     <Loading /> :
                     <div className='popupBody'>
-                        <TextField error={error.name != ''} label="Название" variant="filled" sx={{ width: '31%' }} value={details?.name} onChange={(e) => setDetails({ ...details, name: e.target.value })} />
+                        <TextField error={error.name != ''} label="الاسم" variant="filled" sx={{ width: '31%' }} value={details?.name} onChange={(e) => setDetails({ ...details, name: e.target.value })} />
                         <TextField error={error.price != ''} label="Цена" type='number' variant="filled" sx={{ width: '31%' }} value={details?.price} onChange={(e) => setDetails({ ...details, price: e.target.value })} />
                         <TextField error={error.discount != ''} label="Скидка в процентах" type='number' variant="filled" sx={{ width: '31%' }} value={details?.discount} onChange={(e) => setDetails({ ...details, discount: e.target.value })} />
-                        <TextField error={error.count != ''} type='number' label="В наличии (количество)" variant="filled" sx={{ width: '31%' }} value={details?.count} onChange={(e) => setDetails({ ...details, count: e.target.value })} />
-                        <TextField error={error.volume != ''} label="Объем" variant="filled" sx={{ width: '31%' }} value={details?.volume} onChange={(e) => setDetails({ ...details, volume: e.target.value })} />
-                        <TextField error={error.code != ''} label="Артикул" variant="filled" sx={{ width: '31%' }} value={details?.code} onChange={(e) => setDetails({ ...details, code: e.target.value })} />
-                        <TextField error={error.skinType != ''} label="Тип кожи" variant="filled" sx={{ width: '31%' }} value={details?.skinType} onChange={(e) => setDetails({ ...details, skinType: e.target.value })} />
+                        <TextField error={error.count != ''} type='number' label="في المخزون (الكمية)" variant="filled" sx={{ width: '31%' }} value={details?.count} onChange={(e) => setDetails({ ...details, count: e.target.value })} />
+                        <TextField error={error.volume != ''} label="مقدار" variant="filled" sx={{ width: '31%' }} value={details?.volume} onChange={(e) => setDetails({ ...details, volume: e.target.value })} />
+                        <TextField error={error.code != ''} label="رمز البائع" variant="filled" sx={{ width: '31%' }} value={details?.code} onChange={(e) => setDetails({ ...details, code: e.target.value })} />
+                        <TextField error={error.skinType != ''} label="نوع الجلد" variant="filled" sx={{ width: '31%' }} value={details?.skinType} onChange={(e) => setDetails({ ...details, skinType: e.target.value })} />
                         <FormControl error={error.gender != ''} variant="filled" sx={{ width: '31%' }}>
-                            <InputLabel>Пол</InputLabel>
-                            <Select label="Пол" value={details?.gender} onChange={(e) => setDetails({ ...details, gender: e.target.value })}  >
+                            <InputLabel>أرضية</InputLabel>
+                            <Select label="أرضية" value={details?.gender} onChange={(e) => setDetails({ ...details, gender: e.target.value })}  >
                                 {getGender?.data?.data?.map((elm, i) => {
                                     return <MenuItem key={i} value={elm.id}>{elm.name}</MenuItem>
                                 })}
                             </Select>
                         </FormControl>
                         <FormControl error={error.forWho != ''} variant="filled" sx={{ width: '31%' }}>
-                            <InputLabel>Для кого</InputLabel>
-                            <Select label="Для кого" value={details?.forWho} onChange={(e) => setDetails({ ...details, forWho: e.target.value })}   >
+                            <InputLabel>لمن</InputLabel>
+                            <Select label="لمن" value={details?.forWho} onChange={(e) => setDetails({ ...details, forWho: e.target.value })}   >
                                 {getForAge?.data?.data?.map((elm, i) => {
                                     return <MenuItem value={elm.id}>{elm.name}</MenuItem>
                                 })
@@ -470,8 +472,8 @@ export const EditProduct = ({ open, setOpen, id }) => {
                         </FormControl>
 
                         <FormControl error={error.platform != ''} variant="filled" sx={{ width: '31%' }}>
-                            <InputLabel>Платформа</InputLabel>
-                            <Select label="Платформа" value={details?.platform} onChange={(e) => setDetails({ ...details, platform: e.target.value })}>
+                            <InputLabel>منصة</InputLabel>
+                            <Select label="منصة" value={details?.platform} onChange={(e) => setDetails({ ...details, platform: e.target.value })}>
                                 {getPlatfors?.data?.data?.map((elm, i) => {
                                     return <MenuItem value={elm.id}>{elm.name}</MenuItem>
 
@@ -480,54 +482,54 @@ export const EditProduct = ({ open, setOpen, id }) => {
                         </FormControl>
                         <div style={{ width: '62%' }} />
 
-                        <TextField error={error.description != ''} label="Описание" multiline rows={5} variant="filled" sx={{ width: '31%' }} value={details?.description} onChange={(e) => setDetails({ ...details, description: e.target.value })} />
-                        <TextField error={error.characteristics != ''} label="Характеристики" multiline rows={5} variant="filled" sx={{ width: '31%' }} value={details?.characteristics} onChange={(e) => setDetails({ ...details, characteristics: e.target.value })} />
-                        <TextField error={error.composition != ''} label="Состав" multiline rows={5} variant="filled" sx={{ width: '31%' }} value={details?.composition} onChange={(e) => setDetails({ ...details, composition: e.target.value })} />
+                        <TextField error={error.description != ''} label="وصف" multiline rows={5} variant="filled" sx={{ width: '31%' }} value={details?.description} onChange={(e) => setDetails({ ...details, description: e.target.value })} />
+                        <TextField error={error.characteristics != ''} label="صفات" multiline rows={5} variant="filled" sx={{ width: '31%' }} value={details?.characteristics} onChange={(e) => setDetails({ ...details, characteristics: e.target.value })} />
+                        <TextField error={error.composition != ''} label="مُجَمَّع" multiline rows={5} variant="filled" sx={{ width: '31%' }} value={details?.composition} onChange={(e) => setDetails({ ...details, composition: e.target.value })} />
 
-                        <div className='catsAndSubcats'>
+                        {details.platform && <div className='catsAndSubcats'>
                             <FormControl error={error.category != ''} variant="filled" sx={{ width: '71%' }}>
-                                <InputLabel>Категория</InputLabel>
-                                <Select label="Категория" value={details.category} onChange={(e) => SelectCategoy(e)}  >
+                                <InputLabel>فئة</InputLabel>
+                                <Select label="فئة" value={details.category} onChange={(e) => SelectCategoy(e)}  >
                                     {getCategory?.data?.data?.map((elm, i) => {
                                         return <MenuItem key={i} value={elm.id}>{elm.name}</MenuItem>
                                     })}
                                 </Select>
                             </FormControl>
-                            <Button variant="contained" color='grey' onClick={() => setOpenCategory(true)}>Категории</Button>
-                        </div>
+                            <Button variant="contained" color='grey' onClick={() => setOpenCategory(true)}>فئات</Button>
+                        </div>}
                         {details.category && <div className='catsAndSubcats'>
                             <FormControl variant="filled" sx={{ width: '71%' }}  >
-                                <InputLabel>Подкатегория</InputLabel>
-                                <Select error={error.subcategory != ''} label="Подкатегория" value={details?.subcategory} onChange={(e) => setDetails({ ...details, subcategory: e.target.value })}   >
+                                <InputLabel>تصنيف فرعي</InputLabel>
+                                <Select error={error.subcategory != ''} label="تصنيف فرعي" value={details?.subcategory} onChange={(e) => setDetails({ ...details, subcategory: e.target.value })}   >
                                     {details?.sub?.category.map((elm, i) => {
                                         return <MenuItem key={i} value={elm.id}>{elm.name}</MenuItem>
                                     })}
                                 </Select>
                             </FormControl>
-                            <Button onClick={() => setOpenSubCategory(true)} variant="contained" color='grey'>Подкатегории</Button>
+                            <Button onClick={() => setOpenSubCategory(true)} variant="contained" color='grey'>الفئات الفرعية</Button>
                         </div>}
-                        <div className='catsAndSubcats'>
+                        {details.platform && <div className='catsAndSubcats'>
                             <FormControl error={error.brand != ''} variant="filled" sx={{ width: '81%' }} >
-                                <InputLabel>Бренд</InputLabel>
+                                <InputLabel>ماركة</InputLabel>
 
-                                <Select label="Бренд" defaultValue={details?.brand} value={details?.brand} onChange={(e) => setDetails({ ...details, brand: e.target.value })}  >
+                                <Select label="ماركة" defaultValue={details?.brand} value={details?.brand} onChange={(e) => setDetails({ ...details, brand: e.target.value })}  >
                                     {getBrand?.data?.data?.data.map((elm, i) => {
                                         return <MenuItem key={i} value={elm.id}>{elm?.name}</MenuItem>
                                     })
                                     }
                                 </Select>
                             </FormControl>
-                            <Button onClick={() => setOpenBrend(true)} variant="contained" color='grey'>Бренд</Button>
-                        </div>
+                            <Button onClick={() => setOpenBrend(true)} variant="contained" color='grey'>ماركة</Button>
+                        </div>}
 
                         <div className='catsAndSubcats'>
                             <FormControl variant="filled" sx={{ width: '81%' }}>
-                                <InputLabel>Подборки</InputLabel>
+                                <InputLabel>المجموعات</InputLabel>
                                 <Select
                                     multiple
                                     value={selectedSelection}
                                     onChange={handleSelectionChange}
-                                    input={<OutlinedInput label="Подборки" />}
+                                    input={<OutlinedInput label="المجموعات" />}
                                     renderValue={(selected) => selected.join(', ')}
                                     MenuProps={{
                                         PaperProps: {
@@ -547,7 +549,7 @@ export const EditProduct = ({ open, setOpen, id }) => {
                                     })}
                                 </Select>
                             </FormControl>
-                            <Button onClick={() => setOpenCollection(true)} variant="contained" color='grey'>Подборки</Button>
+                            <Button onClick={() => setOpenCollection(true)} variant="contained" color='grey'>المجموعات</Button>
                         </div>
                         <div style={{ width: '62%' }} />
                         {details?.photos?.map((e, i) => {
@@ -569,10 +571,10 @@ export const EditProduct = ({ open, setOpen, id }) => {
                         ))}
 
                         <Button component="label" variant="contained" className='createButon'>
-                            Изображение
+                            صورة
                             <VisuallyHiddenInput type="file" onChange={handleFileChange} />
                         </Button>
-                        <Button onClick={() => CreateProduct()} variant='contained' className='createButon'>редактировать</Button>
+                        <Button onClick={() => CreateProduct()} variant='contained' className='createButon'>يحرر</Button>
                     </div>
                 }
             </div>

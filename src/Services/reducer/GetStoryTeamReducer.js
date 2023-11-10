@@ -1,33 +1,37 @@
 const initialState = {
     data: [],
     status: false,
-    loading: true,
-    token: '',
-    error: ""
+    loading: false,
+    error: "",
+    deletLoading: false,
 };
-export const Auth_reducer = (state = initialState, action) => {
+export const GetStoryTeamReducer = (state = initialState, action) => {
     let temp = { ...state }
     switch (action.type) {
-        case 'StartLogin':
+        case 'StartGetStoryTeam':
             temp.data = []
             temp.status = false
             temp.loading = true
-            temp.token = ''
             temp.error = ''
+            temp.deletLoading = false
             break;
-        case 'SuccessLogin':
-            temp.data = action.data.user
-            temp.token = action.data.token
+        case 'SuccessGetStoryTeam':
+            temp.data = action.data
             temp.status = true
             temp.loading = false
             temp.error = ''
+            temp.deletLoading = false
             break
-        case 'ErrorLogin':
+        case 'ErrorGetStoryTeam':
             temp.data = ''
-            temp.token = ''
             temp.status = false
             temp.loading = false
             temp.error = 'error'
+            temp.deletLoading = false
+
+            break
+        case "StartDeletStoryTeam":
+            temp.deletLoading = true
             break
         default:
             return temp;

@@ -13,6 +13,7 @@ export const Register = () => {
         { value: '', error: '' },
         { value: '', error: '' }
     ])
+    const [error, setError] = useState('')
     const handelChange = (e, i) => {
         let item = [...data]
         item[i].value = e
@@ -22,7 +23,11 @@ export const Register = () => {
     useEffect(() => {
         if (Auth_reducer.status) {
             localStorage.setItem('token', Auth_reducer.token)
-            navigation('/profile')
+            window.location = '/profile'
+
+        }
+        else if (Auth_reducer.error) {
+            setError('login or password is invalid')
         }
     }, [Auth_reducer])
 
@@ -55,8 +60,9 @@ export const Register = () => {
     }
 
     return <div className="loginWrapper">
-        <TextField value={data[0].value} onChange={(e) => handelChange(e.target.value, 0)} label="Название" variant="filled" sx={{ width: '31%' }} />
-        <TextField value={data[1].value} onChange={(e) => handelChange(e.target.value, 1)} label="Название" variant="filled" sx={{ width: '31%' }} />
-        <Button onClick={() => handelClick()} sx={{ width: '31%' }} variant="contained" color='grey' >Категории</Button>
+        <TextField error={data[0].error} value={data[0].value} onChange={(e) => handelChange(e.target.value, 0)} label="تسجيل الدخول" variant="filled" sx={{ width: '31%' }} />
+        <TextField error={data[0].error} value={data[1].value} onChange={(e) => handelChange(e.target.value, 1)} label="كلمة المرور" variant="filled" sx={{ width: '31%' }} />
+        <p className='errorLogin'>{error}</p>
+        <Button onClick={() => handelClick()} sx={{ width: '31%' }} variant="contained" color='grey' >تسجيل الدخول</Button>
     </div>
 }

@@ -22,14 +22,15 @@
   margin: 25px 0 0 25px;
 }
 
-.chatTop > img,
-.chatTop > div {
+.chatTop>img,
+.chatTop>div {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
-.chatTop > span {
+.chatTop>span {
   color: #151515;
   font-family: Inter;
   font-size: 16px;
@@ -55,7 +56,7 @@
   padding: 15px;
 }
 
-.chatBottomBg > textarea {
+.chatBottomBg>textarea {
   width: 100%;
   background: none;
   border: none;
@@ -65,7 +66,7 @@
   padding: 10px 0;
 }
 
-.chatBottomBg > button {
+.chatBottomBg>button {
   background: none;
   border: none;
   cursor: pointer;
@@ -74,7 +75,7 @@
 .chatMessages {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   gap: 15px;
   height: 100%;
   width: 90%;
@@ -118,6 +119,12 @@
   gap: 5px;
 }
 
-.myMessage > .messageTime > span {
+.myMessage>.messageTime>span {
   color: #fff;
+}
+
+.emojiPickerDiv {
+  position: absolute;
+  left: 264px;
+  bottom: -126px;
 }
