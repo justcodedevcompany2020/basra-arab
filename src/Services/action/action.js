@@ -1,6 +1,6 @@
-import { StartCreatPorduct, StartCreataStoryTeam, StartDeletCategory, StartDeletStoryTeam, StartEditOrder, StartGetBreands, StartGetCategory, StartGetChatReducer, StartGetCollections, StartGetForAge, StartGetGenders, StartGetPlatofrms, StartGetProducts, StartGetSinglPageAction, StartGetSinglProfil, StartGetSinglStory, StartGetSlider, StartGetStoryTeam, StartLogin, StartUpdateProduct } from "./StartAction";
-import { SuccessCreatProduct, SuccessCreateStoryTeam, SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetChatRedcuer, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetPlatforms, SuccessGetProducts, SuccessGetSinglProfil, SuccessGetSinglStory, SuccessGetSlider, SuccessGetStoryTeam, SuccessLastSlider, SuccessLogin, SuccessSinglPageChat, SuccessUpdateCategory, SuccessUpdateProduct } from "./SuccessAction"
-import { ErrorCreatProduct, ErrorCreatStoryTeam, ErrorDeletCategory, ErrorEditOrder, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetPlatforms, ErrorGetPorducts, ErrorGetReducer, ErrorGetSinglProfil, ErrorGetSinglStory, ErrorGetSlider, ErrorGetStoryTeam, ErrorLogin, ErrorSinglPageAction, ErrorUpdateCategory, ErrorUpdateProduct } from "./errorAction";
+import { StartCreatPorduct, StartCreataStoryTeam, StartDeletCategory, StartDeletStoryTeam, StartEditOrder, StartGetALLUser, StartGetBreands, StartGetCategory, StartGetChatReducer, StartGetCollections, StartGetForAge, StartGetGenders, StartGetMyOrder, StartGetPlatofrms, StartGetProducts, StartGetSinglOrder, StartGetSinglPageAction, StartGetSinglProfil, StartGetSinglStory, StartGetSinglUser, StartGetSlider, StartGetStoryTeam, StartLogin, StartUpdateProduct } from "./StartAction";
+import { SuccessCreatProduct, SuccessCreateStoryTeam, SuccessDelectCategory, SuccessGetBreand, SuccessGetCategory, SuccessGetChatRedcuer, SuccessGetCollections, SuccessGetForAge, SuccessGetGenders, SuccessGetMyOrder, SuccessGetPlatforms, SuccessGetProducts, SuccessGetSinglOrder, SuccessGetSinglProfil, SuccessGetSinglStory, SuccessGetSinglUser, SuccessGetSlider, SuccessGetStoryTeam, SuccessLastSlider, SuccessLogin, SuccessSinglPageChat, SuccessUpdateCategory, SuccessUpdateProduct, SucessGetAllUser } from "./SuccessAction"
+import { ErrorCreatProduct, ErrorCreatStoryTeam, ErrorDeletCategory, ErrorEditOrder, ErrorGetAllUSer, ErrorGetBreand, ErrorGetCategory, ErrorGetCollections, ErrorGetForAge, ErrorGetGenders, ErrorGetMyOrder, ErrorGetPlatforms, ErrorGetPorducts, ErrorGetReducer, ErrorGetSinglOrder, ErrorGetSinglProfil, ErrorGetSinglStory, ErrorGetSinglUser, ErrorGetSlider, ErrorGetStoryTeam, ErrorLogin, ErrorSinglPageAction, ErrorUpdateCategory, ErrorUpdateProduct } from "./errorAction";
 
 let api = 'https://basrabackend.justcode.am/api/admin'
 let api2 = 'https://basrabackend.justcode.am/api'
@@ -940,6 +940,114 @@ export const LogOutAction = () => {
             })
             .catch((error) => {
                 dispatch(ErrorLogin())
+            });
+    }
+}
+
+export const GetOrderAction = (data, page) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+    };
+    return (dispatch) => {
+        dispatch(StartGetMyOrder())
+        fetch(`${api}/get_orders?page=${page}`, requestOptions)
+            .then(response => response.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessGetMyOrder(r.data))
+                }
+                else {
+                    dispatch(ErrorGetMyOrder())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetMyOrder())
+            });
+    }
+}
+
+export const GetSinglOrder = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+    };
+    return (dispatch) => {
+        dispatch(StartGetSinglOrder())
+        fetch(`${api}/single_page_order`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessGetSinglOrder(r.data))
+                }
+                else {
+                    dispatch(ErrorGetSinglOrder())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetSinglOrder())
+            });
+    }
+}
+
+export const GetAllUser = (page) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+    };
+    return (dispatch) => {
+        dispatch(StartGetALLUser())
+        fetch(`${api}/all_users?page=${page}`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SucessGetAllUser(r.data))
+                }
+                else {
+                    dispatch(ErrorGetAllUSer())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetAllUSer())
+            });
+    }
+}
+
+export const GetSinglUser = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+    };
+    return (dispatch) => {
+        dispatch(StartGetSinglUser())
+        fetch(`${api}/single_page_user`, requestOptions)
+            .then((r) => r.json())
+            .then(r => {
+                if (r.status) {
+                    dispatch(SuccessGetSinglUser(r))
+                }
+                else {
+                    dispatch(ErrorGetSinglUser())
+                }
+            })
+            .catch((error) => {
+                dispatch(ErrorGetSinglUser())
             });
     }
 }

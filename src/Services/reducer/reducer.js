@@ -18,6 +18,10 @@ import { GetSliderRderucer } from './GetSliderRderucer'
 import { ChatRoomReducer } from './ChatRoomReducer'
 import { GetSinglPageChatRoomReducer } from './GetSinglPageChatRoomReducer'
 import { AddMsgReducer } from './AddMsgReducer'
+import { GetMyOrderReducer } from './GetMyOrderReducer'
+import { GetSinglOrderReducer } from './GetSinglOrderReducer'
+import { GetAllUSerReducer } from './GetAllUSerReducer'
+import { GetSinglUserReducer } from './GetSinglUSerReducer'
 
 
 export default combineReducers({
@@ -40,4 +44,8 @@ export default combineReducers({
     chatRoom: ChatRoomReducer,
     getSinglChat: GetSinglPageChatRoomReducer,
     addMsg: AddMsgReducer,
+    getMyOrder: GetMyOrderReducer,
+    getSinglOrder: GetSinglOrderReducer,
+    getAllUser: GetAllUSerReducer,
+    getSinglUSer: GetSinglUserReducer
 })

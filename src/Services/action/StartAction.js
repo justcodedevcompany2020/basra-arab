@@ -123,3 +123,26 @@ export const StartGetSinglPageAction = () => {
         type: 'StartGetSinglPageAction'
     }
 }
+export const StartGetMyOrder = () => {
+    return {
+        type: "StartGetMyOrder"
+    }
+}
+
+export const StartGetSinglOrder = () => {
+    return {
+        type: "StartGetSinglOrder"
+    }
+}
+
+export const StartGetALLUser = () => {
+    return {
+        type: 'StartGetALLUser'
+    }
+}
+
+export const StartGetSinglUser = () => {
+    return {
+        type: 'StartGetSinglUser'
+    }
+} 

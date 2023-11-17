@@ -1,107 +1,32 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PDF } from '../../Components/Svg'
 import './style.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { GetAllUser } from '../../Services/action/action'
+import { Loading } from '../../Components/Loading'
 
 export const Customers = () => {
-    const [tableData, setTableData] = useState([
-        {
-            id: 1,
-            date: '12.04.2023',
-            bonuses: '1 500',
-            requests: '3',
-            email: 'hello@mail.ru',
-            phone: '8 965 205 23 55',
-            name: 'انطون'
-        },
-        {
-            id: 2,
-            date: '12.04.2023',
-            bonuses: '1 500',
-            requests: '3',
-            email: 'hello@mail.ru',
-            phone: '8 965 205 23 55',
-            name: 'انطون'
-        },
-        {
-            id: 3,
-            date: '12.04.2023',
-            bonuses: '1 500',
-            requests: '3',
-            email: 'hello@mail.ru',
-            phone: '8 965 205 23 55',
-            name: 'انطون'
-        },
-        {
-            id: 4,
-            date: '12.04.2023',
-            bonuses: '1 500',
-            requests: '3',
-            email: 'hello@mail.ru',
-            phone: '8 965 205 23 55',
-            name: 'انطون'
-        },
-        {
-            id: 5,
-            date: '12.04.2023',
-            bonuses: '1 500',
-            requests: '3',
-            email: 'hello@mail.ru',
-            phone: '8 965 205 23 55',
-            name: 'انطون'
-        },
-        {
-            id: 6,
-            date: '12.04.2023',
-            bonuses: '1 500',
-            requests: '3',
-            email: 'hello@mail.ru',
-            phone: '8 965 205 23 55',
-            name: 'انطون'
-        },
-        {
-            id: 7,
-            date: '12.04.2023',
-            bonuses: '1 500',
-            requests: '3',
-            email: 'hello@mail.ru',
-            phone: '8 965 205 23 55',
-            name: 'انطون'
-        },
-        {
-            id: 8,
-            date: '12.04.2023',
-            bonuses: '1 500',
-            requests: '3',
-            email: 'hello@mail.ru',
-            phone: '8 965 205 23 55',
-            name: 'انطون'
-        },
-        {
-            id: 9,
-            date: '12.04.2023',
-            bonuses: '1 500',
-            requests: '3',
-            email: 'hello@mail.ru',
-            phone: '8 965 205 23 55',
-            name: 'انطون'
-        },
-        {
-            id: 10,
-            date: '12.04.2023',
-            bonuses: '1 500',
-            requests: '3',
-            email: 'hello@mail.ru',
-            phone: '8 965 205 23 55',
-            name: 'انطون'
-        },
-    ])
-    const [pageCount, setPageCount] = useState(4)
+    const dispatch = useDispatch()
     const [currentPage, setCurrentPage] = useState(1)
+    const { getAllUser } = useSelector((st) => st)
+    useEffect(() => {
+        dispatch(GetAllUser(currentPage))
+    }, [currentPage])
+
+    useEffect(() => {
+        setTableData(getAllUser.data.data)
+        setPageCount(Math.ceil(getAllUser.data.total / 10))
+    }, [getAllUser.data])
+
+    const [tableData, setTableData] = useState([])
+    const [pageCount, setPageCount] = useState(4)
 
     function handlePageChange(page) {
         setCurrentPage(page)
     }
-
+    if (getAllUser.loading) {
+        return <Loading />
+    }
     return (
         <div className='customers'>
             <div className='customersTop'>
@@ -118,15 +43,15 @@ export const Customers = () => {
                                 <td className='ordersTD'>
                                     <div className='eachData'>
                                         <span className='eachDataTitle'>تاريخ التسجيل</span>
-                                        <p className='eachDataValue'>{e?.date}</p>
+                                        <p className='eachDataValue'>{e?.date_of_birth}</p>
                                     </div>
                                 </td>
-                                <td className='ordersTD'>
+                                {/* <td className='ordersTD'>
                                     <div className='eachData'>
                                         <span className='eachDataTitle'>المكافآت</span>
                                         <p className='eachDataValue'>{e?.bonuses}</p>
                                     </div>
-                                </td>
+                                </td> */}
                                 <td className='ordersTD'>
                                     <div className='eachData'>
                                         <span className='eachDataTitle'>طلبات</span>

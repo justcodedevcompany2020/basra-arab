@@ -119,3 +119,26 @@ export const ErrorSinglPageAction = () => {
     }
 }
 
+export const ErrorGetMyOrder = () => {
+    return {
+        type: 'ErrorGetMyOrder'
+    }
+}
+
+export const ErrorGetSinglOrder = () => {
+    return {
+        type: "ErrorGetSinglOrder"
+    }
+}
+
+export const ErrorGetAllUSer = () => {
+    return {
+        type: 'ErrorGetAllUSer'
+    }
+}
+
+export const ErrorGetSinglUser = () => {
+    return {
+        type: 'ErrorGetSinglUser'
+    }
+}

@@ -69,6 +69,14 @@
   line-height: 110%;
 }
 
+.searchORder {
+  /* width: 300px; */
+  border-radius: 10px;
+  border: 1px solid #878787;
+  height: 55px;
+  padding: 0 22px;
+}
+
 .eachTR {
   display: flex;
   justify-content: space-between;

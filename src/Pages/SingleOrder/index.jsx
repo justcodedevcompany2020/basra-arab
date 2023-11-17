@@ -1,6 +1,9 @@
 import './style.css'
 import { BackArrow, PDF } from '../../Components/Svg'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { GetSinglOrder } from '../../Services/action/action'
 
 export const SingleOrder = () => {
     const [orders, setOrders] = useState([
@@ -50,11 +53,27 @@ export const SingleOrder = () => {
         },
     ])
 
+    const { orderNumber } = useParams()
+    const dispatch = useDispatch()
+    const { getSinglOrder } = useSelector((st) => st)
+    console.log(getSinglOrder.data, 'getSinglOrder')
+
+    useEffect(() => {
+        dispatch(GetSinglOrder({ order_id: orderNumber }))
+    }, [])
+
+    useEffect(() => {
+        if (getSinglOrder.data) {
+            setOrders(getSinglOrder?.data?.products)
+        }
+    }, [getSinglOrder.data])
+
+
     return (
         <div className='singleOrder'>
             <section className='singleOrderTop'>
                 <div />
-                <h1>Anton, 8 965 205 23 55, hello@mail.ru</h1>
+                <h1>{getSinglOrder?.data?.user?.name} {getSinglOrder?.data?.user?.phone} {getSinglOrder?.data?.user?.email}</h1>
                 <div className='goBack' onClick={() => window.history.back()}>
                     خلف
                     <BackArrow />
@@ -68,7 +87,7 @@ export const SingleOrder = () => {
                         <td className='ordersTD'>
                             <div className='eachData'>
                                 <span className='eachDataTitle'>طريقة الدفع او السداد</span>
-                                <p className='eachDataValue'>نقدي</p>
+                                <p className='eachDataValue'>{getSinglOrder.data?.payment_type?.name}</p>
                             </div>
                         </td>
                         <td className='ordersTD'>
@@ -80,7 +99,7 @@ export const SingleOrder = () => {
                         <td className='ordersTD'>
                             <div className='eachData'>
                                 <span className='eachDataTitle'>حالة</span>
-                                <p className='eachDataValue'>مدفوع</p>
+                                <p className='eachDataValue'>{getSinglOrder.data?.status}</p>
                             </div>
                         </td>
                         <td className='ordersTD'>
@@ -92,13 +111,13 @@ export const SingleOrder = () => {
                         <td className='ordersTD'>
                             <div className='eachData'>
                                 <span className='eachDataTitle'>سعر الطلب</span>
-                                <p className='eachDataValue'>999</p>
+                                <p className='eachDataValue'>{getSinglOrder.data?.order_sum}</p>
                             </div>
                         </td>
                         <td className='ordersTD'>
                             <div className='eachData'>
                                 <span className='eachDataTitle'>رقم الأمر</span>
-                                <p className='eachDataValue'>SITE-523964</p>
+                                <p className='eachDataValue'>{getSinglOrder.data.id}</p>
                             </div>
                         </td>
                     </tr>
@@ -107,27 +126,28 @@ export const SingleOrder = () => {
 
             {orders?.length > 0
                 ? <div className='ordersBorder'>
-                    {orders?.map((e, i) => (
-                        <div className='eachOrderProduct' key={i}>
+                    {orders?.map((e, i) => {
+                        return <div className='eachOrderProduct' key={i}>
                             <div className='orderPrice'>
-                                <p>{e?.price} د.ع</p>
+                                <p>{e?.product?.price} د.ع</p>
                                 <div className='orderDiscount'>
-                                    <span>خصم {e?.discount} د.ع</span>
-                                    <p>{e?.originalPrice} د.ع</p>
+                                    <span>خصم {e?.product?.discount} د.ع</span>
+                                    <p>{e?.product?.product_price_in_order_moment} د.ع</p>
                                 </div>
                             </div>
                             <p>{e?.count} قطعة</p>
                             <div className='orderDetails'>
                                 <div className='orderDetailsText'>
                                     <span>{e?.manufacturer}</span>
-                                    <p>{e?.title}</p>
+                                    <p>{e?.product?.name}</p>
                                     <span>{e?.description}</span>
                                     <span>الحجم: {e?.volume} مل</span>
                                 </div>
-                                <img alt='' src={require(`../../assets/images/${e?.image}`)} />
+                                {/* <img alt='' src={require(`../../assets/images/${e?.image}`)} /> */}
+                                <img alt='' src={`https://basrabackend.justcode.am/uploads/${e?.product?.photos[0]?.photo}`} />
                             </div>
                         </div>
-                    ))}
+                    })}
                 </div>
                 : <span>No product</span>
             }

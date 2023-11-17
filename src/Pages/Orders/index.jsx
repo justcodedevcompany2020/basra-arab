@@ -1,8 +1,21 @@
 import './style.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PDF } from '../../Components/Svg'
+import { useDispatch, useSelector } from 'react-redux'
+import { GetOrderAction } from '../../Services/action/action'
+import { Loading } from '../../Components/Loading'
 
 export const Orders = () => {
+    const [currentPage, setCurrentPage] = useState(1)
+    const [pageCount, setPageCount] = useState()
+    const dispatch = useDispatch()
+    const [search, setSearch] = useState('')
+    useEffect(() => {
+        dispatch(GetOrderAction({ search: search }, currentPage))
+    }, [currentPage, search])
+
+    const { getMyOrder } = useSelector((st) => st)
+
     const [tabs, setTabs] = useState([
         {
             id: 1,
@@ -14,96 +27,23 @@ export const Orders = () => {
             title: 'تصفية حسب التاريخ',
             selected: false,
         },
-        {
-            id: 3,
-            title: 'البحث عن طريق الرقم',
-            selected: false,
+        // {
+        //     id: 3,
+        //     title: 'البحث عن طريق الرقم',
+        //     selected: false,
+        // }
+    ])
+    const [tableData, setTableData] = useState([])
+
+    useEffect(() => {
+        // console.log(getMyOrder.data.total / 10)
+        if (getMyOrder.data?.data?.length) {
+            setTableData(getMyOrder.data.data)
+            console.log(Math.ceil(getMyOrder.data.total / 10))
+            setPageCount(Math.ceil(getMyOrder.data.total / 10))
         }
-    ])
-    const [tableData, setTableData] = useState([
-        {
-            paymentMethod: 'نقدي',
-            deliveryMethod: 'يلتقط',
-            condition: 'مدفوع',
-            date: '12.04.2023',
-            price: '999',
-            orderNumber: 'SITE-523964',
-        },
-        {
-            paymentMethod: 'نقدي',
-            deliveryMethod: 'يلتقط',
-            condition: 'مدفوع',
-            date: '12.04.2023',
-            price: '999',
-            orderNumber: 'SITE-523964',
-        },
-        {
-            paymentMethod: 'نقدي',
-            deliveryMethod: 'يلتقط',
-            condition: 'مدفوع',
-            date: '12.04.2023',
-            price: '999',
-            orderNumber: 'SITE-523964',
-        },
-        {
-            paymentMethod: 'نقدي',
-            deliveryMethod: 'يلتقط',
-            condition: 'مدفوع',
-            date: '12.04.2023',
-            price: '999',
-            orderNumber: 'SITE-523964',
-        },
-        {
-            paymentMethod: 'نقدي',
-            deliveryMethod: 'يلتقط',
-            condition: 'مدفوع',
-            date: '12.04.2023',
-            price: '999',
-            orderNumber: 'SITE-523964',
-        },
-        {
-            paymentMethod: 'نقدي',
-            deliveryMethod: 'يلتقط',
-            condition: 'مدفوع',
-            date: '12.04.2023',
-            price: '999',
-            orderNumber: 'SITE-523964',
-        },
-        {
-            paymentMethod: 'نقدي',
-            deliveryMethod: 'يلتقط',
-            condition: 'مدفوع',
-            date: '12.04.2023',
-            price: '999',
-            orderNumber: 'SITE-523964',
-        },
-        {
-            paymentMethod: 'نقدي',
-            deliveryMethod: 'يلتقط',
-            condition: 'مدفوع',
-            date: '12.04.2023',
-            price: '999',
-            orderNumber: 'SITE-523964',
-        },
-        {
-            paymentMethod: 'نقدي',
-            deliveryMethod: 'يلتقط',
-            condition: 'مدفوع',
-            date: '12.04.2023',
-            price: '999',
-            orderNumber: 'SITE-523964',
-        },
-        {
-            paymentMethod: 'نقدي',
-            deliveryMethod: 'يلتقط',
-            condition: 'مدفوع',
-            date: '12.04.2023',
-            price: '999',
-            orderNumber: 'SITE-523964',
-        },
-    ])
-    const [pageCount, setPageCount] = useState(4)
-    const [currentPage, setCurrentPage] = useState(1)
+    }, [getMyOrder.data])
+
 
     function handleSecondaryTabClick(tab) {
         const tabsCopy = [...tabs]
@@ -121,6 +61,10 @@ export const Orders = () => {
         setCurrentPage(page)
     }
 
+    if (getMyOrder.loading) {
+        // return <Loading />
+    }
+
     return (
         <div className='orders'>
             <section className='secondaryTabs'>
@@ -130,58 +74,67 @@ export const Orders = () => {
                             <span>{e?.title}</span>
                         </div>
                     ))}
+                    <input className='searchORder' placeholder={'البحث عن طريق الرقم'} value={search} onChange={(e) => { setSearch(e.target.value) }}></input>
                 </div>
                 <h1>لائحة الطلبات</h1>
             </section>
+            {
+                getMyOrder.loading ?
+                    <Loading /> :
 
-            <table className='ordersTable'>
-                <tbody>
-                    {tableData?.length > 0
-                        ? tableData?.map((e, i) => (
-                            <tr className='eachTR eachTRHover' key={i} onClick={() => window.location = `/order/${e?.orderNumber}`}>
-                                <td><PDF /></td>
-                                <td className='ordersTD'>
-                                    <div className='eachData'>
-                                        <span className='eachDataTitle'>طريقة الدفع او السداد</span>
-                                        <p className='eachDataValue'>{e?.paymentMethod}</p>
-                                    </div>
-                                </td>
-                                <td className='ordersTD'>
-                                    <div className='eachData'>
-                                        <span className='eachDataTitle'>طريقة التوصيل</span>
-                                        <p className='eachDataValue'>{e?.deliveryMethod}</p>
-                                    </div>
-                                </td>
-                                <td className='ordersTD'>
-                                    <div className='eachData'>
-                                        <span className='eachDataTitle'>حالة</span>
-                                        <p className='eachDataValue'>{e?.condition}</p>
-                                    </div>
-                                </td>
-                                <td className='ordersTD'>
-                                    <div className='eachData'>
-                                        <span className='eachDataTitle'>تاريخ الطلب</span>
-                                        <p className='eachDataValue'>{e?.date}</p>
-                                    </div>
-                                </td>
-                                <td className='ordersTD'>
-                                    <div className='eachData'>
-                                        <span className='eachDataTitle'>سعر الطلب</span>
-                                        <p className='eachDataValue'>{e?.price}</p>
-                                    </div>
-                                </td>
-                                <td className='ordersTD'>
-                                    <div className='eachData'>
-                                        <span className='eachDataTitle'>رقم الأمر</span>
-                                        <p className='eachDataValue'>{e?.orderNumber}</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))
-                        : <span>No table data</span>
-                    }
-                </tbody>
-            </table>
+                    <table className='ordersTable'>
+                        <tbody>
+                            {tableData?.length > 0
+                                ? tableData?.map((e, i) => {
+                                    let data = new Date(e?.created_at)
+                                    return <tr className='eachTR eachTRHover' key={i} onClick={() => window.location = `/order/${e?.id}`}>
+                                        <td><PDF /></td>
+                                        <td className='ordersTD'>
+                                            <div className='eachData'>
+                                                <span className='eachDataTitle'>طريقة الدفع او السداد</span>
+                                                <p className='eachDataValue'>{e?.payment_type?.name}</p>
+                                            </div>
+                                        </td>
+                                        <td className='ordersTD'>
+                                            <div className='eachData'>
+                                                <span className='eachDataTitle'>طريقة التوصيل</span>
+                                                <p className='eachDataValue'>{e?.deliveryMethod}</p>
+                                            </div>
+                                        </td>
+                                        <td className='ordersTD'>
+                                            <div className='eachData'>
+                                                <span className='eachDataTitle'>حالة</span>
+                                                <p className='eachDataValue'>{e?.status}</p>
+                                            </div>
+                                        </td>
+                                        <td className='ordersTD'>
+                                            <div className='eachData'>
+                                                <span className='eachDataTitle'>تاريخ الطلب</span>
+                                                {
+
+                                                }
+                                                <p className='eachDataValue'>{data.getFullYear()} - {data.getMonth()} - {data.getDate()}  </p>
+                                            </div>
+                                        </td>
+                                        <td className='ordersTD'>
+                                            <div className='eachData'>
+                                                <span className='eachDataTitle'>سعر الطلب</span>
+                                                <p className='eachDataValue'>{e?.order_sum}</p>
+                                            </div>
+                                        </td>
+                                        <td className='ordersTD'>
+                                            <div className='eachData'>
+                                                <span className='eachDataTitle'>رقم الأمر</span>
+                                                <p className='eachDataValue'>{e?.id}</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                })
+                                : <span>No table data</span>
+                            }
+                        </tbody>
+                    </table>
+            }
 
             <section className='pagination'>
                 {(() => {

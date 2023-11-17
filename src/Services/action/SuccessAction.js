@@ -142,3 +142,31 @@ export const SuccessSinglPageChat = (data) => {
         data
     }
 }
+
+export const SuccessGetMyOrder = (data) => {
+    return {
+        type: 'SuccessGetMyOrder',
+        data
+    }
+}
+
+export const SuccessGetSinglOrder = (data) => {
+    return {
+        type: 'SuccessGetSinglOrder',
+        data
+    }
+}
+
+export const SucessGetAllUser = (data) => {
+    return {
+        type: "SucessGetAllUser",
+        data
+    }
+}
+
+export const SuccessGetSinglUser = (data) => {
+    return {
+        type: "SuccessGetSinglUser",
+        data
+    }
+}
