@@ -56,7 +56,7 @@ export const SingleOrder = () => {
     const { orderNumber } = useParams()
     const dispatch = useDispatch()
     const { getSinglOrder } = useSelector((st) => st)
-    console.log(getSinglOrder.data, 'getSinglOrder')
+    console.log(orderNumber, 'getSinglOrder', '222222')
 
     useEffect(() => {
         dispatch(GetSinglOrder({ order_id: orderNumber }))

@@ -7,7 +7,6 @@ import { Loading } from '../../Components/Loading'
 import { EditOrder } from '../EditOrder'
 import { AddBanner } from '../AddBanner'
 
-import Stories from 'react-insta-stories';
 import { Story } from '../../Components/Story'
 import { AddStory } from '../AddStory'
 import { AddCategory } from '../AddCategory'
@@ -46,11 +45,14 @@ export const Profile = () => {
     useEffect(() => {
         if (getStoryTeam.data) {
             setStories(getStoryTeam?.data)
-            setHeaderImages(getStoryTeam.lastSlider)
+            // setHeaderImages(getStoryTeam.lastSlider)
         }
     }, [getStoryTeam])
 
+
+
     useEffect(() => {
+        console.log('222')
         dispatch(GetSliderAction("first", selectedBanner))
         dispatch(GetSliderAction("last", selectedBanner))
         dispatch(GetPlatforms())
@@ -84,6 +86,7 @@ export const Profile = () => {
             document.body.style.overflow = 'auto';
         }
     }, [openStory])
+
     return (
         <div className='profile'>
             <AddTeam
@@ -163,8 +166,10 @@ export const Profile = () => {
             <section className='banners'>
                 <h1>لافتات</h1>
                 <div className='bannerButtons'>
-                    <button className={selectedBanner === 2 ? 'selectedBanner' : 'banner'} onClick={() => setSelectedBanner(2)}>طلب</button>
                     <button className={selectedBanner === 1 ? 'selectedBanner' : 'banner'} onClick={() => setSelectedBanner(1)}>موقع إلكتروني</button>
+                    {/* <button className={selectedBanner === 1 ? 'selectedBanner' : 'banner'} onClick={() => setSelectedBanner(1)}>طلب</button> */}
+                    <button className={selectedBanner === 2 ? 'selectedBanner' : 'banner'} onClick={() => setSelectedBanner(2)}>طلب </button>
+
                 </div>
             </section>
 
@@ -208,7 +213,7 @@ export const Profile = () => {
                 </div>
             </section>
 
-            <section className='siteHeaderBlock'>
+            {selectedBanner == 1 && <section className='siteHeaderBlock'>
                 <h1>العلامات التجارية</h1>
                 <div className='siteHeader'>
                     {brands?.length > 0 && brands?.map((e, i) => (
@@ -218,7 +223,7 @@ export const Profile = () => {
                         <img alt='' src={require('../../assets/images/add.png')} className='addHeader' />
                     </div>
                 </div>
-            </section>
+            </section>}
 
 
 

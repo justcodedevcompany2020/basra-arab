@@ -128,7 +128,7 @@ export const Products = () => {
                                                 <p className='eachDataValue'>{e?.name}</p>
                                             </div>
                                         </td>
-                                        {e?.photos?.length && <td className='ordersTD'><img alt='' src={`https://basrabackend.justcode.am/uploads/${e?.photos[0]?.photo}`} /></td>}
+                                        {e?.photos?.length > 0 && <td className='ordersTD'><img alt='' src={`https://basrabackend.justcode.am/uploads/${e?.photos[0]?.photo}`} /></td>}
                                     </tr>
                                 ))
                                 : <span>No table data</span>

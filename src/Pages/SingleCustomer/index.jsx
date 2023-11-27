@@ -9,12 +9,11 @@ import { Loading } from '../../Components/Loading'
 export const SingleCustomer = () => {
     const dispatch = useDispatch()
     const { id } = useParams()
-    console.log(id, 'params')
+    console.log(id, 'iddd')
     useEffect(() => {
         dispatch(GetSinglUser({ user_id: id }))
     }, [])
     const { getSinglUSer } = useSelector((st) => st)
-    console.log(getSinglUSer.data)
     const [orders, setOrders] = useState(
         [
             {
@@ -88,10 +87,14 @@ export const SingleCustomer = () => {
         ]
     )
 
+
+
+
     useEffect(() => {
         if (getSinglUSer.data) {
             setOrders(getSinglUSer.data?.orders?.data)
         }
+
     }, [getSinglUSer.data])
     if (getSinglUSer.loading) {
         return <Loading />
@@ -108,9 +111,8 @@ export const SingleCustomer = () => {
             </section>
 
             {orders?.map((elm, i) => {
-                console.log(elm)
+                console.log(elm?.product)
                 let date = new Date(elm.created_at)
-                console.log(date.getMonth())
                 return <div style={{ width: '100%' }}>
                     <table style={{ width: '100%' }} className='ordersTable'>
                         <tbody>
@@ -119,7 +121,7 @@ export const SingleCustomer = () => {
                                 <td className='ordersTD'>
                                     <div className='eachData'>
                                         <span className='eachDataTitle'>طريقة الدفع او السداد</span>
-                                        <p className='eachDataValue'>{elm.payment_type.name}</p>
+                                        <p className='eachDataValue'>{elm?.payment_type?.name}</p>
                                     </div>
                                 </td>
                                 <td className='ordersTD'>
@@ -155,33 +157,35 @@ export const SingleCustomer = () => {
                             </tr>
                         </tbody>
                     </table>
-
-                    {/* {orders?.length > 0
-                ? <div className='ordersBorder'>
-                    {orders?.map((e, i) => (
-                        <div className='eachOrderProduct' key={i}>
-                            <div className='orderPrice'>
-                                <p>{e?.price} د.ع</p>
-                                <div className='orderDiscount'>
-                                    <span>خصم {e?.discount} د.ع</span>
-                                    <p>{e?.originalPrice} د.ع</p>
+                    {elm?.products?.length > 0
+                        ? <div className='ordersBorder'>
+                            {elm?.products?.map((e, i) => {
+                                console.log(e)
+                                return <div className='eachOrderProduct' key={i}>
+                                    <div className='orderPrice'>
+                                        <p>{e?.product_price} د.ع</p>
+                                        <div className='orderDiscount'>
+                                            <span>خصم {e?.product_discount} د.ع</span>
+                                            <p>{e?.product_price_in_order_moment} د.ع</p>
+                                        </div>
+                                    </div>
+                                    <p>{e?.count} قطعة</p>
+                                    <div className='orderDetails'>
+                                        <div className='orderDetailsText'>
+                                            <span>{e?.product.brand.name}</span>
+                                            <p>{e?.title}</p>
+                                            <span>{e?.product?.description}</span>
+                                            <span>الحجم: {e?.product?.skin_type} مل</span>
+                                        </div>
+                                        <img alt=''
+                                            src={`https://basrabackend.justcode.am/uploads/${e?.product?.photos[0]?.photo}`}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <p>{e?.count} قطعة</p>
-                            <div className='orderDetails'>
-                                <div className='orderDetailsText'>
-                                    <span>{e?.manufacturer}</span>
-                                    <p>{e?.title}</p>
-                                    <span>{e?.description}</span>
-                                    <span>الحجم: {e?.volume} مل</span>
-                                </div>
-                                <img alt='' src={require(`../../assets/images/${e?.image}`)} />
-                            </div>
+                            })}
                         </div>
-                    ))}
-                </div>
-                : <span>No product</span>
-            } */}
+                        : <span>No product</span>
+                    }
                 </div>
             })}
 

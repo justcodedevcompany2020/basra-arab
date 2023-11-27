@@ -36,7 +36,7 @@ export const Story = ({ open, setOpen, activeId, setOpenEditORder, setOpenAddSto
                     e.preventDefault()
                     e.stopPropagation()
                 }} className='storyDiv'>
-                    {storyItem.length && < Stories
+                    {storyItem.length > 0 && < Stories
                         stories={storyItem ? storyItem : []}
                         defaultInterval={1500}
                         width={432}

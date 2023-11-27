@@ -33,7 +33,7 @@ export const Router = () => {
 
                         </Route> :
                         <Route path='/' element={<OrdersLayout />}>
-                            <Route path="/login" element={<Register />} />
+                            <Route path="/" element={<Register />} />
                         </Route>
                 }
             </Routes>

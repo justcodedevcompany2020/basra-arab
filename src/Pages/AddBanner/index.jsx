@@ -77,7 +77,7 @@ export const AddBanner = ({ open, setOpen, type, platformid }) => {
     }
 
     const DeletCategory = (id) => {
-        dispatch(DeletSlideAction({ banner_id: id }, type))
+        dispatch(DeletSlideAction({ banner_id: id }, type, platformid))
     }
 
     return (

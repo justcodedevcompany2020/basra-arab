@@ -711,7 +711,9 @@ export const CreatBannerAction = (data) => {
             .then((r) => r.json())
             .then(r => {
                 if (r.status) {
-                    dispatch(GetSliderAction(data.type, data.platformid))
+                    dispatch(GetSliderAction('first', data.platformid))
+                    dispatch(GetSliderAction('last', data.platformid))
+
                 }
                 else {
                 }
@@ -754,7 +756,7 @@ export const GetSliderAction = (data, id) => {
     }
 }
 
-export const DeletSlideAction = (data, type) => {
+export const DeletSlideAction = (data, type, id) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append('Authorization', `Bearer ${token}`);
@@ -769,7 +771,9 @@ export const DeletSlideAction = (data, type) => {
             .then((r) => r.json())
             .then(r => {
                 if (r.status) {
-                    dispatch(GetSliderAction(type))
+                    console.log(type, 'type')
+                    dispatch(GetSliderAction('first', id))
+                    dispatch(GetSliderAction('last', id))
                 }
                 else {
                 }
