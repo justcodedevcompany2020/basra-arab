@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { CreatBannerAction, DeletSlideAction, GetCategory } from '../../Services/action/action'
+import { CreatBannerAction, DeletSlideAction } from '../../Services/action/action'
 import { Loading } from '../../Components/Loading'
 
 export const AddBanner = ({ open, setOpen, type, platformid }) => {

@@ -2,7 +2,7 @@ import './style.css'
 import { useEffect, useRef, useState } from 'react'
 import { Smile, Send, CheckMarkWhite, CheckMarkBlack } from '../Svg'
 import { useDispatch, useSelector } from 'react-redux'
-import { GetSinglPageChatRoom, NewMsgAction } from '../../Services/action/action'
+import { ClearAddMsg, GetSinglPageChatRoom, NewMsgAction } from '../../Services/action/action'
 import { Loading } from '../Loading'
 import EmojiPicker from 'emoji-picker-react'
 
@@ -82,15 +82,27 @@ export const ChatRight = ({ currentMember }) => {
                 time: Datee
             })
         })
-        const combinedArray = item.concat(messages);
+        let temp = [...messages]
+        if (page == 0) {
+            temp = []
+        }
+        const combinedArray = item.concat(temp);
         setMessages(combinedArray)
     }, [getSinglChat])
 
     useEffect(() => {
-        if (currentMember?.sender_id) {
-            dispatch(GetSinglPageChatRoom({ receiver_id: currentMember.sender_id }, page))
+        setMessages([])
+        setPage(0)
+        if (currentMember?.sender?.id) {
+            dispatch(ClearAddMsg())
+            dispatch(GetSinglPageChatRoom({ receiver_id: currentMember?.sender?.id }, page))
         }
     }, [currentMember, page])
+
+    useEffect(() => {
+        setMessages([])
+        setPage(0)
+    }, [currentMember])
 
 
     useEffect(() => {
@@ -129,12 +141,14 @@ export const ChatRight = ({ currentMember }) => {
             else {
                 from = 'user'
             }
-            item.push({
-                from: from,
-                message: elm.message,
-                read: true,
-                time: Datee
-            })
+            if (elm.receiver_id == currentMember.sender_id || elm.sender_id == currentMember.sender_id) {
+                item.push({
+                    from: from,
+                    message: elm.message,
+                    read: true,
+                    time: Datee
+                })
+            }
             setMessages(item)
         }
     }, [addMsg])
@@ -142,13 +156,31 @@ export const ChatRight = ({ currentMember }) => {
 
     const sendMsg = () => {
         if (msg) {
+            let id = ''
+            if (currentMember.receiver_id != 1) {
+                id = currentMember.receiver_id
+            }
+            else {
+                id = currentMember.sender_id
+            }
+            console.log(currentMember, 'currentMember.sender_id')
             setMsg('')
-            dispatch(NewMsgAction({ message: msg, receiver_id: currentMember.sender_id }))
-        }
-    }
+            dispatch(NewMsgAction({ message: msg, receiver_id: id }))
+            let item = [...messages]
+            setMessages(item)
 
+        }
+
+    }
+    if (getSinglChat.loading) {
+        return <div className='chatRight' onClick={() => setOpenEmoji(false)}>
+            <Loading />
+        </div>
+
+    }
     return (
         <div className='chatRight' onClick={() => setOpenEmoji(false)}>
+
             {Object.keys(currentMember)?.length
                 ? <section className='chatRight'>
                     <div className='chatTop' >
@@ -160,7 +192,6 @@ export const ChatRight = ({ currentMember }) => {
                     </div>
 
 
-                    {/* <Loading /> : */}
                     <div onScroll={handleScroll} ref={containerRef} className='chatMessages'>
                         {messages?.length > 0
                             ? messages?.map((e, i) => {

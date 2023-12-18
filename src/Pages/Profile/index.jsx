@@ -52,7 +52,6 @@ export const Profile = () => {
 
 
     useEffect(() => {
-        console.log('222')
         dispatch(GetSliderAction("first", selectedBanner))
         dispatch(GetSliderAction("last", selectedBanner))
         dispatch(GetPlatforms())
@@ -140,8 +139,8 @@ export const Profile = () => {
             <section className='storiesBlock'>
                 <h1>قصص</h1>
                 {!getStoryTeam.deletLoading ? <div className='stories'>
-                    {stories?.length > 0 && stories?.map((e, i) => (
-                        <div onClick={() => {
+                    {stories?.length > 0 && stories?.map((e, i) => {
+                        return <div onClick={() => {
                             setActiveId(e.id)
                             setOpenStory(true)
                         }} className='eachStory' key={i}>
@@ -153,7 +152,7 @@ export const Profile = () => {
                                 x
                             </div>
                         </div>
-                    ))}
+                    })}
                     <div className='eachStory'>
                         <img onClick={() => setOpenTeam(true)} alt='' src={require('../../assets/images/add.png')} />
                     </div>
@@ -228,7 +227,7 @@ export const Profile = () => {
 
 
 
-            <section className='siteHeaderBlock'>
+            {/* <section className='siteHeaderBlock'>
                 <h1>فئات</h1>
                 <div className='siteHeader'>
                     {categories?.length > 0 && categories?.map((e, i) => {
@@ -238,7 +237,7 @@ export const Profile = () => {
                         <img alt='' src={require('../../assets/images/add.png')} className='addHeader' />
                     </div>
                 </div>
-            </section>
+            </section> */}
         </div>
     )
 }

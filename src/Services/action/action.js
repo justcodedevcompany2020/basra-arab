@@ -95,6 +95,8 @@ export const UpdateCategoryAction = (data, id) => {
         formdata.append("photo", data.photo, "file");
     }
     formdata.append("category_id", data.id);
+    formdata.append("platform_id", id);
+
     var requestOptions = {
         method: 'POST',
         headers: myHeaders,
@@ -124,10 +126,12 @@ export const GetBrandAction = (page, id) => {
         headers: myHeaders,
     };
     return (dispatch) => {
+        console.log(token, 'token')
         dispatch(StartGetBreands())
-        fetch(`${api}/auth_user_info`, requestOptions)
+        fetch(`${api}/get_brands`, requestOptions)
             .then((r) => r.json())
             .then(r => {
+                console.log(r)
                 if (r.status) {
                     dispatch(SuccessGetBreand(r))
                 }
@@ -136,6 +140,7 @@ export const GetBrandAction = (page, id) => {
                 }
             })
             .catch((error) => {
+                console.log(error)
                 dispatch(ErrorGetBreand())
             });
     }
@@ -419,6 +424,7 @@ export const GetAllProducts = (data) => {
         fetch(`${api}/get_products`, requestOptions)
             .then((r) => r.json())
             .then(r => {
+                console.log(r)
                 if (r.status) {
                     dispatch(SuccessGetProducts(r.data))
                 }
@@ -771,7 +777,6 @@ export const DeletSlideAction = (data, type, id) => {
             .then((r) => r.json())
             .then(r => {
                 if (r.status) {
-                    console.log(type, 'type')
                     dispatch(GetSliderAction('first', id))
                     dispatch(GetSliderAction('last', id))
                 }
@@ -843,11 +848,11 @@ export const GetMyChatRoom = (data, page) => {
     var requestOptions = {
         method: 'POST',
         headers: myHeaders,
-        body: data,
+        body: JSON.stringify(data),
         redirect: 'follow'
     };
     return (dispatch) => {
-        dispatch(StartGetChatReducer())
+        // dispatch(StartGetChatReducer())
         fetch(`${api}/get_my_chat_rooms?page=${page}`, requestOptions)
             .then((r) => r.json())
             .then(r => {
@@ -930,7 +935,6 @@ export const LogOutAction = () => {
     };
     return (dispatch) => {
         dispatch(StartLogin())
-        console.log('ewsfdhbj')
         fetch(`${api}/logout`, requestOptions)
             .then(response => response.json())
             .then(r => {
@@ -1054,4 +1058,14 @@ export const GetSinglUser = (data) => {
                 dispatch(ErrorGetSinglUser())
             });
     }
+}
+
+export const ClearAddMsg = () => {
+    return {
+        type: 'ClearAddMsg'
+    }
+}
+
+export const Message_show_ed = () => {
+
 }

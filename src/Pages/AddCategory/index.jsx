@@ -5,13 +5,17 @@ import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { DeletCategoryAction, GetCategory, UpdateCategoryAction } from '../../Services/action/action'
-import { SuccessDelectCategory } from '../../Services/action/SuccessAction'
+import { SuccessCreateCategory } from '../../Services/action/SuccessAction'
 import { ErrorCreatCategory } from '../../Services/action/errorAction'
 import { Loading } from '../../Components/Loading'
 
 export const AddCategory = ({ open, setOpen, platformId }) => {
     const [categories, setCategories] = useState([])
     const { getCategory } = useSelector((st) => st)
+
+    useEffect(() => {
+        dispatch(GetCategory(platformId))
+    }, [])
 
     useEffect(() => {
         setCategories(getCategory?.data?.data)
@@ -87,7 +91,7 @@ export const AddCategory = ({ open, setOpen, platformId }) => {
             .then(r => {
                 if (r.status) {
                     dispatch(GetCategory(platformId))
-                    dispatch(SuccessDelectCategory(r))
+                    dispatch(SuccessCreateCategory(r))
                 }
                 else {
                     dispatch(ErrorCreatCategory())

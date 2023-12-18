@@ -9,7 +9,6 @@ import { Loading } from '../../Components/Loading'
 export const SingleCustomer = () => {
     const dispatch = useDispatch()
     const { id } = useParams()
-    console.log(id, 'iddd')
     useEffect(() => {
         dispatch(GetSinglUser({ user_id: id }))
     }, [])
@@ -111,7 +110,6 @@ export const SingleCustomer = () => {
             </section>
 
             {orders?.map((elm, i) => {
-                console.log(elm?.product)
                 let date = new Date(elm.created_at)
                 return <div style={{ width: '100%' }}>
                     <table style={{ width: '100%' }} className='ordersTable'>
@@ -160,7 +158,6 @@ export const SingleCustomer = () => {
                     {elm?.products?.length > 0
                         ? <div className='ordersBorder'>
                             {elm?.products?.map((e, i) => {
-                                console.log(e)
                                 return <div className='eachOrderProduct' key={i}>
                                     <div className='orderPrice'>
                                         <p>{e?.product_price} د.ع</p>

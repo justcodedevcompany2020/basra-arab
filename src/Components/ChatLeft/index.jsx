@@ -12,7 +12,7 @@ export const ChatLeft = ({ currentMember, setCurrentMember }) => {
     const dispatch = useDispatch()
     const [page, setPage] = useState(1)
     const containerRef = useRef(null);
-
+    console.log(currentMember)
     useEffect(() => {
         dispatch(GetMyChatRoom(search, page))
     }, [page])
@@ -31,23 +31,29 @@ export const ChatLeft = ({ currentMember, setCurrentMember }) => {
 
     useEffect(() => {
         if (Object.keys(addMsg.data).length) {
-
             let item = [...chatMembers]
-            let index = item.findIndex(e => e.room_id == 2)
+            let index = item.findIndex(e => e.room_id == addMsg?.data?.room_id)
             if (index > -1) {
+                console.log(addMsg.data.receiver_data.id, 'addMsg')
                 let temp = item[index]
                 temp.message = addMsg.data.message
                 temp.latest_sender = addMsg.data.latest_sender
+                // temp.message_sum = addMsg.data.message_sum
+                temp.created_at = new Date()
+                // temp.sender = addMsg.data.sender
+                temp.id = addMsg.data?.id
                 item.splice(index, 1)
                 item.unshift(temp)
             }
             else {
                 item.unshift(addMsg.data)
             }
+
             setChatMembers(item)
 
         }
     }, [addMsg])
+
 
     const handleScroll = () => {
         if (containerRef.current) {
@@ -92,7 +98,19 @@ export const ChatLeft = ({ currentMember, setCurrentMember }) => {
                         Datee = `${day}.${mount}`
                     }
                     let from = e.latest_sender == 1
-                    return <div ref={containerRef} onScroll={handleScroll} className='eachChatMember' key={i} onClick={() => setCurrentMember(e)} style={currentMember?.id === e?.id ? { background: '#d9d9d9' } : {}}>
+                    return <div ref={containerRef} onScroll={handleScroll} className='eachChatMember' key={i} onClick={() => {
+                        setCurrentMember(e)
+                        e.message_sum = 0
+
+                        if (e.id) {
+                            localStorage.setItem('chat_id', e?.id)
+                        }
+                        // else {
+                        //     localStorage.setItem('chat_id', e?.receiver_id)
+                        // }
+
+                    }} style={currentMember.sender?.id === e?.sender
+                        .id ? { background: '#d9d9d9' } : {}}>
                         <div className='eachMemberLeft'>
                             {e?.sender?.avatar
                                 ? <img alt='' src={`https://basrabackend.justcode.am/uploads/${e?.sender?.avatar}`} />

@@ -24,7 +24,7 @@ export const AddProduct = ({ open, setOpen }) => {
         count: '',
         volume: '',
         code: '',
-        skinType: '',
+        // skinType: '',
         gender: '',
         forWho: '',
         platform: '',
@@ -42,7 +42,7 @@ export const AddProduct = ({ open, setOpen }) => {
         count: '',
         volume: '',
         code: '',
-        skinType: '',
+        // skinType: '',
         gender: '',
         forWho: '',
         platform: '',
@@ -138,14 +138,14 @@ export const AddProduct = ({ open, setOpen }) => {
             temp.code = ''
             send = true
         }
-        if (details.skinType === '') {
-            temp.skinType = 'giny partadir e '
-            send = false
-        }
-        else {
-            temp.skinType = ''
-            send = true
-        }
+        // if (details.skinType === '') {
+        //     temp.skinType = 'giny partadir e '
+        //     send = false
+        // }
+        // else {
+        //     temp.skinType = ''
+        //     send = true
+        // }
         if (!details.category.id) {
             temp.category = 'giny partadir e '
             send = false
@@ -254,7 +254,7 @@ export const AddProduct = ({ open, setOpen }) => {
                 product_count: details.count,
                 volume: details.volume,
                 vendor_code: details.code,
-                skin_type: details.skinType,
+                // skin_type: details.skinType,
                 parent_category_id: details.category.id,
                 category_id: details.subcategory,
                 brands_id: details.brand.id,
@@ -288,13 +288,13 @@ export const AddProduct = ({ open, setOpen }) => {
         dispatch(GetCollectionAction(collectionsPage))
     }, [collectionsPage])
 
-
     useEffect(() => {
         dispatch(GetGendersAction())
         dispatch(GetForAge())
         dispatch(GetPlatforms())
+        dispatch(GetCategory(details.platform))
         document.querySelector('.outlet').style.position = 'fixed'
-    }, [])
+    }, [details.platform])
 
     const handleSelectionChange = (event) => {
         const { target: { value } } = event
@@ -413,7 +413,7 @@ export const AddProduct = ({ open, setOpen }) => {
                         <TextField error={error.volume != ''} label="مقدار" variant="filled" sx={{ width: '31%' }} value={details?.volume} onChange={(e) => setDetails({ ...details, volume: e.target.value })} />
                         <TextField error={error.code != ''} label="رمز البائع" variant="filled" sx={{ width: '31%' }} value={details?.code} onChange={(e) => setDetails({ ...details, code: e.target.value })} />
 
-                        <TextField error={error.skinType != ''} label="نوع الجلد" variant="filled" sx={{ width: '31%' }} value={details?.skinType} onChange={(e) => setDetails({ ...details, skinType: e.target.value })} />
+                        {/* <TextField error={error.skinType != ''} label="نوع الجلد" variant="filled" sx={{ width: '31%' }} value={details?.skinType} onChange={(e) => setDetails({ ...details, skinType: e.target.value })} /> */}
                         <FormControl error={error.gender != ''} variant="filled" sx={{ width: '31%' }}>
                             <InputLabel>أرضية</InputLabel>
                             <Select label="أرضية" value={details?.gender} onChange={(e) => setDetails({ ...details, gender: e.target.value })}  >

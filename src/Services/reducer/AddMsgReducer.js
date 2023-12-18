@@ -7,6 +7,9 @@ export const AddMsgReducer = (state = initialState, action) => {
         case 'AddMsgAction':
             temp.data = action.data
             break;
+        case 'ClearAddMsg':
+            temp.data = {}
+            break
         default:
             return temp;
     }

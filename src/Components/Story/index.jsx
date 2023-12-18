@@ -1,6 +1,6 @@
 import './style.css'
 import { useDispatch, useSelector } from 'react-redux'
-import Stories from 'react-insta-stories';
+import ReactInstaStories from 'react-insta-stories';
 import { useEffect, useState } from 'react';
 import { SinglStoryAction } from '../../Services/action/action';
 
@@ -16,11 +16,23 @@ export const Story = ({ open, setOpen, activeId, setOpenEditORder, setOpenAddSto
     useEffect(() => {
         let item = []
         if (getSinglStory?.data) {
-            item.push(`https://basrabackend.justcode.am/uploads/${getSinglStory?.data?.photo}`)
+            item.push(
+                `https://basrabackend.justcode.am/uploads/${getSinglStory?.data?.photo}`)
         }
         if (getSinglStory?.data?.file?.length) {
             getSinglStory?.data?.file?.map((elm, i) => {
-                item.push(`https://basrabackend.justcode.am/uploads/${elm.file}`)
+                if (elm.type == "mp4") {
+                    item.push({
+                        url: `https://basrabackend.justcode.am/uploads/${elm.file}`,
+                        type: 'video',
+                    }
+                        // `https://basrabackend.justcode.am/uploads/${elm.file}`
+                        ,
+                    )
+                }
+                else {
+                    item.push(`https://basrabackend.justcode.am/uploads/${elm.file}`)
+                }
             })
 
         }
@@ -36,7 +48,7 @@ export const Story = ({ open, setOpen, activeId, setOpenEditORder, setOpenAddSto
                     e.preventDefault()
                     e.stopPropagation()
                 }} className='storyDiv'>
-                    {storyItem.length > 0 && < Stories
+                    {storyItem.length > 0 && < ReactInstaStories
                         stories={storyItem ? storyItem : []}
                         defaultInterval={1500}
                         width={432}

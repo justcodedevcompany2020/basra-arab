@@ -36,10 +36,8 @@ export const Orders = () => {
     const [tableData, setTableData] = useState([])
 
     useEffect(() => {
-        // console.log(getMyOrder.data.total / 10)
         if (getMyOrder.data?.data?.length) {
             setTableData(getMyOrder.data.data)
-            console.log(Math.ceil(getMyOrder.data.total / 10))
             setPageCount(Math.ceil(getMyOrder.data.total / 10))
         }
     }, [getMyOrder.data])

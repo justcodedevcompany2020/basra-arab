@@ -24,7 +24,7 @@ export const EditProduct = ({ open, setOpen, id }) => {
         count: '',
         volume: '',
         code: '',
-        skinType: '',
+        // skinType: '',
         gender: '',
         forWho: '',
         platform: '',
@@ -42,7 +42,7 @@ export const EditProduct = ({ open, setOpen, id }) => {
         count: '',
         volume: '',
         code: '',
-        skinType: '',
+        // skinType: '',
         gender: '',
         forWho: '',
         platform: '',
@@ -75,7 +75,16 @@ export const EditProduct = ({ open, setOpen, id }) => {
     const { getSinglProduct } = useSelector((st) => st)
     const [deletedPhotos, setDeletedPhotos] = useState([])
     const { updateProduct } = useSelector((st) => st)
+    const [subcategory, setSubCategory] = useState({})
+    console.warn = function () { };
+    console.error = function () { };
 
+    useEffect(() => {
+        let index = getCategory?.data?.data?.findIndex((el) => el.id == details.category)
+        if (index > -1) {
+            setSubCategory(getCategory?.data?.data[index])
+        }
+    }, [getCategory])
 
     const CreateProduct = () => {
         let item = []
@@ -146,14 +155,14 @@ export const EditProduct = ({ open, setOpen, id }) => {
             temp.code = ''
             send = true
         }
-        if (details.skinType === '') {
-            temp.skinType = 'giny partadir e '
-            send = false
-        }
-        else {
-            temp.skinType = ''
-            send = true
-        }
+        // if (details.skinType === '') {
+        //     temp.skinType = 'giny partadir e '
+        //     send = false
+        // }
+        // else {
+        //     temp.skinType = ''
+        //     send = true
+        // }
         if (details.subcategory === '') {
             temp.subcategory = 'giny partadir e '
             send = false
@@ -246,7 +255,7 @@ export const EditProduct = ({ open, setOpen, id }) => {
                 product_count: details.count,
                 volume: details.volume,
                 vendor_code: details.code,
-                skin_type: details.skinType,
+                // skin_type: details.skinType,
                 parent_category_id: details.category,
                 category_id: details.subcategory,
                 brands_id: details.brand,
@@ -266,12 +275,15 @@ export const EditProduct = ({ open, setOpen, id }) => {
     }
 
     const SelectCategoy = (e) => {
+        let index = getCategory?.data?.data.findIndex((el) => el.id == e.target.value)
+        setSubCategory(getCategory?.data?.data[index])
         setDetails({ ...details, category: e.target.value })
     }
-
     useEffect(() => {
-        dispatch(GetCategory(categoryPage, details.platform))
-    }, [categoryPage])
+        if (details.platform) {
+            dispatch(GetCategory(details.platform))
+        }
+    }, [categoryPage, details.platform])
 
 
     useEffect(() => {
@@ -378,7 +390,7 @@ export const EditProduct = ({ open, setOpen, id }) => {
                 count: data.product_count,
                 volume: data.volume,
                 code: data.vendor_code,
-                skinType: data.skin_type,
+                // skinType: data.skin_type,
                 gender: data.gender_id,
                 forWho: data.for_age_id,
                 platform: data.platform_id,
@@ -417,7 +429,6 @@ export const EditProduct = ({ open, setOpen, id }) => {
                     setOpen={setOpenBrend}
                     setBrendsPage={(e) => setBrendsPage(e)}
                     platformId={details.platform}
-
                 />
             }
             {openCollection &&
@@ -431,8 +442,9 @@ export const EditProduct = ({ open, setOpen, id }) => {
                 <AddSubCategory
                     open={openSubCategory}
                     setOpen={setOpenSubCategory}
-                    selected={details?.sub}
+                    selected={subcategory}
                     setBrendsPage={(e) => setCollectionsPage(e)}
+                    platformId={details.platform}
                 />
             }
             <div className='pop'>
@@ -451,7 +463,7 @@ export const EditProduct = ({ open, setOpen, id }) => {
                         <TextField error={error.count != ''} type='number' label="في المخزون (الكمية)" variant="filled" sx={{ width: '31%' }} value={details?.count} onChange={(e) => setDetails({ ...details, count: e.target.value })} />
                         <TextField error={error.volume != ''} label="مقدار" variant="filled" sx={{ width: '31%' }} value={details?.volume} onChange={(e) => setDetails({ ...details, volume: e.target.value })} />
                         <TextField error={error.code != ''} label="رمز البائع" variant="filled" sx={{ width: '31%' }} value={details?.code} onChange={(e) => setDetails({ ...details, code: e.target.value })} />
-                        <TextField error={error.skinType != ''} label="نوع الجلد" variant="filled" sx={{ width: '31%' }} value={details?.skinType} onChange={(e) => setDetails({ ...details, skinType: e.target.value })} />
+                        {/* <TextField error={error.skinType != ''} label="نوع الجلد" variant="filled" sx={{ width: '31%' }} value={details?.skinType} onChange={(e) => setDetails({ ...details, skinType: e.target.value })} /> */}
                         <FormControl error={error.gender != ''} variant="filled" sx={{ width: '31%' }}>
                             <InputLabel>أرضية</InputLabel>
                             <Select label="أرضية" value={details?.gender} onChange={(e) => setDetails({ ...details, gender: e.target.value })}  >
@@ -501,7 +513,7 @@ export const EditProduct = ({ open, setOpen, id }) => {
                             <FormControl variant="filled" sx={{ width: '71%' }}  >
                                 <InputLabel>تصنيف فرعي</InputLabel>
                                 <Select error={error.subcategory != ''} label="تصنيف فرعي" value={details?.subcategory} onChange={(e) => setDetails({ ...details, subcategory: e.target.value })}   >
-                                    {details?.sub?.category.map((elm, i) => {
+                                    {subcategory?.category?.map((elm, i) => {
                                         return <MenuItem key={i} value={elm.id}>{elm.name}</MenuItem>
                                     })}
                                 </Select>

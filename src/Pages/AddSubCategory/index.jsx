@@ -5,19 +5,19 @@ import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { DeletCategoryAction, GetCategory, UpdateCategoryAction } from '../../Services/action/action'
-import { SuccessDelectCategory } from '../../Services/action/SuccessAction'
+import { SuccessCreateCategory, SuccessDelectCategory } from '../../Services/action/SuccessAction'
 import { ErrorCreatCategory } from '../../Services/action/errorAction'
 import { Loading } from '../../Components/Loading'
 
-export const AddSubCategory = ({ open, setOpen, setBrendsPage, selected }) => {
+export const AddSubCategory = ({ open, setOpen, setBrendsPage, selected, platformId }) => {
     const [categories, setCategories] = useState([])
     const { getCategory } = useSelector((st) => st)
     const [id, setID] = useState()
     useEffect(() => {
         if (getCategory?.data?.data?.length) {
-            let sub = getCategory?.data?.data?.find((elm) => elm.id == selected.id)
+            let sub = getCategory?.data?.data?.find((elm) => elm.id == selected?.id)
             setID(sub?.id)
-            setCategories(sub.category)
+            setCategories(sub?.category)
         }
         if (getCategory.status) {
             setNewCategory({
@@ -26,7 +26,7 @@ export const AddSubCategory = ({ open, setOpen, setBrendsPage, selected }) => {
                 image: '',
             })
         }
-    }, [getCategory])
+    }, [getCategory, selected])
 
     const [newCategory, setNewCategory] = useState({
         id: id,
@@ -80,19 +80,21 @@ export const AddSubCategory = ({ open, setOpen, setBrendsPage, selected }) => {
         formdata.append("name", newCategory.name);
         formdata.append("photo", img, "file");
         formdata.append("parent_id", id);
+        formdata.append("platform_id", platformId);
+
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
             body: formdata,
             redirect: 'follow'
         };
-        fetch("https://basrabackend.justcode.am/api/admin/create_category?name=eee&photo", requestOptions)
+        fetch("https://basrabackend.justcode.am/api/admin/create_category", requestOptions)
             .then(response => response.json())
             .then(r => {
 
                 if (r.status) {
-                    dispatch(GetCategory())
-                    dispatch(SuccessDelectCategory(r))
+                    dispatch(GetCategory(platformId))
+                    dispatch(SuccessCreateCategory(r))
                 }
                 else {
                     dispatch(ErrorCreatCategory())

@@ -36,6 +36,15 @@
   cursor: pointer;
 }
 
+.filtrCategory {
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  height: 150px;
+  overflow-y: scroll;
+  position: absolute;
+  top: 20px;
+}
+
 .productsTopLeft>input {
   border-radius: 10px;
   border: 1px solid #878787;
@@ -78,6 +87,7 @@
   align-items: center;
   gap: 15px;
   cursor: pointer;
+  position: relative;
 }
 
 .filterproduct {

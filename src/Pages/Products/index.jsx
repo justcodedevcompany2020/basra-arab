@@ -2,16 +2,17 @@ import './style.css'
 import { useState } from 'react'
 import { AddProduct } from '../AddProduct'
 import { DropdownDown } from '../../Components/Svg'
-import { Button, Pagination } from '@mui/material'
+import { Button, MenuItem, Pagination, Select } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditProduct } from '../EditProduct'
 import { useEffect } from 'react'
-import { DelectPorducetsAction, GetAllProducts, GetStoryTeamAction } from '../../Services/action/action'
+import { DelectPorducetsAction, GetAllProducts, GetBrandAction, GetCategory } from '../../Services/action/action'
 import { Loading } from '../../Components/Loading'
 
 
 export const Products = () => {
-
+    const { getCategory } = useSelector((st) => st)
+    const { getBrand } = useSelector((st) => st)
     const [tableData, setTableData] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [addProduct, setAddProduct] = useState(false)
@@ -20,18 +21,27 @@ export const Products = () => {
     const [editId, setEditId] = useState(null)
     const dispatch = useDispatch()
     const [search, setSearch] = useState('')
+    const [openCategory, setOpenCAtegory] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState()
+    const [selectedSubCategory, setSelecetdSubCategory] = useState()
+    const [openSubCategory, setOpenSubCategory] = useState(false)
+    // console.log(getBrand?.data.data.data, '333')
 
     useEffect(() => {
         if (!addProduct) {
-            dispatch(GetAllProducts({ page: currentPage, isfiltre: false, search: search }))
+            console.log(selectedSubCategory, selectedSubCategory)
+            dispatch(GetAllProducts({ page: currentPage, isfiltre: false, search: search, parent_category_id: selectedCategory?.id, brand_id: selectedSubCategory?.id }))
         }
-    }, [currentPage, addProduct, search])
+    }, [currentPage, addProduct, search, selectedCategory, selectedSubCategory])
 
     useEffect(() => {
         setTableData(getProducts?.data?.data)
     }, [getProducts])
 
-
+    useEffect(() => {
+        dispatch(GetCategory())
+        dispatch(GetBrandAction())
+    }, [])
 
     const DeletProducts = (id) => {
         let page = currentPage
@@ -64,12 +74,42 @@ export const Products = () => {
                 </div>
                 <div className='productsTopRight'>
                     <div className='filterproduct'>
-                        <DropdownDown />
-                        ماركة
+                        <div onClick={() => setOpenCAtegory(!openCategory)}>
+                            <DropdownDown />
+                            {selectedCategory?.name ? selectedCategory?.name :
+                                'ماركة'
+                            }
+                        </div>
+                        {openCategory && <div className='filtrCategory'>
+                            {getCategory?.data?.data?.map((elm, i) => {
+                                return <MenuItem onClick={() => {
+                                    setOpenCAtegory(false)
+                                    setSelectedCategory(elm)
+                                }} key={i} value={elm?.id}>{elm?.name}</MenuItem>
+                            })}
+                        </div>}
+
                     </div>
                     <div className='filterproduct'>
-                        <DropdownDown />
-                        فئة
+                        <div onClick={() => {
+                            setOpenSubCategory(!openSubCategory)
+                        }}>
+                            <DropdownDown />
+                            {selectedSubCategory?.name ? selectedSubCategory?.name :
+                                'فئة'
+                            }
+                        </div>
+                        {openSubCategory && <div className='filtrCategory'>
+                            {
+                                getBrand?.data?.data?.data?.map((elm, i) => {
+                                    return <MenuItem onClick={() => {
+                                        setSelecetdSubCategory(elm)
+                                        setOpenSubCategory(false)
+
+                                    }} key={i} value={elm?.id}>{elm?.name}</MenuItem>
+                                })
+                            }
+                        </div>}
                     </div>
                     <h1 >{getProducts.data.total} المنتجات:
                     </h1>

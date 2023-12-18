@@ -17,7 +17,7 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, platformId, page }) =>
             setNewCategory({
                 id: 1,
                 name: '',
-                image: '',
+                // image: '',
             })
         }
     }, [getBrand])
@@ -25,7 +25,7 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, platformId, page }) =>
     const [newCategory, setNewCategory] = useState({
         id: 1,
         name: '',
-        image: '',
+        // image: '',
     })
 
     const [img, setImg] = useState()
@@ -71,7 +71,7 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, platformId, page }) =>
         myHeaders.append("Authorization", `Bearer ${token}`);
         var formdata = new FormData();
         formdata.append("name", newCategory.name);
-        formdata.append("photo", img, "file");
+        // formdata.append("photo", img, "file");
         formdata.append('platform_id', platformId)
         var requestOptions = {
             method: 'POST',
@@ -82,8 +82,8 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, platformId, page }) =>
         fetch("https://basrabackend.justcode.am/api/admin/create_brand", requestOptions)
             .then(response => response.json())
             .then(r => {
-
                 if (r.status) {
+                    console.log(r)
                     dispatch(GetBrandAction(1, platformId))
                     dispatch(SuccessDelectCategory(r))
                 }
@@ -123,7 +123,7 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, platformId, page }) =>
                     {categories?.length > 0 && categories?.map((e, i) => {
                         return <div className='eachPopupDetail' key={i}>
                             <TextField label="الاسم" variant="filled" value={e?.name} onChange={(event) => handleCategoryChange(e, event.target.value)} />
-                            <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
+                            {/* <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
                                 <b>صورة</b>اضغط للتحميل
                                 <VisuallyHiddenInput type="file" onChange={(event) => handleNewImageChange(e, event)} />
                                 <div className='eachCategoryPhoto'>
@@ -132,7 +132,7 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, platformId, page }) =>
                                         <img alt='' src={e.image} />
                                     }
                                 </div>
-                            </Button>
+                            </Button> */}
                             <div className='eachPopupDetailButtons'>
                                 <Button onClick={() => Update(e, i)} variant="contained" color='grey'>Сохранить</Button>
                                 <Button variant="contained" color='error' onClick={() => DeletCategory(e.id)}>Удалить</Button>
@@ -143,7 +143,7 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, platformId, page }) =>
 
                     <div className='eachPopupDetail'>
                         <TextField label="الاسم" variant="filled" value={newCategory?.name} onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })} />
-                        {newCategory?.image
+                        {/* {newCategory?.image
                             ? <>
                                 <Button component="label" variant="contained" color='grey' fullWidth sx={{ textAlign: 'center', flexDirection: 'column' }}>
                                     <b>صورة</b>اضغط للتحميل
@@ -157,8 +157,8 @@ export const AddBrends = ({ open, setOpen, setBrendsPage, platformId, page }) =>
                                 <b>صورة</b>اضغط للتحميل
                                 <VisuallyHiddenInput type="file" onChange={handleNewImage} />
                             </Button>
-                        }
-                        {newCategory?.image?.length > 0 && newCategory?.name?.length > 0 && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>يضيف</Button>}
+                        } */}
+                        {newCategory?.name?.length > 0 && <Button component="label" variant="contained" className='createButon' onClick={handleNewCategory}>يضيف</Button>}
                     </div>
                 </div> :
                     <Loading />
