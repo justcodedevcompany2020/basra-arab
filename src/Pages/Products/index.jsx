@@ -29,7 +29,6 @@ export const Products = () => {
 
     useEffect(() => {
         if (!addProduct) {
-            console.log(selectedSubCategory, selectedSubCategory)
             dispatch(GetAllProducts({ page: currentPage, isfiltre: false, search: search, parent_category_id: selectedCategory?.id, brand_id: selectedSubCategory?.id }))
         }
     }, [currentPage, addProduct, search, selectedCategory, selectedSubCategory])

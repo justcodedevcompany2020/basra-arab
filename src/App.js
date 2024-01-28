@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Router } from "./router"
 import Pusher from 'pusher-js';
 import { useDispatch } from "react-redux";
-import { AddMsgAction, GetMyChatRoom } from "./Services/action/action";
+import { AddMsgAction } from "./Services/action/action";
 
 
 
@@ -16,7 +16,6 @@ function App() {
     });
     var channel = pusher.subscribe('NewMessage');
     channel.bind('App\\Events\\NewMessage', function (data) {
-      console.log(data, 'ss')
       let id = localStorage.getItem('chat_id')
       // if (id == data.message.receiver_id && data.message.receiver_id != 1) {
       dispatch(AddMsgAction(data.message))

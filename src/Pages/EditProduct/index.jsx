@@ -85,12 +85,14 @@ export const EditProduct = ({ open, setOpen, id }) => {
             setSubCategory(getCategory?.data?.data[index])
         }
     }, [getCategory])
+    console.log(selectedSelection, 'selectedSelection')
 
     const CreateProduct = () => {
         let item = []
         selectedSelection.map((elm, i) => {
             getCollections?.data?.data.map((e, i) => {
-                if (e.name = elm) {
+                console.log(e.name, elm)
+                if (e.name == elm) {
                     item.push(e.id)
                 }
             })

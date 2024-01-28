@@ -13,79 +13,9 @@ export const SingleCustomer = () => {
         dispatch(GetSinglUser({ user_id: id }))
     }, [])
     const { getSinglUSer } = useSelector((st) => st)
-    const [orders, setOrders] = useState(
-        [
-            {
-                image: 'orderImage.png',
-                manufacturer: `L'Oreal Paris`,
-                title: 'Perfect Skin 20+',
-                description: 'كريم النهار لعمر 20+ لتقليل الخطوط الدقيقة وتفتيح لون البشرة',
-                volume: '200',
-                count: '1',
-                discount: '200',
-                originalPrice: '1500',
-                price: '1300'
-            },
-            {
-                image: 'orderImage.png',
-                manufacturer: `L'Oreal Paris`,
-                title: 'Perfect Skin 20+',
-                description: 'كريم النهار لعمر 20+ لتقليل الخطوط الدقيقة وتفتيح لون البشرة',
-                volume: '200',
-                count: '1',
-                discount: '200',
-                originalPrice: '1500',
-                price: '1300'
-            },
-            {
-                image: 'orderImage.png',
-                manufacturer: `L'Oreal Paris`,
-                title: 'Perfect Skin 20+',
-                description: 'كريم النهار لعمر 20+ لتقليل الخطوط الدقيقة وتفتيح لون البشرة',
-                volume: '200',
-                count: '1',
-                discount: '200',
-                originalPrice: '1500',
-                price: '1300'
-            },
-            {
-                image: 'orderImage.png',
-                manufacturer: `L'Oreal Paris`,
-                title: 'Perfect Skin 20+',
-                description: 'كريم النهار لعمر 20+ لتقليل الخطوط الدقيقة وتفتيح لون البشرة',
-                volume: '200',
-                count: '1',
-                discount: '200',
-                originalPrice: '1500',
-                price: '1300'
-            },
-        ],
-        [
-            {
-                image: 'orderImage.png',
-                manufacturer: `L'Oreal Paris`,
-                title: 'Perfect Skin 20+',
-                description: 'كريم النهار لعمر 20+ لتقليل الخطوط الدقيقة وتفتيح لون البشرة',
-                volume: '200',
-                count: '1',
-                discount: '200',
-                originalPrice: '1500',
-                price: '1300'
-            },
-            {
-                image: 'orderImage.png',
-                manufacturer: `L'Oreal Paris`,
-                title: 'Perfect Skin 20+',
-                description: 'كريم النهار لعمر 20+ لتقليل الخطوط الدقيقة وتفتيح لون البشرة',
-                volume: '200',
-                count: '1',
-                discount: '200',
-                originalPrice: '1500',
-                price: '1300'
-            },
-        ]
-    )
+    const [orders, setOrders] = useState([])
 
+    console.log(orders, '1s')
 
 
 
@@ -111,7 +41,7 @@ export const SingleCustomer = () => {
 
             {orders?.map((elm, i) => {
                 let date = new Date(elm.created_at)
-                return <div style={{ width: '100%' }}>
+                return <div key={i} style={{ width: '100%' }}>
                     <table style={{ width: '100%' }} className='ordersTable'>
                         <tbody>
                             <tr className='eachTR'>
@@ -155,8 +85,8 @@ export const SingleCustomer = () => {
                             </tr>
                         </tbody>
                     </table>
-                    {elm?.products?.length > 0
-                        ? <div className='ordersBorder'>
+                    {elm?.products?.length > 0 &&
+                        <div className='ordersBorder'>
                             {elm?.products?.map((e, i) => {
                                 return <div className='eachOrderProduct' key={i}>
                                     <div className='orderPrice'>
@@ -181,12 +111,9 @@ export const SingleCustomer = () => {
                                 </div>
                             })}
                         </div>
-                        : <span>No product</span>
                     }
                 </div>
             })}
-
-
         </div>
     )
 }

@@ -78,7 +78,7 @@ export const AddProduct = ({ open, setOpen }) => {
         let item = []
         selectedSelection.map((elm, i) => {
             getCollections?.data?.data.map((e, i) => {
-                if (e.name = elm) {
+                if (e.name == elm) {
                     item.push(e.id)
 
                 }

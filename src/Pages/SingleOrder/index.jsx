@@ -67,7 +67,7 @@ export const SingleOrder = () => {
         }
     }, [getSinglOrder.data])
 
-
+    console.log(orders, '1211')
     return (
         <div className='singleOrder'>
             <section className='singleOrderTop'>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Pagination, TextField } from '@mui/material'
 import Button from '@mui/material/Button'
-import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { DeletCollectionAction, GetCollectionAction, UpdateCollectionAction } from '../../Services/action/action'
 import { Loading } from '../../Components/Loading'
@@ -24,17 +23,6 @@ export const AddCollections = ({ open, setOpen, setBrendsPage, }) => {
         name: '',
     })
 
-    const VisuallyHiddenInput = styled('input')({
-        clip: 'rect(0 0 0 0)',
-        clipPath: 'inset(50%)',
-        height: 1,
-        overflow: 'hidden',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        whiteSpace: 'nowrap',
-        width: 1,
-    })
     const dispatch = useDispatch()
 
     function handleCategoryChange(category, event) {

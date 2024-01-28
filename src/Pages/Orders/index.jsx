@@ -6,6 +6,47 @@ import { GetOrderAction } from '../../Services/action/action'
 import { Loading } from '../../Components/Loading'
 
 export const Orders = () => {
+    const [url, setUrl] = useState('')
+    function handleNewCategory() {
+        let token = localStorage.getItem('token')
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch("https://basrabackend.justcode.am/api/get_all_orders_pdf", requestOptions)
+            .then(response => response.json())
+            .then(r => {
+                window.open(r.url, '_blank')
+                setUrl(r.url)
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    }
+
+
+    const getOrderPdf = (id) => {
+        let token = localStorage.getItem('token')
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch(`https://basrabackend.justcode.am/api/get_order_pdf?order_id=${id}`, requestOptions)
+            .then(response => response.json())
+            .then(r => {
+                window.open(r.url, '_blank')
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    }
+
     const [currentPage, setCurrentPage] = useState(1)
     const [pageCount, setPageCount] = useState()
     const dispatch = useDispatch()
@@ -43,7 +84,7 @@ export const Orders = () => {
     }, [getMyOrder.data])
 
 
-    function handleSecondaryTabClick(tab) {
+    function handleSecondaryTabClick(tab, i) {
         const tabsCopy = [...tabs]
         tabsCopy.forEach(element => {
             if (element?.id === tab?.id) {
@@ -53,6 +94,12 @@ export const Orders = () => {
             }
         })
         setTabs(tabsCopy)
+
+
+        if (i == 0) {
+            handleNewCategory()
+        }
+
     }
 
     function handlePageChange(page) {
@@ -68,7 +115,9 @@ export const Orders = () => {
             <section className='secondaryTabs'>
                 <div className='secondaryTabButtons'>
                     {tabs?.map((e, i) => (
-                        <div className={e?.selected ? 'eachSelectedSecondaryTab' : 'eachSecondaryTab'} key={i} onClick={() => handleSecondaryTabClick(e)}>
+                        <div
+
+                            className={e?.selected ? 'eachSelectedSecondaryTab' : 'eachSecondaryTab'} key={i} onClick={() => handleSecondaryTabClick(e, i)}>
                             <span>{e?.title}</span>
                         </div>
                     ))}
@@ -86,7 +135,14 @@ export const Orders = () => {
                                 ? tableData?.map((e, i) => {
                                     let data = new Date(e?.created_at)
                                     return <tr className='eachTR eachTRHover' key={i} onClick={() => window.location = `/order/${e?.id}`}>
-                                        <td><PDF /></td>
+                                        <td
+                                            onClick={(el) => {
+                                                console.log(e)
+                                                el.preventDefault()
+                                                el.stopPropagation()
+                                                getOrderPdf(e.id)
+                                            }}
+                                        ><PDF /></td>
                                         <td className='ordersTD'>
                                             <div className='eachData'>
                                                 <span className='eachDataTitle'>طريقة الدفع او السداد</span>

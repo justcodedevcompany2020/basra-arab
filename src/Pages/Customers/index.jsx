@@ -6,7 +6,53 @@ import { GetAllUser } from '../../Services/action/action'
 import { Loading } from '../../Components/Loading'
 
 export const Customers = () => {
+    const [url, setUrl] = useState('')
+    function handleNewCategory() {
+        let token = localStorage.getItem('token')
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch("https://basrabackend.justcode.am/api/get_all_users_pdf", requestOptions)
+            .then(response => response.json())
+            .then(r => {
+                setUrl(r.url)
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    }
+
+
+    const SinglUserPdf = (id) => {
+        let token = localStorage.getItem('token')
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch(`https://basrabackend.justcode.am/api/get_user_pdf?user_id=${id}`, requestOptions)
+            .then(response => response.json())
+            .then(r => {
+                console.log(r)
+                window.open(r.url, '_blank')
+                // setUrl(r.url)
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    }
+
     const dispatch = useDispatch()
+    useEffect(() => {
+        handleNewCategory()
+    }, [])
+
     const [currentPage, setCurrentPage] = useState(1)
     const { getAllUser } = useSelector((st) => st)
     useEffect(() => {
@@ -30,7 +76,7 @@ export const Customers = () => {
     return (
         <div className='customers'>
             <div className='customersTop'>
-                <button>تحميل الجدول</button>
+                <button onClick={() => window.open(`${url}`, '_blank')}>تحميل الجدول</button>
                 <h1>قائمة المستخدمين</h1>
             </div>
 
@@ -39,7 +85,13 @@ export const Customers = () => {
                     {tableData?.length > 0
                         ? tableData?.map((e, i) => (
                             <tr className='eachTR eachTRHover' key={i} onClick={() => window.location = `/customer/${e?.id}`}>
-                                <td><PDF /></td>
+                                <td onClick={(el) => {
+                                    el.stopPropagation()
+                                    el.preventDefault()
+                                    console.log(e)
+                                    //  onClick={() => }
+                                    SinglUserPdf(e.id)
+                                }}><PDF /></td>
                                 <td className='ordersTD'>
                                     <div className='eachData'>
                                         <span className='eachDataTitle'>تاريخ التسجيل</span>
